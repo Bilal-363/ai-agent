@@ -283,22 +283,31 @@ async function goto(page) {
 
   console.log('\n  BRAND');
   const brand = await evalIn(`
-    const svg = document.querySelector('.logo__svg');
     const cs = getComputedStyle(document.documentElement);
-    return { hasMark: !!svg,
-             viewBox: svg.getAttribute('viewBox'),
-             paths: svg.querySelectorAll('path').length,
-             ids: new Set([...document.querySelectorAll('.logo__svg linearGradient')]
-                    .map(g => g.id)).size,
-             marks: document.querySelectorAll('.logo__svg').length,
+    const sym = document.getElementById('vocrynMark');
+    const marks = [...document.querySelectorAll('.logo__svg')];
+    const box = marks[0] ? marks[0].getBoundingClientRect() : { width: 0, height: 0 };
+    return { sprites: document.querySelectorAll('.logo__sprite').length,
+             hasSymbol: !!sym,
+             viewBox: sym ? sym.getAttribute('viewBox') : null,
+             ribbons: sym ? sym.querySelectorAll('path').length : 0,
+             pathLen: sym ? sym.querySelector('path').getAttribute('d').length : 0,
+             marks: marks.length,
+             uses: document.querySelectorAll('.logo__svg use[href="#vocrynMark"]').length,
+             w: Math.round(box.width), h: Math.round(box.height),
              brand: cs.getPropertyValue('--brand-600').trim(),
              accent: cs.getPropertyValue('--accent-500').trim(),
              violet: cs.getPropertyValue('--violet-600').trim() };
   `);
-  ok('brand mark renders as SVG', brand.hasMark === true);
-  ok('mark uses the wide 72x30 lemniscate', brand.viewBox === '0 0 72 30', brand.viewBox);
-  ok('gradient ids are unique per instance', brand.ids === brand.marks,
-    `${brand.ids} ids for ${brand.marks} marks`);
+  ok('sprite defined exactly once', brand.sprites === 1, 'sprites=' + brand.sprites);
+  ok('mark symbol exists', brand.hasSymbol === true);
+  ok('symbol viewBox is 0 0 76 40', brand.viewBox === '0 0 76 40', brand.viewBox);
+  ok('ribbon is two loop paths', brand.ribbons === 2, 'paths=' + brand.ribbons);
+  ok('ribbon outline is generated, not a stub', brand.pathLen > 800, 'len=' + brand.pathLen);
+  ok('every logo references the shared symbol', brand.marks === brand.uses && brand.marks >= 2,
+    `${brand.uses}/${brand.marks}`);
+  ok('header mark renders at a visible size', brand.w > 40 && brand.h > 18,
+    `${brand.w}x${brand.h}`);
   ok('palette is blue', brand.brand.toUpperCase() === '#3A49CE', brand.brand);
   ok('palette has orange', brand.accent.toUpperCase() === '#FF8125', brand.accent);
   ok('palette has purple', brand.violet.toUpperCase() === '#7C3AED', brand.violet);

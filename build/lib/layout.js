@@ -19,36 +19,95 @@ const YEAR = 2026;
 // A lemniscate — the continuous "always answering" loop — carrying a voice
 // waveform inside the ribbon. Drawn as SVG rather than shipping the raster
 // original so it stays sharp, themes with the palette, and needs no background.
-// Wide loops (2.4:1) so the figure-eight still reads as one at ~50px, where a
-// squarer lemniscate collapses into a pair of rings.
-const INFINITY_PATH =
-  'M36 15C30 4 8 4 8 15s22 11 28 0 22-11 28 0-22 11-28 0Z';
+/* ---------------------------------------------------------------------------
+ * The mark is a Möbius ribbon, generated rather than hand-drawn, because the
+ * thing that sells it is variable width: the band is widest at the outer curves
+ * and pinches at the centre crossing, which is what reads as a twist. A constant
+ * stroke — the previous version — looks flat and lifeless at any size.
+ *
+ * Geometry is a Gerono lemniscate:  x = a·cos t,  y = (b/2)·sin 2t
+ * The curve is split into two halves so the second can be painted over the first
+ * at the centre, giving a true over/under crossing instead of a flat junction.
+ * ------------------------------------------------------------------------- */
 
-/* Deliberately no waveform inside the header mark. Bars thin enough to fit a
- * 5px stroke vanish, and knocking notches out of it severs the loop — both were
- * tried. The waveform lives in the favicon badge, where a filled shape has room
- * for it. Here the unbroken gradient ribbon is the mark. */
-const logoMark = (id) => `<svg class="logo__svg" viewBox="0 0 72 30" fill="none"
-  role="img" aria-hidden="true" focusable="false">
-  <defs>
-    <linearGradient id="vg-${id}" x1="8" y1="4" x2="64" y2="26" gradientUnits="userSpaceOnUse">
-      <stop stop-color="var(--brand-600)"/>
-      <stop offset=".5" stop-color="var(--violet-600)"/>
-      <stop offset="1" stop-color="var(--accent-500)"/>
-    </linearGradient>
-  </defs>
-  <path d="${INFINITY_PATH}" stroke="url(#vg-${id})" stroke-width="7"
-        stroke-linejoin="round" stroke-linecap="round"/>
-</svg>`;
+const RIB = { a: 29, b: 26, cx: 38, cy: 20, wMax: 9, wMin: 2.6, steps: 48 };
 
-let logoSeq = 0;
+const ribPoint = (t) => ({
+  x: RIB.cx + RIB.a * Math.cos(t),
+  y: RIB.cy + (RIB.b / 2) * Math.sin(2 * t),
+});
+// dx/dt and dy/dt of the curve above — used for the perpendicular offset.
+const ribTangent = (t) => ({ dx: -RIB.a * Math.sin(t), dy: RIB.b * Math.cos(2 * t) });
+const ribWidth = (t) => RIB.wMin + (RIB.wMax - RIB.wMin) * Math.abs(Math.cos(t));
+
+/** Closed outline of the ribbon between two parameter values. */
+function ribbonPath(t0, t1, scale = 1) {
+  const left = [], right = [];
+  for (let i = 0; i <= RIB.steps; i++) {
+    const t = t0 + ((t1 - t0) * i) / RIB.steps;
+    const { x, y } = ribPoint(t);
+    const { dx, dy } = ribTangent(t);
+    const len = Math.hypot(dx, dy) || 1;
+    const nx = -dy / len, ny = dx / len;
+    const w = (ribWidth(t) * scale) / 2;
+    left.push([x + nx * w, y + ny * w]);
+    right.push([x - nx * w, y - ny * w]);
+  }
+  const f = (p) => `${p[0].toFixed(1)} ${p[1].toFixed(1)}`;
+  return 'M' + f(left[0])
+    + left.slice(1).map((p) => 'L' + f(p)).join('')
+    + 'L' + f(right[right.length - 1])
+    + right.slice(0, -1).reverse().map((p) => 'L' + f(p)).join('')
+    + 'Z';
+}
+
+const P = Math.PI;
+// Split exactly at the two centre crossings so each half is one complete loop.
+// Splitting anywhere else (an earlier attempt used π/4) puts a hard colour seam
+// halfway round a loop, which looks like a mistake rather than a twist.
+const RIB_LEFT = ribbonPath(P / 2, (3 * P) / 2);
+const RIB_RIGHT = ribbonPath((3 * P) / 2, (5 * P) / 2);
+// No sheen layer. An inset highlight along the right loop was tried and read as
+// a second concentric ring rather than a highlight — the variable width and the
+// drop shadow already carry the dimension.
+
+/**
+ * Defined once per document as a <symbol>, then referenced by <use> in the
+ * header and footer — the generated outline is ~3 KB, so emitting it twice per
+ * page would be wasteful.
+ *
+ * Both loops share ONE gradient in user space, so the blue -> purple -> orange
+ * sweep runs continuously across the whole mark instead of restarting per path.
+ * The right loop is painted last and carries a soft shadow, which is what makes
+ * it read as passing over the left one at the centre.
+ */
+const logoSprite = () => `
+<svg class="logo__sprite" aria-hidden="true" focusable="false"><defs>
+  <linearGradient id="vgRibbon" x1="9" y1="8" x2="67" y2="32" gradientUnits="userSpaceOnUse">
+    <stop stop-color="var(--brand-700)"/>
+    <stop offset=".24" stop-color="var(--brand-600)"/>
+    <stop offset=".56" stop-color="var(--violet-600)"/>
+    <stop offset="1" stop-color="var(--accent-500)"/>
+  </linearGradient>
+  <filter id="vgLift" x="-25%" y="-25%" width="150%" height="150%">
+    <feDropShadow dx="0" dy="0.7" stdDeviation="0.9"
+                  flood-color="#0B1030" flood-opacity=".38"/>
+  </filter>
+  <symbol id="vocrynMark" viewBox="0 0 76 40">
+    <path d="${RIB_LEFT}" fill="url(#vgRibbon)"/>
+    <g filter="url(#vgLift)">
+      <path d="${RIB_RIGHT}" fill="url(#vgRibbon)"/>
+    </g>
+  </symbol>
+</defs></svg>`;
+
+const logoMark = () => `<svg class="logo__svg" viewBox="0 0 76 40"
+  role="img" aria-hidden="true" focusable="false"><use href="#vocrynMark"/></svg>`;
+
 const logo = (cls = '') => {
-  // Gradient and mask ids must be unique per instance — the header and footer
-  // marks both appear in the same document.
-  const id = ++logoSeq;
   return `
 <a class="logo${cls ? ' ' + cls : ''}" href="${u('/index.html')}" aria-label="${site.name} — home">
-  <span class="logo__mark">${logoMark(id)}</span>
+  <span class="logo__mark">${logoMark()}</span>
   <span class="logo__text">Vocryn<span class="logo__ai">.Ai</span></span>
 </a>`;
 };
@@ -136,7 +195,7 @@ function drawerAccordion(key, cfg) {
 /* -------------------------------------------------------------------- header */
 
 function header(active) {
-  return `
+  return `${logoSprite()}
 <a class="skip" href="#main">Skip to main content</a>
 
 <div class="announce" id="announce" hidden>

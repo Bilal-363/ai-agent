@@ -198,7 +198,8 @@ p{text-wrap:pretty}
 
 .logo{display:inline-flex;align-items:center;gap:.55rem;flex:none;color:var(--ink);
   font-family:var(--font-d);font-weight:800;font-size:var(--t-logo);letter-spacing:-.03em}
-.logo__mark{width:3.4rem;flex:none;display:block;line-height:0}
+.logo__sprite{position:absolute;width:0;height:0;overflow:hidden}
+.logo__mark{width:3.5rem;flex:none;display:block;line-height:0}
 .logo__svg{width:100%;height:auto;display:block;overflow:visible}
 /* Solid, not a gradient: at wordmark size a gradient just muddies the letters. */
 .logo__ai{color:var(--accent-ink);margin-left:.04em}
