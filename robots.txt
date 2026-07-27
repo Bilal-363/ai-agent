@@ -1,0 +1,14 @@
+# Vocryn AI
+User-agent: *
+Allow: /
+Disallow: /404.html
+
+# AI crawlers are welcome — we would rather be quoted accurately.
+User-agent: GPTBot
+Allow: /
+User-agent: ClaudeBot
+Allow: /
+User-agent: PerplexityBot
+Allow: /
+
+Sitemap: https://www.vocryn.com/sitemap.xml
