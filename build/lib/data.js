@@ -274,22 +274,6 @@ const samples = {
 
 const useCases = [
   {
-    slug: 'dental-practices',
-    title: 'Dental Practices',
-    group: 'By practice type',
-    icon: 'tooth',
-    short: 'Hygiene recall, emergencies, and a front desk that can breathe.',
-    lead: 'Single-location dental practices lose more revenue to unanswered hygiene recall than almost anything else. Casey works your recall list and answers every new-patient call on the first ring.',
-    bullets: [
-      'Hygiene recall worked automatically, every week',
-      'New-patient calls answered before they call the practice down the street',
-      'Emergency triage with same-day slot offers',
-      'Native Dentrix, Open Dental, Curve, and NexHealth support',
-    ],
-    outcome: 'Practices typically recover 15–25 hygiene appointments a month that were previously lost to voicemail.',
-    img: 'dental-practice',
-  },
-  {
     slug: 'primary-care',
     title: 'Primary Care',
     group: 'By practice type',
@@ -303,6 +287,39 @@ const useCases = [
       'Epic, athenahealth, eClinicalWorks, NextGen, Practice Fusion',
     ],
     outcome: 'Front-desk staff report getting back 2+ hours a day for in-person patient care.',
+    img: 'primary-care',
+  },
+  {
+    slug: 'urgent-care',
+    title: 'Urgent Care',
+    group: 'By practice type',
+    icon: 'zap',
+    short: 'Wait times, walk-in expectations, and unpredictable surges.',
+    lead: 'Urgent care demand arrives in waves nobody can roster for. Casey answers through the surge, tells walk-ins what they are actually walking into, and gets anything clinical to a person immediately.',
+    bullets: [
+      'Current wait time and capacity read live from your queue',
+      'Walk-in callers told what to expect before they set off',
+      'Evening, weekend, and post-work surges absorbed without a hold queue',
+      'Emergency language transfers to a clinician at once — never triaged by software',
+    ],
+    outcome: 'Fewer callers abandoning at the peak, and fewer arriving to a wait they were not told about.',
+    img: 'primary-care',
+  },
+  {
+    slug: 'athenahealth-primary-care',
+    title: 'athenahealth Primary Care',
+    group: 'By practice type',
+    icon: 'database',
+    short: 'Deep two-way integration with athenaOne, tuned for primary care.',
+    lead: 'For practices running athenahealth, Casey reads live availability and writes confirmed appointments, refill requests, and telephone encounters straight back into the chart — no middle layer, no overnight sync, no staff re-keying anything.',
+    bullets: [
+      'Live two-way sync with athenaOne scheduling, not a nightly copy',
+      'Appointment types, provider rules, and visit durations all respected',
+      'Refill requests routed to the provider queue with the medication list attached',
+      'Structured telephone encounters written in your existing note template',
+      'New patient charts created over the phone before the first visit',
+    ],
+    outcome: 'Bookings land in athenaOne while the patient is still on the line, so the schedule your team sees is always the real one.',
     img: 'primary-care',
   },
   {
@@ -438,16 +455,16 @@ const useCases = [
 /* --------------------------------------------------------------- integrations */
 
 const integrations = [
-  { name: 'Epic', category: 'Medical EHR', note: 'Scheduling, chart write-back, telephone encounters' },
-  { name: 'athenahealth', category: 'Medical EHR', note: 'Two-way scheduling and patient record sync' },
-  { name: 'eClinicalWorks', category: 'Medical EHR', note: 'Appointments, refills, and documentation' },
-  { name: 'NextGen Healthcare', category: 'Medical EHR', note: 'Scheduling and structured encounter notes' },
-  { name: 'Practice Fusion', category: 'Medical EHR', note: 'Appointment booking and chart updates' },
-  { name: 'Dentrix', category: 'Dental PMS', note: 'Operatory-aware booking and hygiene recall' },
-  { name: 'Dentrix Ascend', category: 'Dental PMS', note: 'Cloud scheduling and recall automation' },
-  { name: 'NexHealth', category: 'Dental PMS', note: 'Real-time availability and instant booking' },
-  { name: 'Curve Dental', category: 'Dental PMS', note: 'Scheduling, recall, and patient records' },
-  { name: 'Open Dental', category: 'Dental PMS', note: 'Full read/write scheduling integration' },
+  { name: 'Epic', mark: 'Ep', tint: '#B4232F', category: 'Medical EHR', note: 'Scheduling, chart write-back, telephone encounters' },
+  { name: 'athenahealth', mark: 'ah', tint: '#6E2C8F', category: 'Medical EHR', note: 'Two-way scheduling and patient record sync' },
+  { name: 'eClinicalWorks', mark: 'eC', tint: '#B45A1A', category: 'Medical EHR', note: 'Appointments, refills, and documentation' },
+  { name: 'NextGen Healthcare', mark: 'NG', tint: '#0A77AD', category: 'Medical EHR', note: 'Scheduling and structured encounter notes' },
+  { name: 'Practice Fusion', mark: 'PF', tint: '#21799B', category: 'Medical EHR', note: 'Appointment booking and chart updates' },
+  { name: 'Dentrix', mark: 'Dx', tint: '#1257A6', category: 'Dental PMS', note: 'Operatory-aware booking and hygiene recall' },
+  { name: 'Dentrix Ascend', mark: 'DA', tint: '#0E77AB', category: 'Dental PMS', note: 'Cloud scheduling and recall automation' },
+  { name: 'NexHealth', mark: 'Nx', tint: '#4B3FD4', category: 'Dental PMS', note: 'Real-time availability and instant booking' },
+  { name: 'Curve Dental', mark: 'Cv', tint: '#0D826F', category: 'Dental PMS', note: 'Scheduling, recall, and patient records' },
+  { name: 'Open Dental', mark: 'OD', tint: '#17639E', category: 'Dental PMS', note: 'Full read/write scheduling integration' },
 ];
 
 const telephony = ['RingCentral', 'Twilio', 'Zoom Phone', '8x8', 'Vonage', 'Dialpad', 'Nextiva', '3CX'];

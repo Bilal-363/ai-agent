@@ -677,8 +677,11 @@ p{text-wrap:pretty}
   padding:1.15rem;transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s}
 .intg__c:hover{transform:translateY(-4px);box-shadow:var(--sh-2);border-color:var(--brand-100)}
 .intg__mark{width:2.4rem;height:2.4rem;border-radius:10px;display:grid;place-items:center;
-  background:var(--bg-alt);color:var(--brand-ink);font-family:var(--font-d);font-weight:800;
-  font-size:1rem;margin-bottom:.8rem;letter-spacing:-.03em}
+  background:var(--tint,var(--brand-600));color:#fff;font-family:var(--font-d);font-weight:800;
+  font-size:var(--t-ui);margin-bottom:.8rem;letter-spacing:-.02em;
+  transition:transform .26s var(--ease),box-shadow .26s var(--ease)}
+.intg__c:hover .intg__mark{transform:scale(1.06) rotate(-4deg);box-shadow:var(--sh-2)}
+
 .intg__n{font-family:var(--font-d);font-weight:700;font-size:var(--t-ui-lg);color:var(--ink);
   letter-spacing:-.015em}
 .intg__cat{font-size:var(--t-xs);color:var(--brand-ink);font-weight:600;margin-top:.15rem}
@@ -884,30 +887,66 @@ input[type='range']::-moz-range-thumb{width:1.4rem;height:1.4rem;border-radius:5
 
 /* ---- capability explorer: vertical tabs + sample exchange panel ---- */
 
-.cap{display:grid;grid-template-columns:minmax(0,17.5rem) minmax(0,1fr);
+.cap{display:grid;grid-template-columns:minmax(0,19.5rem) minmax(0,1fr);
   gap:clamp(1rem,.5rem + 1.5vw,2rem);align-items:stretch}
 
 .cap__tabs{display:flex;flex-direction:column;border-left:3px solid var(--line)}
 .cap__tab{display:flex;align-items:center;gap:.7rem;width:100%;text-align:left;
-  padding:.95rem 1rem;font-family:var(--font-d);font-weight:700;font-size:var(--t-ui);
-  color:var(--ink-3);border-bottom:1px solid var(--line);position:relative;
-  transition:color .22s,background .22s,padding-left .28s var(--ease)}
+  min-height:3.5rem;padding:.8rem 1rem;font-family:var(--font-d);font-weight:700;
+  font-size:var(--t-ui);color:var(--ink-3);border-bottom:1px solid var(--line);
+  position:relative;overflow:hidden;
+  transition:color .24s,background .24s,transform .3s var(--ease)}
+.cap__tabTxt{min-width:0;text-wrap:balance}
+/* a tint that wipes in from the left edge on hover */
+.cap__tab::after{content:'';position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(90deg,var(--brand-50),transparent 85%);
+  transform:translateX(-100%);transition:transform .38s var(--ease)}
+.cap__tab:hover::after,.cap__tab[aria-selected='true']::after{transform:none}
 .cap__tab::before{content:'';position:absolute;left:-3px;top:0;bottom:0;width:3px;
   background:linear-gradient(180deg,var(--brand-600),var(--violet-600));
   transform:scaleY(0);transform-origin:center;transition:transform .3s var(--ease)}
-.cap__tab:hover{color:var(--brand-ink);background:var(--brand-50);padding-left:1.2rem}
-.cap__tab[aria-selected='true']{color:var(--brand-ink);background:var(--brand-50)}
+.cap__tab:hover{color:var(--brand-ink);transform:translateX(4px)}
+.cap__tab:hover::before{transform:scaleY(.45)}
+.cap__tab[aria-selected='true']{color:var(--brand-ink)}
 .cap__tab[aria-selected='true']::before{transform:scaleY(1)}
-.cap__tabIco{width:1.75rem;height:1.75rem;flex:none;display:grid;place-items:center;
-  border-radius:8px;background:var(--surface);border:1px solid var(--line);
-  color:var(--brand-ink);transition:background .22s,color .22s,border-color .22s}
+.cap__tabIco{width:1.85rem;height:1.85rem;flex:none;display:grid;place-items:center;
+  border-radius:9px;background:var(--surface);border:1px solid var(--line);
+  color:var(--brand-ink);
+  transition:background .24s,color .24s,border-color .24s,transform .3s var(--ease)}
 .cap__tabIco .i{width:.95rem;height:.95rem}
+.cap__tab:hover .cap__tabIco{transform:scale(1.08) rotate(-5deg);border-color:var(--brand-100)}
 .cap__tab[aria-selected='true'] .cap__tabIco{background:var(--brand-600);color:#fff;
   border-color:var(--brand-600)}
+.cap__tabGo{margin-left:auto;flex:none;display:grid;place-items:center;color:var(--brand-500);
+  opacity:0;transform:translateX(-6px);transition:opacity .24s,transform .28s var(--ease)}
+.cap__tabGo .i{width:1rem;height:1rem}
+.cap__tab:hover .cap__tabGo,.cap__tab[aria-selected='true'] .cap__tabGo{
+  opacity:1;transform:none}
 
+/* ---- integration badges (not vendor logos — see components.js) ---- */
+.lchip{display:inline-flex;align-items:center;gap:.42rem;font-family:var(--font-d);
+  font-weight:700;font-size:var(--t-xs);color:var(--ink-2);letter-spacing:-.01em;
+  padding:.3rem .6rem .3rem .3rem;border-radius:var(--r-pill);background:var(--surface);
+  border:1px solid var(--line);white-space:nowrap;
+  transition:transform .22s var(--ease),box-shadow .22s var(--ease),border-color .22s}
+.lchip:hover{transform:translateY(-2px);box-shadow:var(--sh-2);border-color:var(--line-2)}
+.lchip__mark{width:1.4rem;height:1.4rem;flex:none;display:grid;place-items:center;
+  border-radius:6px;font-size:.62rem;font-weight:800;letter-spacing:-.02em;
+  color:#fff;background:var(--tint,var(--brand-600))}
+
+
+/* The panel is much narrower than the viewport, so viewport-based clamps size
+   its text wrongly. A container query unit (cqi = 1% of the panel's own width)
+   scales the copy to the box it actually lives in. */
 .cap__stage{background:linear-gradient(160deg,var(--brand-50),var(--violet-50) 120%);
   border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;
-  display:flex;flex-direction:column}
+  display:flex;flex-direction:column;container-type:inline-size;container-name:cap}
+@supports (width: 1cqi){
+  .cap__h{font-size:clamp(1.15rem, .82rem + 1.5cqi, 1.65rem)}
+  .cap__p{font-size:clamp(.88rem, .8rem + .42cqi, 1.02rem)}
+  .cbub p{font-size:clamp(.86rem, .79rem + .38cqi, 1rem)}
+  .cap__stat b{font-size:clamp(1.05rem, .85rem + .9cqi, 1.4rem)}
+}
 .cap__pane{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);
   gap:clamp(1.25rem,.8rem + 2vw,2.25rem);padding:clamp(1.25rem,.9rem + 1.6vw,2rem);
   animation:capIn .38s var(--ease)}
@@ -922,8 +961,7 @@ input[type='range']::-moz-range-thumb{width:1.4rem;height:1.4rem;border-radius:5
   font-weight:600;padding:.35rem .7rem;border-radius:var(--r-pill);background:var(--surface);
   border:1px solid var(--line);color:var(--ink-2);white-space:nowrap}
 .cap__chip .i{width:1em;height:1em;color:var(--brand-ink)}
-.cap__marks{display:flex;flex-wrap:wrap;gap:.35rem .9rem;font-family:var(--font-d);
-  font-weight:700;font-size:var(--t-xs);color:var(--ink-4);letter-spacing:-.01em}
+.cap__marks{display:flex;flex-wrap:wrap;gap:.4rem}
 
 .cap__bubbles{display:flex;flex-direction:column;gap:.6rem}
 .cbub{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);
@@ -975,7 +1013,9 @@ input[type='range']::-moz-range-thumb{width:1.4rem;height:1.4rem;border-radius:5
   .cap__tabs::-webkit-scrollbar{display:none}
   .cap__tab{width:auto;flex:0 0 auto;border-bottom:0;padding:.75rem .9rem;
     white-space:nowrap;scroll-snap-align:start}
-  .cap__tab:hover{padding-left:.9rem}
+  .cap__tab:hover{transform:translateY(-2px)}
+  .cap__tabGo{display:none}
+  .cap__tab{min-height:0}
   .cap__tab::before{left:0;right:0;top:auto;bottom:-2px;width:auto;height:3px;
     transform:scaleX(0);background:linear-gradient(90deg,var(--brand-600),var(--violet-600))}
   .cap__tab[aria-selected='true']::before{transform:scaleX(1)}

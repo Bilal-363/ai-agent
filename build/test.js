@@ -17,6 +17,11 @@ const path = require('path');
 const os = require('os');
 
 const ROOT = path.resolve(__dirname, '..');
+const D = require('./lib/data');
+const N_SERVICES = D.services.length;
+const N_USECASES = D.useCases.length;
+const N_FAQS = D.faqs.length;
+const N_FIRST_GROUP = D.useCases.filter(u => u.group === D.useCases[0].group).length;
 const CHROME = [
   'C:/Program Files/Google/Chrome/Application/chrome.exe',
   'C:/Program Files (x86)/Google/Chrome/Application/chrome.exe',
@@ -233,8 +238,8 @@ async function goto(page) {
                        .querySelectorAll('.cbub').length,
              playable: c.querySelectorAll('[data-cap-play]').length };
   `);
-  ok('explorer has 10 capability tabs', capInit.tabs === 10, 'tabs=' + capInit.tabs);
-  ok('explorer has 10 panes', capInit.panes === 10, 'panes=' + capInit.panes);
+  ok(`explorer has ${N_SERVICES} capability tabs`, capInit.tabs === N_SERVICES, 'tabs=' + capInit.tabs);
+  ok(`explorer has ${N_SERVICES} panes`, capInit.panes === N_SERVICES, 'panes=' + capInit.panes);
   ok('exactly one pane visible', capInit.visible === 1, 'visible=' + capInit.visible);
   ok('visible pane shows a 2-turn exchange', capInit.bubbles === 2, 'bubbles=' + capInit.bubbles);
   ok('3 capabilities offer real audio', capInit.playable === 3, 'playable=' + capInit.playable);
@@ -326,7 +331,7 @@ async function goto(page) {
   `);
   ok('services mega-menu opens on hover', mega.open === true);
   ok('mega-menu is actually visible', mega.visible === 'visible', mega.visible);
-  ok('all 10 services shown at once', mega.items === 10, 'items=' + mega.items);
+  ok(`all ${N_SERVICES} services shown at once`, mega.items === N_SERVICES, 'items=' + mega.items);
   ok('trigger aria-expanded=true', mega.expanded === 'true');
 
   const megaUC = await evalIn(`
@@ -337,7 +342,7 @@ async function goto(page) {
              groups: it.querySelectorAll('.mega__group').length,
              servicesClosed: !document.querySelector('[data-mega="services"]').classList.contains('is-open') };
   `);
-  ok('all 10 use cases shown at once', megaUC.items === 10, 'items=' + megaUC.items);
+  ok(`all ${N_USECASES} use cases shown at once`, megaUC.items === N_USECASES, 'items=' + megaUC.items);
   ok('use cases split into 2 groups', megaUC.groups === 2, 'groups=' + megaUC.groups);
   ok('opening one menu closes the other', megaUC.servicesClosed === true);
 
@@ -358,7 +363,7 @@ async function goto(page) {
   ok('drawer sits below the header', Math.abs(drawer.top - drawer.hdrBottom) < 3,
     `top=${drawer.top} hdr=${drawer.hdrBottom}`);
   ok('drawer accordion expands', drawer.accOpen === true);
-  ok('drawer shows all 10 services', drawer.subs === 10, 'subs=' + drawer.subs);
+  ok(`drawer shows all ${N_SERVICES} services`, drawer.subs === N_SERVICES, 'subs=' + drawer.subs);
   ok('body scroll locked while open', drawer.locked === 'hidden', drawer.locked);
 
   const esc = await evalIn(`
@@ -463,7 +468,7 @@ async function goto(page) {
     await new Promise(r => setTimeout(r, 150));
     return { all, shown, open: d.open };
   `);
-  ok('FAQ page has 24 questions', faq.all === 24, 'all=' + faq.all);
+  ok(`FAQ page has ${N_FAQS} questions`, faq.all === N_FAQS, 'all=' + faq.all);
   ok('category filter narrows the list', faq.shown > 0 && faq.shown < faq.all,
     `${faq.shown}/${faq.all}`);
   ok('FAQ accordion opens', faq.open === true);
@@ -476,7 +481,8 @@ async function goto(page) {
       .filter(e => !e.hidden).length;
     return { shown };
   `);
-  ok('use-case filter works', uc.shown === 6, 'shown=' + uc.shown);
+  ok('use-case filter narrows to the first group', uc.shown === N_FIRST_GROUP,
+    `shown=${uc.shown} expected=${N_FIRST_GROUP}`);
 
   await goto('integrations.html');
   const intg = await evalIn(`

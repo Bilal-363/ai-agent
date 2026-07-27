@@ -487,8 +487,23 @@
       $$('[data-cap-pane]', cap).forEach((p) => { p.hidden = p.dataset.capPane !== slug; });
     };
 
+    // Hovering a tab previews it, so sweeping the list browses the capabilities
+    // without clicking. The delay stops the panel strobing as the pointer
+    // crosses rows on its way somewhere else. Pointer-only: on touch, the tap
+    // is the click, and a hover-activate would fire twice.
+    let hoverTimer = null;
+    const HOVER_DELAY = 170;
+
     tabs.forEach((tab, i) => {
       tab.addEventListener('click', () => show(tab.dataset.capTab));
+
+      tab.addEventListener('mouseenter', () => {
+        if (!finePointer()) return;
+        clearTimeout(hoverTimer);
+        hoverTimer = setTimeout(() => show(tab.dataset.capTab), HOVER_DELAY);
+      });
+      tab.addEventListener('mouseleave', () => clearTimeout(hoverTimer));
+
       tab.addEventListener('keydown', (e) => {
         // Vertical list on desktop, horizontal strip on mobile — accept both axes.
         const d = /ArrowDown|ArrowRight/.test(e.key) ? 1

@@ -179,7 +179,7 @@ ${search
   ${D.integrations
     .map(
       (i) => `<div class="intg__c reveal" data-intg="${esc(i.name + ' ' + i.category + ' ' + i.note)}">
-    <span class="intg__mark" aria-hidden="true">${esc(i.name.slice(0, 2))}</span>
+    <span class="intg__mark" style="--tint:${i.tint}" aria-hidden="true">${esc(i.mark)}</span>
     <p class="intg__n">${esc(i.name)}</p>
     <p class="intg__cat">${esc(i.category)}</p>
     <p class="intg__note">${esc(i.note)}</p>
@@ -388,6 +388,20 @@ function demoPlayer() {
 const CHANNEL_LABEL = { voice: 'Voice supported', sms: 'Texting supported' };
 
 /**
+ * Integration badge: a tinted monogram tile plus the product name.
+ *
+ * These are NOT the vendors' logos — we have no licence to reproduce Epic's or
+ * athenahealth's marks, and inventing lookalikes would be worse than not trying.
+ * Each gets a distinct tint so the row still reads as a set of different
+ * products. Drop official SVGs into assets/img/logos/ and swap `lchip__mark` for
+ * an <img> if you obtain permission; see the README.
+ */
+const logoChip = (i, cls = '') => `<span class="lchip${cls ? ' ' + cls : ''}">
+  <span class="lchip__mark" style="--tint:${i.tint}" aria-hidden="true">${esc(i.mark)}</span>
+  <span class="lchip__name">${esc(i.name)}</span>
+</span>`;
+
+/**
  * Vertical tab list of every capability, with a sample exchange, the channels it
  * works on, and — where a real recording exists — a button that jumps to the demo
  * player and plays it. No fake audio controls: the button only appears when there
@@ -405,7 +419,8 @@ function capabilityExplorer() {
       aria-controls="cap-p-${s.slug}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}"
       data-cap-tab="${s.slug}">
       <span class="cap__tabIco">${icon(s.icon)}</span>
-      <span>${esc(s.title)}</span>
+      <span class="cap__tabTxt">${esc(s.title)}</span>
+      <span class="cap__tabGo" aria-hidden="true">${icon('chevron-right')}</span>
     </button>`
       )
       .join('')}
@@ -425,7 +440,7 @@ function capabilityExplorer() {
             .join('')}
         </div>
         <div class="cap__marks">
-          ${D.integrations.slice(0, 4).map((n) => `<span>${esc(n.name)}</span>`).join('')}
+          ${D.integrations.slice(0, 4).map((n) => logoChip(n)).join('')}
         </div>
 
         <div class="cap__bubbles">
