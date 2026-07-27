@@ -705,7 +705,7 @@ ${C.statBand()}
         <div class="deep__out">${icon('trending-up')}<span><strong>Illustrative result.</strong> Aggregated
           from a participating practice that asked not to be named.</span></div>
       </div>
-      <div>${IMG('dental-practice', 'A pristine modern dental practice treatment room')}</div>
+      <div>${IMG('waiting-area', 'A pristine modern dental practice treatment room')}</div>
     </div>
   </div>
 </section>

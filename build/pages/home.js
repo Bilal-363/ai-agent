@@ -39,14 +39,14 @@ const body = `
       <img class="hero__img" src="assets/img/reception.webp"
            srcset="assets/img/reception-sm.webp 700w, assets/img/reception.webp 1200w"
            sizes="(max-width: 1024px) 90vw, 46vw"
-           width="1200" height="800" alt="A bright, calm dental and primary care clinic reception area">
+           width="1200" height="800" alt="A clinic receptionist wearing a headset, answering a call at the front desk">
       <div class="hero__badge hero__badge--tl">
         <span class="hero__badgeIco">${icon('phone')}</span>
         <span>Answered in <b>1.4s</b></span>
       </div>
       <div class="hero__badge hero__badge--br">
         <span class="hero__badgeIco">${icon('calendar-check')}</span>
-        <span>Booked to <b>Dentrix</b></span>
+        <span>Booked to <b>athenahealth</b></span>
       </div>
     </div>
   </div>
@@ -104,7 +104,7 @@ ${C.marquee()}
            srcset="assets/img/casey-sm.webp 380w, assets/img/casey.webp 760w"
            sizes="(max-width: 1024px) 80vw, 26vw"
            width="760" height="760" loading="lazy"
-           alt="Casey, the Vocryn AI receptionist, represented by a warm professional portrait">
+           alt="Casey, the Vocryn AI receptionist, shown as a friendly professional wearing a headset">
       <span class="casey__tag"><span class="hero__dot"></span> Casey · on a call</span>
     </div>
 
@@ -167,7 +167,7 @@ ${C.marquee()}
 
 ${C.statBand({
   title: 'What changes in the first month',
-  lead: 'Aggregate results across participating dental and primary care practices.',
+  lead: 'Aggregate results across participating primary care, urgent care and specialty practices.',
 })}
 
 <section class="sec">

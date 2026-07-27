@@ -303,7 +303,7 @@ const useCases = [
       'Emergency language transfers to a clinician at once — never triaged by software',
     ],
     outcome: 'Fewer callers abandoning at the peak, and fewer arriving to a wait they were not told about.',
-    img: 'primary-care',
+    img: 'urgent-care',
   },
   {
     slug: 'athenahealth-primary-care',
@@ -432,7 +432,7 @@ const useCases = [
       'No-show risk surfaced to the practice manager weekly',
     ],
     outcome: 'No-show rates held under 5% for reminded patients.',
-    img: 'dental-practice',
+    img: 'waiting-area',
   },
   {
     slug: 'patient-reactivation',
