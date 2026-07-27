@@ -6,14 +6,16 @@ required to deploy, no dependencies to install.**
 - **Live-ready output:** plain `.html` files in this folder + `assets/`
 - **Total page weight:** ~62 KB CSS + ~17 KB JS + ~35 KB hero image. No frameworks, no CDN calls
   except Google Fonts.
-- **Design:** white canvas + deep teal + coral. Fluid type throughout (every heading, body size and
-  interface label uses `clamp()`).
+- **Design:** white canvas, indigo-blue primary, orange accent, a slight purple through the
+  gradients. Fluid type throughout (every heading, body size and interface label uses `clamp()`).
 - **Full dark mode**, remembered per visitor, respecting the OS preference by default.
 - **Hover mega-menus** for Services and Use Cases showing all ten items at once, working by hover,
   click, tap, and keyboard.
 - **Three fully voiced demo calls** — Casey actually speaks. Waveform doubles as a scrub bar, the
   transcript highlights the line being spoken and is click-to-seek.
 - **Sticky mobile action bar** so the phone number, demo and ROI calculator are always one tap away.
+- **Capability explorer** after the hero — all ten capabilities as vertical tabs, each showing the
+  real exchange, and handing off to the demo player for the three that have audio.
 
 ---
 
@@ -52,7 +54,7 @@ Opening `index.html` directly with `file://` also works — all paths are relati
 | # | What | Where |
 |---|------|-------|
 | 1 | **Point the forms at a real backend.** They currently validate and show a success state but send nothing. | [assets/js/main.js](assets/js/main.js) — section 12 |
-| 2 | **Add the demo call recording.** The audio player has an animated waveform but no audio file. | See "Audio demo" below |
+| 2 | **Decide about the demo voices.** Three calls ship working, but they are AI-generated and labelled "Casey’s real voice". Re-record if your production Casey sounds different. | See "Demo call audio" below |
 | 3 | **Swap the demo page for your real scheduler** (Calendly, HubSpot, Cal.com) if you'd rather not use the form. | [build/pages/company.js](build/pages/company.js) → `demo` |
 | 4 | **Confirm every metric and testimonial.** Illustrative figures are labelled as such — verify or remove them. | [build/lib/data.js](build/lib/data.js) |
 | 5 | **Have counsel review the legal pages.** They are a solid, honest starting point, not legal advice. | `privacy.html`, `terms.html`, `hipaa.html` |
@@ -114,8 +116,9 @@ across all 21 pages.
 node build/build.js     # regenerate every page  (needs Node 18+)
 node build/check.js     # dead links, headings, alt text, JSON-LD, anchors
 node build/shots.js     # screenshot every page × 6 widths × 2 themes, flag overflow
-node build/test.js      # 74 functional browser assertions (drives real clicks)
+node build/test.js      # 93 functional browser assertions (drives real clicks)
 node build/capture.js   # component screenshots, incl. the player mid-playback
+node build/a11y.js      # WCAG AA contrast audit, every page, both themes
 node build/audio.js     # rebuild the demo call audio
 
 # Run the same functional suite against the deployed site:
@@ -134,6 +137,8 @@ TEST_BASE=https://ai-agent-eta-three.vercel.app node build/test.js
 | FAQs (feeds 5 pages + FAQ schema) | `build/lib/data.js` → `faqs` |
 | Stats, testimonials, blog posts | `build/lib/data.js` |
 | Colours, type scale, spacing | `assets/css/styles.css` → section 1, Tokens |
+| Brand mark and wordmark | `build/lib/layout.js` → `logoMark`; favicon in `build/build.js` |
+| Capability explorer samples | `build/lib/data.js` → `samples` |
 | Header, footer, nav, mega-menu markup | `build/lib/layout.js` |
 | Reusable page sections | `build/lib/components.js` |
 | Individual page content | `build/pages/*.js` |
@@ -166,10 +171,11 @@ one `<h1>` per page · skip link · visible focus rings · `aria-expanded` / `ar
 `aria-controls` wiring · alt text on every image · `prefers-reduced-motion` honoured throughout.
 
 ### Verified
-- `node build/test.js` — **74/74 functional assertions pass**, locally and against the live
+- `node build/test.js` — **93/93 functional assertions pass**, locally and against the live
   Vercel deployment. Includes proof the audio actually decodes and advances, the transcript
-  highlights in sync, seeking works, both mega-menus show all ten items, and no page logs a
-  console error.
+  highlights in sync, seeking works, the capability explorer hands off to the player and starts
+  playback, both mega-menus show all ten items, and no page logs a console error.
+- `node build/a11y.js` — **0 WCAG AA contrast failures** across 19 pages in both themes.
 - `node build/check.js` — **0 errors** across 21 pages
 - `node build/shots.js` — **no horizontal overflow** at 360 / 390 / 768 / 1024 / 1440 / 1920 px,
   in both light and dark themes
