@@ -248,11 +248,11 @@ ${C.ctaSplit()}`,
 const integrations = {
   slug: 'integrations',
   title: 'Integrations — Epic, Dentrix, athenahealth and more',
-  desc: 'Two-way access to Epic, athenahealth, eClinicalWorks, NextGen, Practice Fusion, Dentrix, NexHealth, Curve and Open Dental, plus 8 phone systems.',
+  desc: 'Two-way access to Epic, athenahealth, eClinicalWorks, NextGen, Practice Fusion, Dentrix, Dentrix Ascend, NexHealth, Curve Dental and Open Dental.',
   active: '/integrations.html',
   body: `
 ${C.phero({
-    eyebrow: `${D.integrations.length + D.telephony.length} integrations`,
+    eyebrow: `${D.integrations.length} EHR & PMS integrations`,
     h: 'It writes into your system, <span class="grad">not a spreadsheet.</span>',
     lead: 'A booking is only real when it lands in your schedule. Casey reads your live availability and writes confirmed appointments back — respecting provider, operatory, and appointment-type rules.',
     trail: [{ label: 'Integrations' }],

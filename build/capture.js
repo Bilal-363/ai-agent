@@ -67,10 +67,16 @@ const SHOTS = [
     `scrollTo(0, 1150); await new Promise(r => setTimeout(r, 400))`],
   ['pricing-white', 'pricing.html', 1440, 940, 'light',
     `scrollTo(0, 620); await new Promise(r => setTimeout(r, 400))`],
+  ['integrations-grid', 'integrations.html', 1440, 940, 'light',
+    `document.querySelector('.intg__tel').scrollIntoView({ block: 'end' })`],
+  ['integrations-390', 'integrations.html', 390, 844, 'light',
+    `document.querySelector('.intg__tel').scrollIntoView({ block: 'end' })`],
 ];
 
 const SETTLE = (extra) => `(async () => {
   try { localStorage.clear(); } catch (e) {}
+  // The site scrolls smoothly; for a still capture we want the jump to land now.
+  document.documentElement.style.scrollBehavior = 'auto';
   document.querySelectorAll('.reveal').forEach(e => e.classList.add('in'));
   document.querySelectorAll('[data-count]').forEach(e => {
     const v = parseFloat(e.dataset.count);

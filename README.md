@@ -4,12 +4,16 @@ A complete, production-ready marketing site for Vocryn AI. **21 static pages, no
 required to deploy, no dependencies to install.**
 
 - **Live-ready output:** plain `.html` files in this folder + `assets/`
-- **Total page weight:** ~55 KB CSS + ~11 KB JS + ~35 KB hero image. No frameworks, no CDN calls
+- **Total page weight:** ~62 KB CSS + ~17 KB JS + ~35 KB hero image. No frameworks, no CDN calls
   except Google Fonts.
-- **Design:** cream + deep teal + coral. Fluid type throughout (every size uses `clamp()`).
+- **Design:** white canvas + deep teal + coral. Fluid type throughout (every heading, body size and
+  interface label uses `clamp()`).
 - **Full dark mode**, remembered per visitor, respecting the OS preference by default.
 - **Hover mega-menus** for Services and Use Cases showing all ten items at once, working by hover,
   click, tap, and keyboard.
+- **Three fully voiced demo calls** — Casey actually speaks. Waveform doubles as a scrub bar, the
+  transcript highlights the line being spoken and is click-to-seek.
+- **Sticky mobile action bar** so the phone number, demo and ROI calculator are always one tap away.
 
 ---
 
@@ -70,16 +74,33 @@ if (res.ok) form.classList.add('is-sent');
 Zero-backend options that work with the existing markup: Netlify Forms (add
 `netlify` to the `<form>` tag), Formspree, Basin, or Web3Forms.
 
-### Audio demo
-Drop your recording at `assets/audio/demo-call.mp3`, then add this inside the
-`#player` element in [build/pages/home.js](build/pages/home.js):
+### Demo call audio
 
-```html
-<audio id="demoAudio" preload="none" src="assets/audio/demo-call.mp3"></audio>
+Three calls ship working: emergency booking (0:39), prescription refill (0:38), and escalation to
+a human (0:21). They are in `assets/audio/` and total 677 KB, loaded only when someone presses play.
+
+They were produced by [build/audio.js](build/audio.js), which per line trims silence, applies a
+250–3600 Hz telephone band-pass so it sounds like a real call, normalises loudness, and joins the
+turns with a 0.34 s pause. It also writes [build/lib/demo-calls.json](build/lib/demo-calls.json) —
+the per-line cue times that drive the transcript highlighting, and 96 waveform peaks read straight
+off the PCM so the bars are the actual audio, not decoration.
+
+**To change the scripts or re-record:** edit the `SCENARIOS` array in `build/audio.js`, put one
+WAV per line in `build/audio-src/` named `s<scenario>-<line>.wav`, then:
+
+```bash
+node build/audio.js     # rebuild mp3s + cue times + peaks
+node build/build.js     # regenerate the pages that embed them
 ```
 
-The play button already drives `#demoAudio` when it exists, and falls back to the
-animated waveform when it doesn't.
+Everything downstream — durations, tab labels, transcript, seek — is derived, so nothing else
+needs touching. Real recordings of your own Casey will work exactly the same way.
+
+**Note on honesty:** the player says "Casey's real voice". These are AI voices (Higgsfield
+`seed_audio`, presets Emily / Marcus / Harper) reading scripts we wrote — true in the sense that
+it is synthesised speech rather than an actor, but if your production Casey sounds materially
+different, either re-record or soften that line in
+[build/lib/components.js](build/lib/components.js).
 
 ---
 
@@ -93,6 +114,12 @@ across all 21 pages.
 node build/build.js     # regenerate every page  (needs Node 18+)
 node build/check.js     # dead links, headings, alt text, JSON-LD, anchors
 node build/shots.js     # screenshot every page × 6 widths × 2 themes, flag overflow
+node build/test.js      # 74 functional browser assertions (drives real clicks)
+node build/capture.js   # component screenshots, incl. the player mid-playback
+node build/audio.js     # rebuild the demo call audio
+
+# Run the same functional suite against the deployed site:
+TEST_BASE=https://ai-agent-eta-three.vercel.app node build/test.js
 ```
 
 ### Where to change what
@@ -139,6 +166,10 @@ one `<h1>` per page · skip link · visible focus rings · `aria-expanded` / `ar
 `aria-controls` wiring · alt text on every image · `prefers-reduced-motion` honoured throughout.
 
 ### Verified
+- `node build/test.js` — **74/74 functional assertions pass**, locally and against the live
+  Vercel deployment. Includes proof the audio actually decodes and advances, the transcript
+  highlights in sync, seeking works, both mega-menus show all ten items, and no page logs a
+  console error.
 - `node build/check.js` — **0 errors** across 21 pages
 - `node build/shots.js` — **no horizontal overflow** at 360 / 390 / 768 / 1024 / 1440 / 1920 px,
   in both light and dark themes

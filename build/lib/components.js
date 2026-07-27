@@ -160,11 +160,19 @@ function testimonials() {
 
 /* --------------------------------------------------------- integrations */
 
-function integrationsWall({ search = false } = {}) {
+/**
+ * The integrations wall lists EHR and practice management systems only — those are
+ * the ones that matter, because they are what Casey reads availability from and
+ * writes appointments back into. Phone systems used to get a card each, but eight
+ * tiles all reading "inbound and outbound call routing" said nothing; they are now
+ * a single line under the grid.
+ */
+function integrationsWall({ search = false, telephonyNote = true } = {}) {
   return `
 ${search
       ? `<div class="srch">${icon('search')}
-    <input type="search" id="intgSearch" placeholder="Search 18 integrations…" aria-label="Search integrations">
+    <input type="search" id="intgSearch" placeholder="Search ${D.integrations.length} integrations…"
+      aria-label="Search integrations">
   </div>`
       : ''}
 <div class="intg">
@@ -178,19 +186,14 @@ ${search
   </div>`
     )
     .join('')}
-  ${D.telephony
-    .map(
-      (t) => `<div class="intg__c reveal" data-intg="${esc(t)} telephony phone system">
-    <span class="intg__mark" aria-hidden="true">${esc(t.slice(0, 2))}</span>
-    <p class="intg__n">${esc(t)}</p>
-    <p class="intg__cat">Telephony</p>
-    <p class="intg__note">Inbound and outbound call routing</p>
-  </div>`
-    )
-    .join('')}
 </div>
 ${search ? `<p class="intg__none" id="intgEmpty" hidden>No match. We add integrations on request —
-  <a href="${u('/contact.html')}">tell us what you use</a>.</p>` : ''}`;
+  <a href="${u('/contact.html')}">tell us what you use</a>.</p>` : ''}
+${telephonyNote
+      ? `<p class="intg__tel reveal">${icon('phone')} <span><strong>Your phone system already works.</strong>
+  We forward your existing number, so Casey sits behind whatever you use today —
+  ${D.telephony.slice(0, -1).join(', ')} and ${D.telephony.slice(-1)} included.</span></p>`
+      : ''}`;
 }
 
 /* -------------------------------------------------------------- security */

@@ -493,8 +493,13 @@ p{text-wrap:pretty}
   box-shadow:var(--sh-2);margin-top:1.75rem;overflow:hidden}
 
 .player__tabs{display:flex;gap:.25rem;padding:.6rem;background:var(--surface-2);
-  border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none}
+  border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;
+  scroll-snap-type:x proximity;
+  /* fade the right edge so it reads as scrollable when the tabs don't all fit */
+  mask-image:linear-gradient(to right,#000 calc(100% - 2.5rem),transparent 100%)}
 .player__tabs::-webkit-scrollbar{display:none}
+.player__tab{scroll-snap-align:start}
+@media (min-width:681px){ .player__tabs{mask-image:none} }
 .player__tab{flex:1 1 auto;min-width:max-content;display:flex;flex-direction:column;
   align-items:flex-start;gap:.1rem;padding:.6rem .85rem;border-radius:var(--r);
   font-family:var(--font-d);font-weight:700;font-size:var(--t-ui);color:var(--ink-3);
@@ -667,6 +672,11 @@ p{text-wrap:pretty}
 .intg__cat{font-size:var(--t-xs);color:var(--brand-600);font-weight:600;margin-top:.15rem}
 .intg__note{font-size:var(--t-xs);color:var(--ink-4);margin-top:.5rem;line-height:1.5}
 .intg__none{text-align:center;padding:3rem 1rem;color:var(--ink-4);font-size:var(--t-sm)}
+.intg__tel{display:flex;gap:.7rem;align-items:flex-start;margin-top:1.5rem;padding:1rem 1.15rem;
+  border-radius:var(--r-md);background:var(--bg-alt);border:1px solid var(--line);
+  font-size:var(--t-sm);color:var(--ink-3);line-height:1.6}
+.intg__tel .i{width:1.15rem;height:1.15rem;flex:none;margin-top:.2rem;color:var(--brand-600)}
+.intg__tel strong{color:var(--ink)}
 
 .srch{position:relative;max-width:24rem;margin-bottom:1.5rem}
 .srch .i{position:absolute;left:1rem;top:50%;transform:translateY(-50%);
@@ -1046,7 +1056,9 @@ a.chip:hover{transform:translateY(-2px);border-color:var(--brand-500);color:var(
 
 @media (max-width:860px){
   .mcta{display:flex}
-  .totop{bottom:calc(4.75rem + env(safe-area-inset-bottom))}
+  /* The action bar already occupies this corner and is the more useful control,
+     so the back-to-top button stands down on small screens. */
+  .totop{display:none}
   .ft{padding-bottom:5.5rem}
 }
 

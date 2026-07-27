@@ -24,7 +24,12 @@ const CHROME = [
 if (!CHROME) { console.error('Chrome not found.'); process.exit(1); }
 
 const PORT = 9444;
-const url = (f) => 'file:///' + path.join(ROOT, f).replace(/\\/g, '/').replace(/ /g, '%20');
+// TEST_BASE=https://example.com runs the same suite against a live deployment
+// instead of the local files, so we verify what visitors actually get.
+const BASE = process.env.TEST_BASE ? process.env.TEST_BASE.replace(/\/$/, '') : null;
+const url = (f) => BASE
+  ? `${BASE}/${f === 'index.html' ? '' : f}`
+  : 'file:///' + path.join(ROOT, f).replace(/\\/g, '/').replace(/ /g, '%20');
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
 let ws, msgId = 0, session;
@@ -143,14 +148,23 @@ async function goto(page) {
   ok('currentTime advanced past 1s', played.t > 1, 't=' + played.t);
   ok('player marked is-playing', played.playing === true);
 
+  // Poll rather than sample once: over HTTP the audio can stall briefly while
+  // buffering, and a single read races the timeupdate event.
   const liveLine = await evalIn(`
-    const el = document.querySelector('[data-pane]:not([hidden]) .tline.is-live');
-    const cur = document.querySelector('[data-pane]:not([hidden]) [data-cur]').textContent;
-    const fill = document.querySelector('[data-pane]:not([hidden]) [data-fill]').style.clipPath;
-    return { text: el ? el.textContent.trim().slice(0, 40) : null, cur, fill };
+    const pane = () => document.querySelector('[data-pane]:not([hidden])');
+    const readCur = () => pane().querySelector('[data-cur]').textContent;
+    for (let i = 0; i < 25 && readCur() === '0:00'; i++) {
+      await new Promise(r => setTimeout(r, 200));
+    }
+    const el = pane().querySelector('.tline.is-live');
+    return { text: el ? el.textContent.trim().slice(0, 40) : null,
+             cur: readCur(),
+             t: document.querySelector('[data-player] audio').currentTime,
+             fill: pane().querySelector('[data-fill]').style.clipPath };
   `);
   ok('a transcript line is highlighted live', !!liveLine.text, JSON.stringify(liveLine.text));
-  ok('elapsed time is ticking', liveLine.cur !== '0:00', 'cur=' + liveLine.cur);
+  ok('elapsed time is ticking', liveLine.cur !== '0:00',
+    `cur=${liveLine.cur} currentTime=${liveLine.t}`);
   // Computed style reports e.g. "inset(0px 95.6964% 0px 0px)" — the second value is
   // the un-played remainder, so it must have dropped below 100% but not to zero.
   const remain = parseFloat((liveLine.fill || '').split(/\s+/)[1]);
