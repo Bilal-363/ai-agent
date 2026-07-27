@@ -6,14 +6,6 @@ const C = require('../lib/components');
 const D = require('../lib/data');
 const { site } = D;
 
-const transcript = [
-  ['c', 'Casey', 'Good morning, Lakeview Dental — this is Casey, the practice assistant. How can I help?'],
-  ['p', 'Caller', 'Hi, I chipped a tooth last night. Can someone see me today?'],
-  ['c', 'Casey', 'I’m sorry, that sounds painful. I have an emergency slot with Dr. Alvarez at 2:40 this afternoon. Shall I hold that for you?'],
-  ['p', 'Caller', 'Yes please. And do you take Delta Dental?'],
-  ['c', 'Casey', 'We do. I’ll take your member ID to check your benefits, then send a confirmation and directions by text before we hang up.'],
-];
-
 const body = `
 <section class="hero">
   <div class="wrap hero__grid">
@@ -105,35 +97,29 @@ ${C.marquee()}
     </div>
 
     <div>
-      <p class="eyebrow">${icon('mic')} Meet Casey</p>
+      <p class="eyebrow">${icon('mic')} Hear Casey speak</p>
       <h2 class="h2" style="margin:1.1rem 0 .95rem">Warm, clinic-trained, and never flustered.</h2>
-      <p class="lead">Casey isn't a phone tree with a nicer voice. It understands what patients mean,
-        holds a real conversation, and knows exactly when to stop and fetch a human.</p>
+      <p class="lead">Casey isn't a phone tree with a nicer voice. Press play on any of these three
+        calls — booking, a refill, and a caller who just wants a human — and listen to how it
+        actually handles them.</p>
       <p style="margin-top:1rem;font-size:var(--t-sm);color:var(--ink-3)">Casey identifies itself as
-        an assistant on every call. Patients who ask for a person get one immediately.</p>
+        an assistant on every call. Patients who ask for a person get one immediately, as the third
+        call shows.</p>
 
-      <div class="player" id="player">
-        <div class="player__top">
-          <button class="player__btn" aria-label="Play demo call">
-            ${icon('play', 'icon-play')}${icon('pause', 'icon-pause')}
-          </button>
-          <div class="player__meta">
-            <p class="player__title">Emergency booking · 1 min 52 s</p>
-            <p class="player__sub">Unedited. Chipped tooth, same-day slot, insurance check.</p>
-          </div>
-        </div>
-        <div class="player__wave" aria-hidden="true"></div>
-        <div class="player__transcript">
-          ${transcript
-            .map(
-              ([who, label, line]) => `<div class="tline tline--${who}">
-            <span class="tline__who">${label}</span><span>${esc(line)}</span>
-          </div>`
-            )
-            .join('')}
-        </div>
-      </div>
+      ${C.demoPlayer()}
     </div>
+  </div>
+</section>
+
+<section class="sec sec--tight">
+  <div class="wrap">
+    ${C.shead({
+      eyebrow: '20+ languages',
+      eyebrowIcon: 'languages',
+      h: 'Casey answers in the patient’s language.',
+      lead: 'Detected automatically on the call. No separate line, no interpreter queue, no asking a patient to call back with a family member.',
+    })}
+    ${C.languagesStrip()}
   </div>
 </section>
 

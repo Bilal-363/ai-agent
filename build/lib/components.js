@@ -303,6 +303,98 @@ function roiCalculator({ compact = false } = {}) {
 </div>`;
 }
 
+/* ------------------------------------------------- demo call player (real) */
+
+const calls = require('./demo-calls.json');
+
+const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+const bars = (peaks) =>
+  peaks.map((p) => `<span class="player__bar" style="height:${p}%"></span>`).join('');
+
+function demoPlayer() {
+  return `<div class="player" id="player" data-player>
+  <div class="player__tabs" role="tablist" aria-label="Choose a demo call">
+    ${calls
+      .map(
+        (c, i) => `<button class="player__tab" role="tab" id="tab-${c.id}"
+      aria-selected="${i === 0}" aria-controls="pane-${c.id}" data-call="${c.id}"
+      tabindex="${i === 0 ? 0 : -1}">
+      <span class="player__tabTag">${esc(c.tag)} · ${mmss(c.duration)}</span>
+      <span>${esc(c.label)}</span>
+    </button>`
+      )
+      .join('')}
+  </div>
+
+  <div class="player__body">
+    ${calls
+      .map(
+        (c, i) => `<div class="player__pane" id="pane-${c.id}" role="tabpanel"
+      aria-labelledby="tab-${c.id}" data-pane="${c.id}" data-src="${c.src}"
+      data-duration="${c.duration}"${i === 0 ? '' : ' hidden'}>
+      <p class="player__blurb">${esc(c.blurb)}</p>
+
+      <div class="player__top">
+        <button class="player__btn" data-play aria-label="Play the ${esc(c.label.toLowerCase())} call">
+          <span class="player__spin" aria-hidden="true"></span>
+          ${icon('play', 'icon-play')}${icon('pause', 'icon-pause')}
+        </button>
+        <div class="player__meta">
+          <p class="player__title">${esc(c.label)}</p>
+          <p class="player__sub">${icon('mic')} Casey’s real voice · unedited · ${c.cues.length} turns</p>
+        </div>
+      </div>
+
+      <div class="player__seek" data-seek role="slider" tabindex="0"
+           aria-label="Seek within the call" aria-valuemin="0"
+           aria-valuemax="${Math.round(c.duration)}" aria-valuenow="0"
+           aria-valuetext="0 seconds of ${Math.round(c.duration)}">
+        <div class="player__wave" aria-hidden="true">${bars(c.peaks)}</div>
+        <div class="player__wave player__wave--fill" data-fill aria-hidden="true">${bars(c.peaks)}</div>
+        <span class="player__head" data-head aria-hidden="true"></span>
+      </div>
+      <div class="player__times">
+        <span data-cur>0:00</span><span>${mmss(c.duration)}</span>
+      </div>
+
+      <div class="player__transcript" data-transcript>
+        ${c.cues
+          .map(
+            (q) => `<button class="tline tline--${q.who === 'casey' ? 'c' : 'p'}"
+          data-start="${q.start}" data-end="${q.end}">
+          <span class="tline__who">${q.who === 'casey' ? 'Casey' : 'Caller'}</span>
+          <span class="tline__txt">${esc(q.text)}</span>
+        </button>`
+          )
+          .join('')}
+      </div>
+
+      <p class="player__outcome">${icon('check')} <span>${esc(c.outcome)}</span></p>
+    </div>`
+      )
+      .join('')}
+    <p class="player__err" data-err hidden>That audio could not load. The full transcript is above,
+      and you can always <a href="${u('/demo.html')}">book a live demo</a> instead.</p>
+  </div>
+</div>`;
+}
+
+/* --------------------------------------------------------- languages strip */
+
+const LANGUAGES = [
+  ['English', 'EN'], ['Spanish', 'ES'], ['Mandarin', 'ZH'], ['Vietnamese', 'VI'],
+  ['Tagalog', 'TL'], ['Arabic', 'AR'], ['Russian', 'RU'], ['Portuguese', 'PT'],
+  ['French', 'FR'], ['Korean', 'KO'], ['Haitian Creole', 'HT'], ['Hindi', 'HI'],
+  ['Bengali', 'BN'], ['Urdu', 'UR'], ['Polish', 'PL'], ['Italian', 'IT'],
+  ['German', 'DE'], ['Japanese', 'JA'], ['Somali', 'SO'], ['Nepali', 'NE'],
+  ['Ukrainian', 'UK'], ['Farsi', 'FA'],
+];
+
+const languagesStrip = () => `<div class="langs">
+  ${LANGUAGES.map(([n, c]) => `<span class="lang"><b>${c}</b> ${esc(n)}</span>`).join('')}
+</div>`;
+
 /* --------------------------------------------------------------- CTA band */
 
 const ctaSplit = () => `
@@ -324,5 +416,5 @@ const ctaSplit = () => `
 module.exports = {
   crumbs, phero, shead, ticks, marquee, statBand, serviceCards, useCaseCards,
   stepsSection, testimonials, integrationsWall, securityGrid, pricingCards,
-  faqList, roiCalculator, ctaSplit,
+  faqList, roiCalculator, ctaSplit, demoPlayer, languagesStrip, calls, LANGUAGES,
 };

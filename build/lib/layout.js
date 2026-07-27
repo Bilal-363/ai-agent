@@ -256,7 +256,14 @@ function footer() {
   </div>
 </footer>
 
-<button class="totop" id="totop" aria-label="Back to top" hidden>${icon('arrow-up')}</button>`;
+<button class="totop" id="totop" aria-label="Back to top" hidden>${icon('arrow-up')}</button>
+
+<div class="mcta" id="mcta">
+  <a class="btn btn--ghost btn--sm mcta__tel" href="tel:${site.phoneHref}"
+     aria-label="Call ${site.phone}">${icon('phone')}</a>
+  <a class="btn btn--primary btn--sm" href="${u('/demo.html')}">Book a Demo</a>
+  <a class="btn btn--outline btn--sm" href="${u('/roi-calculator.html')}">${icon('sliders')} ROI</a>
+</div>`;
 }
 
 /* ---------------------------------------------------------------------- page */

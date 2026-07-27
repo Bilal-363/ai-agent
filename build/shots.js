@@ -146,27 +146,29 @@ async function checkOverflow(page, vp, theme) {
       const de = document.documentElement;
       const vw = de.clientWidth;
       const bad = [];
-      // An element wider than the viewport is only a bug if nothing above it
-      // clips or scrolls — marquees and scrollable tables are intentional.
-      const clipped = (el) => {
+      // An element wider than the viewport is fine if the user can scroll to the
+      // rest of it (overflow auto/scroll), or if it is the marquee track, which is
+      // meant to run off-screen. Content hidden by overflow:hidden with no way to
+      // reach it IS a bug — an earlier version of this check exempted that too and
+      // hid a clipped marquee heading on mobile.
+      const excused = (el) => {
+        if (el.closest('.marq__track')) return true;
         for (let p = el.parentElement; p && p !== document.body; p = p.parentElement) {
           const ox = getComputedStyle(p).overflowX;
-          if (ox === 'hidden' || ox === 'clip' || ox === 'auto' || ox === 'scroll') return true;
+          if (ox === 'auto' || ox === 'scroll') return true;
         }
         return false;
       };
-      if (de.scrollWidth > vw + 1) {
-        for (const el of document.querySelectorAll('body *')) {
-          const b = el.getBoundingClientRect();
-          if (b.width === 0) continue;
-          if (b.right > vw + 2 || b.left < -2) {
-            const cs = getComputedStyle(el);
-            if (cs.position === 'fixed' || cs.visibility === 'hidden') continue;
-            if (clipped(el)) continue;
-            bad.push(el.tagName.toLowerCase() + '.' + (el.className || '').toString().split(' ')[0]
-              + ' [' + Math.round(b.left) + '..' + Math.round(b.right) + ']');
-            if (bad.length > 5) break;
-          }
+      for (const el of document.querySelectorAll('body *')) {
+        const b = el.getBoundingClientRect();
+        if (b.width === 0 || b.height === 0) continue;
+        if (b.right > vw + 2 || b.left < -2) {
+          const cs = getComputedStyle(el);
+          if (cs.position === 'fixed' || cs.visibility === 'hidden' || cs.opacity === '0') continue;
+          if (excused(el)) continue;
+          bad.push(el.tagName.toLowerCase() + '.' + (el.className || '').toString().split(' ')[0]
+            + ' [' + Math.round(b.left) + '..' + Math.round(b.right) + ']');
+          if (bad.length > 5) break;
         }
       }
       return JSON.stringify({ scrollWidth: de.scrollWidth, vw, bad });

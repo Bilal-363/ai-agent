@@ -188,7 +188,7 @@
 
   /* ------------------------------------------ 4. Header state + progress */
 
-  const hdr = $('#hdr'), prog = $('#prog'), totop = $('#totop');
+  const hdr = $('#hdr'), prog = $('#prog'), totop = $('#totop'), mcta = $('#mcta');
   let raf = false;
 
   function onScroll() {
@@ -199,6 +199,12 @@
       prog.style.width = (h > 0 ? (y / h) * 100 : 0) + '%';
     }
     if (totop) totop.hidden = y < 700;
+    // Slide the mobile action bar up once the hero CTAs have scrolled away, and
+    // hide it again at the very bottom where the footer CTA takes over.
+    if (mcta) {
+      const nearEnd = y + innerHeight > document.documentElement.scrollHeight - 260;
+      mcta.classList.toggle('is-up', y > 420 && !nearEnd);
+    }
     raf = false;
   }
   addEventListener('scroll', () => {
@@ -272,34 +278,198 @@
     }
   }
 
-  /* ---------------------------------------------- 8. Demo audio player */
+  /* ---------------------------------------------- 8. Demo call player */
 
-  const player = $('#player');
+  const player = $('[data-player]');
   if (player) {
-    const btn = $('.player__btn', player);
-    const wave = $('.player__wave', player);
-    // Build the bars once, with pseudo-random but stable heights.
-    const BARS = 56;
-    for (let i = 0; i < BARS; i++) {
-      const b = document.createElement('span');
-      b.className = 'player__bar';
-      const h = 18 + Math.abs(Math.sin(i * 1.7) * 62) + (i % 5) * 3;
-      b.style.height = Math.min(h, 100) + '%';
-      b.style.animationDelay = (i % 14) * 0.055 + 's';
-      wave.appendChild(b);
+    // A real element in the DOM rather than `new Audio()` — easier to inspect,
+    // and it lets the automated tests drive it the same way a browser would.
+    const audio = document.createElement('audio');
+    audio.preload = 'none';
+    audio.setAttribute('data-audio', '');
+    player.appendChild(audio);
+    const errBox = $('[data-err]', player);
+    let pane = $('[data-pane]', player);   // currently visible scenario
+    let cues = [];
+    let live = null;
+
+    const fmt = (s) =>
+      `${Math.floor(s / 60)}:${String(Math.floor(s % 60)).padStart(2, '0')}`;
+
+    function readCues() {
+      cues = $$('.tline', pane).map((el) => ({
+        el, start: parseFloat(el.dataset.start), end: parseFloat(el.dataset.end),
+      }));
+      live = null;
     }
-    const audio = $('#demoAudio');
-    btn.addEventListener('click', () => {
-      const playing = player.classList.toggle('is-playing');
-      btn.setAttribute('aria-label', playing ? 'Pause demo call' : 'Play demo call');
-      if (!audio) return;
-      // If a real recording is dropped in later, this drives it too.
-      playing ? audio.play().catch(() => {}) : audio.pause();
-    });
-    audio && audio.addEventListener('ended', () => {
+
+    function loadPane(next) {
+      if (next === pane) return;
+      audio.pause();
       player.classList.remove('is-playing');
-      btn.setAttribute('aria-label', 'Play demo call');
+      pane.hidden = true;
+      pane = next;
+      pane.hidden = false;
+      audio.src = pane.dataset.src;
+      readCues();
+      paint(0);
+    }
+
+    function paint(t) {
+      const dur = audio.duration || parseFloat(pane.dataset.duration) || 1;
+      const pct = Math.min(100, Math.max(0, (t / dur) * 100));
+      const fill = $('[data-fill]', pane);
+      const head = $('[data-head]', pane);
+      const cur = $('[data-cur]', pane);
+      const seek = $('[data-seek]', pane);
+      if (fill) fill.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+      if (head) head.style.left = `calc(${pct}% - 1px)`;
+      if (cur) cur.textContent = fmt(t);
+      if (seek) {
+        seek.setAttribute('aria-valuenow', String(Math.round(t)));
+        seek.setAttribute('aria-valuetext',
+          `${Math.round(t)} seconds of ${Math.round(dur)}`);
+      }
+
+      // Highlight the line being spoken, and keep it in view.
+      const hit = cues.find((c) => t >= c.start && t < c.end) || null;
+      if (hit !== live) {
+        if (live) live.el.classList.remove('is-live');
+        if (hit) {
+          hit.el.classList.add('is-live');
+          const box = hit.el.parentElement;
+          if (box.scrollHeight > box.clientHeight + 4) {
+            const top = hit.el.offsetTop - box.offsetTop
+              - (box.clientHeight - hit.el.offsetHeight) / 2;
+            box.scrollTo({ top, behavior: reduced ? 'auto' : 'smooth' });
+          }
+        }
+        live = hit;
+      }
+    }
+
+    // Tab switching, including keyboard arrows across the tablist.
+    const tabs = $$('.player__tab', player);
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => {
+          t.setAttribute('aria-selected', String(t === tab));
+          t.tabIndex = t === tab ? 0 : -1;
+        });
+        loadPane($(`[data-pane="${tab.dataset.call}"]`, player));
+      });
+      tab.addEventListener('keydown', (e) => {
+        const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const n = tabs[(i + d + tabs.length) % tabs.length];
+        n.focus();
+        n.click();
+      });
     });
+
+    function toggle() {
+      if (audio.paused) {
+        if (!audio.src) audio.src = pane.dataset.src;
+        player.classList.add('is-loading');
+        audio.play()
+          .then(() => { player.classList.add('is-playing'); })
+          .catch(() => { if (errBox) errBox.hidden = false; })
+          .finally(() => player.classList.remove('is-loading'));
+      } else {
+        audio.pause();
+        player.classList.remove('is-playing');
+      }
+      const btn = $('[data-play]', pane);
+      if (btn) {
+        btn.setAttribute('aria-label',
+          audio.paused ? 'Play this call' : 'Pause this call');
+      }
+    }
+
+    player.addEventListener('click', (e) => {
+      if (e.target.closest('[data-play]')) toggle();
+    });
+
+    audio.addEventListener('timeupdate', () => paint(audio.currentTime));
+    audio.addEventListener('ended', () => {
+      player.classList.remove('is-playing');
+      paint(0);
+      audio.currentTime = 0;
+    });
+    audio.addEventListener('error', () => {
+      player.classList.remove('is-playing', 'is-loading');
+      if (errBox) errBox.hidden = false;
+    });
+
+    // Scrubbing on the waveform: pointer drag, click, and arrow keys.
+    function seekTo(clientX, seek) {
+      const r = seek.getBoundingClientRect();
+      const pct = Math.min(1, Math.max(0, (clientX - r.left) / r.width));
+      const dur = audio.duration || parseFloat(pane.dataset.duration) || 1;
+      if (!audio.src) audio.src = pane.dataset.src;
+      audio.currentTime = pct * dur;
+      paint(pct * dur);
+    }
+
+    player.addEventListener('pointerdown', (e) => {
+      const seek = e.target.closest('[data-seek]');
+      if (!seek) return;
+      seek.setPointerCapture(e.pointerId);
+      player.classList.add('is-scrubbing');
+      seekTo(e.clientX, seek);
+      const move = (ev) => seekTo(ev.clientX, seek);
+      const up = () => {
+        player.classList.remove('is-scrubbing');
+        seek.removeEventListener('pointermove', move);
+        seek.removeEventListener('pointerup', up);
+      };
+      seek.addEventListener('pointermove', move);
+      seek.addEventListener('pointerup', up);
+    });
+
+    player.addEventListener('keydown', (e) => {
+      const seek = e.target.closest('[data-seek]');
+      if (!seek) return;
+      const dur = audio.duration || parseFloat(pane.dataset.duration) || 1;
+      const step = e.shiftKey ? 10 : 5;
+      let t = audio.currentTime;
+      if (e.key === 'ArrowRight') t = Math.min(dur, t + step);
+      else if (e.key === 'ArrowLeft') t = Math.max(0, t - step);
+      else if (e.key === 'Home') t = 0;
+      else if (e.key === ' ' || e.key === 'Enter') { e.preventDefault(); toggle(); return; }
+      else return;
+      e.preventDefault();
+      if (!audio.src) audio.src = pane.dataset.src;
+      audio.currentTime = t;
+      paint(t);
+    });
+
+    // Clicking a transcript line jumps to that moment.
+    player.addEventListener('click', (e) => {
+      const line = e.target.closest('.tline');
+      if (!line) return;
+      const t = parseFloat(line.dataset.start);
+      if (!audio.src) audio.src = pane.dataset.src;
+      audio.currentTime = t;
+      paint(t);
+      if (audio.paused) toggle();
+    });
+
+    // Pause when scrolled well away — nobody wants audio from off-screen.
+    if ('IntersectionObserver' in window) {
+      new IntersectionObserver((entries) => {
+        entries.forEach((en) => {
+          if (!en.isIntersecting && !audio.paused) {
+            audio.pause();
+            player.classList.remove('is-playing');
+          }
+        });
+      }, { threshold: 0 }).observe(player);
+    }
+
+    readCues();
+    paint(0);
   }
 
   /* ------------------------------------------------------- 9. Filters */

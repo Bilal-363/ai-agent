@@ -1,0 +1,17 @@
+# Audio build intermediates — 26MB of raw TTS clips and ffmpeg scratch files.
+# The finished, deployable audio lives in assets/audio/ and IS committed.
+build/audio-src/
+build/audio-work/
+
+# Local QA output
+.shots/
+*.log
+
+# OS / editor noise
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Node (nothing is installed — the generator is dependency-free — but just in case)
+node_modules/

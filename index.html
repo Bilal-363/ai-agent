@@ -360,39 +360,207 @@
     </div>
 
     <div>
-      <p class="eyebrow"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg> Meet Casey</p>
+      <p class="eyebrow"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg> Hear Casey speak</p>
       <h2 class="h2" style="margin:1.1rem 0 .95rem">Warm, clinic-trained, and never flustered.</h2>
-      <p class="lead">Casey isn't a phone tree with a nicer voice. It understands what patients mean,
-        holds a real conversation, and knows exactly when to stop and fetch a human.</p>
+      <p class="lead">Casey isn't a phone tree with a nicer voice. Press play on any of these three
+        calls — booking, a refill, and a caller who just wants a human — and listen to how it
+        actually handles them.</p>
       <p style="margin-top:1rem;font-size:var(--t-sm);color:var(--ink-3)">Casey identifies itself as
-        an assistant on every call. Patients who ask for a person get one immediately.</p>
+        an assistant on every call. Patients who ask for a person get one immediately, as the third
+        call shows.</p>
 
-      <div class="player" id="player">
-        <div class="player__top">
-          <button class="player__btn" aria-label="Play demo call">
-            <svg class="i icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3l14 9-14 9z"/></svg><svg class="i icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
-          </button>
-          <div class="player__meta">
-            <p class="player__title">Emergency booking · 1 min 52 s</p>
-            <p class="player__sub">Unedited. Chipped tooth, same-day slot, insurance check.</p>
-          </div>
-        </div>
-        <div class="player__wave" aria-hidden="true"></div>
-        <div class="player__transcript">
-          <div class="tline tline--c">
-            <span class="tline__who">Casey</span><span>Good morning, Lakeview Dental — this is Casey, the practice assistant. How can I help?</span>
-          </div><div class="tline tline--p">
-            <span class="tline__who">Caller</span><span>Hi, I chipped a tooth last night. Can someone see me today?</span>
-          </div><div class="tline tline--c">
-            <span class="tline__who">Casey</span><span>I’m sorry, that sounds painful. I have an emergency slot with Dr. Alvarez at 2:40 this afternoon. Shall I hold that for you?</span>
-          </div><div class="tline tline--p">
-            <span class="tline__who">Caller</span><span>Yes please. And do you take Delta Dental?</span>
-          </div><div class="tline tline--c">
-            <span class="tline__who">Casey</span><span>We do. I’ll take your member ID to check your benefits, then send a confirmation and directions by text before we hang up.</span>
-          </div>
+      <div class="player" id="player" data-player>
+  <div class="player__tabs" role="tablist" aria-label="Choose a demo call">
+    <button class="player__tab" role="tab" id="tab-1"
+      aria-selected="true" aria-controls="pane-1" data-call="1"
+      tabindex="0">
+      <span class="player__tabTag">Dental · 0:39</span>
+      <span>Emergency booking</span>
+    </button><button class="player__tab" role="tab" id="tab-2"
+      aria-selected="false" aria-controls="pane-2" data-call="2"
+      tabindex="-1">
+      <span class="player__tabTag">Primary care · 0:38</span>
+      <span>Prescription refill</span>
+    </button><button class="player__tab" role="tab" id="tab-3"
+      aria-selected="false" aria-controls="pane-3" data-call="3"
+      tabindex="-1">
+      <span class="player__tabTag">After hours · 0:21</span>
+      <span>Escalation to a human</span>
+    </button>
+  </div>
+
+  <div class="player__body">
+    <div class="player__pane" id="pane-1" role="tabpanel"
+      aria-labelledby="tab-1" data-pane="1" data-src="assets/audio/demo-1.mp3"
+      data-duration="39.16">
+      <p class="player__blurb">A chipped tooth at 8am. Casey finds a same-day slot and checks the insurance.</p>
+
+      <div class="player__top">
+        <button class="player__btn" data-play aria-label="Play the emergency booking call">
+          <span class="player__spin" aria-hidden="true"></span>
+          <svg class="i icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3l14 9-14 9z"/></svg><svg class="i icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+        </button>
+        <div class="player__meta">
+          <p class="player__title">Emergency booking</p>
+          <p class="player__sub"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg> Casey’s real voice · unedited · 5 turns</p>
         </div>
       </div>
+
+      <div class="player__seek" data-seek role="slider" tabindex="0"
+           aria-label="Seek within the call" aria-valuemin="0"
+           aria-valuemax="39" aria-valuenow="0"
+           aria-valuetext="0 seconds of 39">
+        <div class="player__wave" aria-hidden="true"><span class="player__bar" style="height:81%"></span><span class="player__bar" style="height:88%"></span><span class="player__bar" style="height:83%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:52%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:81%"></span><span class="player__bar" style="height:36%"></span><span class="player__bar" style="height:51%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:70%"></span><span class="player__bar" style="height:21%"></span><span class="player__bar" style="height:97%"></span><span class="player__bar" style="height:20%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:93%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:13%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:83%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:42%"></span><span class="player__bar" style="height:76%"></span><span class="player__bar" style="height:99%"></span><span class="player__bar" style="height:19%"></span><span class="player__bar" style="height:71%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:51%"></span><span class="player__bar" style="height:36%"></span><span class="player__bar" style="height:12%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:98%"></span><span class="player__bar" style="height:82%"></span><span class="player__bar" style="height:90%"></span><span class="player__bar" style="height:70%"></span><span class="player__bar" style="height:55%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:71%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:85%"></span><span class="player__bar" style="height:32%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:97%"></span><span class="player__bar" style="height:91%"></span><span class="player__bar" style="height:75%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:99%"></span><span class="player__bar" style="height:99%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:16%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:91%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:20%"></span><span class="player__bar" style="height:45%"></span><span class="player__bar" style="height:86%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:63%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:92%"></span><span class="player__bar" style="height:23%"></span><span class="player__bar" style="height:63%"></span><span class="player__bar" style="height:31%"></span><span class="player__bar" style="height:88%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:39%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:39%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:75%"></span><span class="player__bar" style="height:57%"></span><span class="player__bar" style="height:72%"></span><span class="player__bar" style="height:59%"></span><span class="player__bar" style="height:97%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:82%"></span><span class="player__bar" style="height:42%"></span></div>
+        <div class="player__wave player__wave--fill" data-fill aria-hidden="true"><span class="player__bar" style="height:81%"></span><span class="player__bar" style="height:88%"></span><span class="player__bar" style="height:83%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:52%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:81%"></span><span class="player__bar" style="height:36%"></span><span class="player__bar" style="height:51%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:70%"></span><span class="player__bar" style="height:21%"></span><span class="player__bar" style="height:97%"></span><span class="player__bar" style="height:20%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:93%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:13%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:83%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:42%"></span><span class="player__bar" style="height:76%"></span><span class="player__bar" style="height:99%"></span><span class="player__bar" style="height:19%"></span><span class="player__bar" style="height:71%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:51%"></span><span class="player__bar" style="height:36%"></span><span class="player__bar" style="height:12%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:98%"></span><span class="player__bar" style="height:82%"></span><span class="player__bar" style="height:90%"></span><span class="player__bar" style="height:70%"></span><span class="player__bar" style="height:55%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:71%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:85%"></span><span class="player__bar" style="height:32%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:97%"></span><span class="player__bar" style="height:91%"></span><span class="player__bar" style="height:75%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:99%"></span><span class="player__bar" style="height:99%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:16%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:91%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:20%"></span><span class="player__bar" style="height:45%"></span><span class="player__bar" style="height:86%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:63%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:92%"></span><span class="player__bar" style="height:23%"></span><span class="player__bar" style="height:63%"></span><span class="player__bar" style="height:31%"></span><span class="player__bar" style="height:88%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:39%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:39%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:75%"></span><span class="player__bar" style="height:57%"></span><span class="player__bar" style="height:72%"></span><span class="player__bar" style="height:59%"></span><span class="player__bar" style="height:97%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:82%"></span><span class="player__bar" style="height:42%"></span></div>
+        <span class="player__head" data-head aria-hidden="true"></span>
+      </div>
+      <div class="player__times">
+        <span data-cur>0:00</span><span>0:39</span>
+      </div>
+
+      <div class="player__transcript" data-transcript>
+        <button class="tline tline--c"
+          data-start="0" data-end="5.128">
+          <span class="tline__who">Casey</span>
+          <span class="tline__txt">Good morning, Lakeview Dental. This is Casey, the practice assistant. How can I help you today?</span>
+        </button><button class="tline tline--p"
+          data-start="5.468" data-end="15.037">
+          <span class="tline__who">Caller</span>
+          <span class="tline__txt">Hi. I chipped a tooth last night and it’s pretty sore. Is there any chance someone could see me today?</span>
+        </button><button class="tline tline--c"
+          data-start="15.377" data-end="27.523">
+          <span class="tline__who">Casey</span>
+          <span class="tline__txt">Oh, I’m sorry, that sounds painful. Let me check today’s emergency slots for you. I have an opening with Doctor Alvarez at two forty this afternoon. Would that work?</span>
+        </button><button class="tline tline--p"
+          data-start="27.863" data-end="31.907">
+          <span class="tline__who">Caller</span>
+          <span class="tline__txt">Yes, please. And do you take Delta Dental?</span>
+        </button><button class="tline tline--c"
+          data-start="32.247" data-end="39.16">
+          <span class="tline__who">Casey</span>
+          <span class="tline__txt">We do. I’ll take your member ID to check your benefits, and I’ll text you a confirmation with directions before we hang up.</span>
+        </button>
+      </div>
+
+      <p class="player__outcome"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg> <span>Booked with Dr. Alvarez at 2:40pm · written to Dentrix · SMS sent</span></p>
+    </div><div class="player__pane" id="pane-2" role="tabpanel"
+      aria-labelledby="tab-2" data-pane="2" data-src="assets/audio/demo-2.mp3"
+      data-duration="38.13" hidden>
+      <p class="player__blurb">Casey reads the chart, confirms the pharmacy, and routes it to the provider.</p>
+
+      <div class="player__top">
+        <button class="player__btn" data-play aria-label="Play the prescription refill call">
+          <span class="player__spin" aria-hidden="true"></span>
+          <svg class="i icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3l14 9-14 9z"/></svg><svg class="i icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+        </button>
+        <div class="player__meta">
+          <p class="player__title">Prescription refill</p>
+          <p class="player__sub"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg> Casey’s real voice · unedited · 5 turns</p>
+        </div>
+      </div>
+
+      <div class="player__seek" data-seek role="slider" tabindex="0"
+           aria-label="Seek within the call" aria-valuemin="0"
+           aria-valuemax="38" aria-valuenow="0"
+           aria-valuetext="0 seconds of 38">
+        <div class="player__wave" aria-hidden="true"><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:72%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:85%"></span><span class="player__bar" style="height:70%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:53%"></span><span class="player__bar" style="height:50%"></span><span class="player__bar" style="height:91%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:33%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:55%"></span><span class="player__bar" style="height:39%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:51%"></span><span class="player__bar" style="height:27%"></span><span class="player__bar" style="height:13%"></span><span class="player__bar" style="height:53%"></span><span class="player__bar" style="height:40%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:70%"></span><span class="player__bar" style="height:95%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:86%"></span><span class="player__bar" style="height:50%"></span><span class="player__bar" style="height:73%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:71%"></span><span class="player__bar" style="height:58%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:81%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:60%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:55%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:82%"></span><span class="player__bar" style="height:56%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:89%"></span><span class="player__bar" style="height:37%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:85%"></span><span class="player__bar" style="height:94%"></span><span class="player__bar" style="height:90%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:83%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:15%"></span><span class="player__bar" style="height:86%"></span><span class="player__bar" style="height:53%"></span><span class="player__bar" style="height:57%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:57%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:87%"></span><span class="player__bar" style="height:8%"></span><span class="player__bar" style="height:47%"></span><span class="player__bar" style="height:55%"></span><span class="player__bar" style="height:89%"></span><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:47%"></span><span class="player__bar" style="height:13%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:48%"></span><span class="player__bar" style="height:57%"></span><span class="player__bar" style="height:48%"></span><span class="player__bar" style="height:63%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:46%"></span></div>
+        <div class="player__wave player__wave--fill" data-fill aria-hidden="true"><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:72%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:85%"></span><span class="player__bar" style="height:70%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:53%"></span><span class="player__bar" style="height:50%"></span><span class="player__bar" style="height:91%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:33%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:55%"></span><span class="player__bar" style="height:39%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:51%"></span><span class="player__bar" style="height:27%"></span><span class="player__bar" style="height:13%"></span><span class="player__bar" style="height:53%"></span><span class="player__bar" style="height:40%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:70%"></span><span class="player__bar" style="height:95%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:86%"></span><span class="player__bar" style="height:50%"></span><span class="player__bar" style="height:73%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:71%"></span><span class="player__bar" style="height:58%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:81%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:60%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:55%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:82%"></span><span class="player__bar" style="height:56%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:89%"></span><span class="player__bar" style="height:37%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:85%"></span><span class="player__bar" style="height:94%"></span><span class="player__bar" style="height:90%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:83%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:15%"></span><span class="player__bar" style="height:86%"></span><span class="player__bar" style="height:53%"></span><span class="player__bar" style="height:57%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:57%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:87%"></span><span class="player__bar" style="height:8%"></span><span class="player__bar" style="height:47%"></span><span class="player__bar" style="height:55%"></span><span class="player__bar" style="height:89%"></span><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:47%"></span><span class="player__bar" style="height:13%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:48%"></span><span class="player__bar" style="height:57%"></span><span class="player__bar" style="height:48%"></span><span class="player__bar" style="height:63%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:46%"></span></div>
+        <span class="player__head" data-head aria-hidden="true"></span>
+      </div>
+      <div class="player__times">
+        <span data-cur>0:00</span><span>0:38</span>
+      </div>
+
+      <div class="player__transcript" data-transcript>
+        <button class="tline tline--c"
+          data-start="0" data-end="6.616">
+          <span class="tline__who">Casey</span>
+          <span class="tline__txt">Thanks for calling Lakeview Primary Care. This is Casey, the practice assistant. How can I help?</span>
+        </button><button class="tline tline--p"
+          data-start="6.956" data-end="12.058">
+          <span class="tline__who">Caller</span>
+          <span class="tline__txt">Hi, I need a refill on my blood pressure medication. I’m nearly out.</span>
+        </button><button class="tline tline--c"
+          data-start="12.398" data-end="22.931">
+          <span class="tline__who">Casey</span>
+          <span class="tline__txt">Of course. I can see the lisinopril ten milligram on your chart, last filled in April at the Walgreens on Fifth Street. Shall I send the request to Doctor Mehta at that same pharmacy?</span>
+        </button><button class="tline tline--p"
+          data-start="23.271" data-end="28.082">
+          <span class="tline__who">Caller</span>
+          <span class="tline__txt">Yes, that’s the one. How long will that take?</span>
+        </button><button class="tline tline--c"
+          data-start="28.422" data-end="38.132">
+          <span class="tline__who">Casey</span>
+          <span class="tline__txt">Doctor Mehta reviews refill requests twice a day, so you should hear from the pharmacy by this evening. I’m adding this to your chart now, and I’ll text you the moment it’s approved.</span>
+        </button>
+      </div>
+
+      <p class="player__outcome"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg> <span>Refill request routed to Dr. Mehta · telephone encounter written to chart</span></p>
+    </div><div class="player__pane" id="pane-3" role="tabpanel"
+      aria-labelledby="tab-3" data-pane="3" data-src="assets/audio/demo-3.mp3"
+      data-duration="21.53" hidden>
+      <p class="player__blurb">After hours, a caller wants a person. Casey stops and transfers immediately.</p>
+
+      <div class="player__top">
+        <button class="player__btn" data-play aria-label="Play the escalation to a human call">
+          <span class="player__spin" aria-hidden="true"></span>
+          <svg class="i icon-play" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3l14 9-14 9z"/></svg><svg class="i icon-pause" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>
+        </button>
+        <div class="player__meta">
+          <p class="player__title">Escalation to a human</p>
+          <p class="player__sub"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg> Casey’s real voice · unedited · 3 turns</p>
+        </div>
+      </div>
+
+      <div class="player__seek" data-seek role="slider" tabindex="0"
+           aria-label="Seek within the call" aria-valuemin="0"
+           aria-valuemax="22" aria-valuenow="0"
+           aria-valuetext="0 seconds of 22">
+        <div class="player__wave" aria-hidden="true"><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:36%"></span><span class="player__bar" style="height:81%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:94%"></span><span class="player__bar" style="height:52%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:20%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:29%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:89%"></span><span class="player__bar" style="height:47%"></span><span class="player__bar" style="height:45%"></span><span class="player__bar" style="height:28%"></span><span class="player__bar" style="height:60%"></span><span class="player__bar" style="height:83%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:71%"></span><span class="player__bar" style="height:50%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:59%"></span><span class="player__bar" style="height:26%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:97%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:52%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:91%"></span><span class="player__bar" style="height:33%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:20%"></span><span class="player__bar" style="height:26%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:11%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:48%"></span><span class="player__bar" style="height:59%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:92%"></span><span class="player__bar" style="height:36%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:34%"></span><span class="player__bar" style="height:31%"></span><span class="player__bar" style="height:11%"></span><span class="player__bar" style="height:28%"></span><span class="player__bar" style="height:25%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:51%"></span><span class="player__bar" style="height:59%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:24%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:63%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:41%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:26%"></span><span class="player__bar" style="height:73%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:31%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:8%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:88%"></span><span class="player__bar" style="height:18%"></span><span class="player__bar" style="height:56%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:72%"></span><span class="player__bar" style="height:53%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:50%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:19%"></span></div>
+        <div class="player__wave player__wave--fill" data-fill aria-hidden="true"><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:74%"></span><span class="player__bar" style="height:36%"></span><span class="player__bar" style="height:81%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:94%"></span><span class="player__bar" style="height:52%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:20%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:29%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:89%"></span><span class="player__bar" style="height:47%"></span><span class="player__bar" style="height:45%"></span><span class="player__bar" style="height:28%"></span><span class="player__bar" style="height:60%"></span><span class="player__bar" style="height:83%"></span><span class="player__bar" style="height:69%"></span><span class="player__bar" style="height:71%"></span><span class="player__bar" style="height:50%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:77%"></span><span class="player__bar" style="height:59%"></span><span class="player__bar" style="height:26%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:97%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:52%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:91%"></span><span class="player__bar" style="height:33%"></span><span class="player__bar" style="height:68%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:67%"></span><span class="player__bar" style="height:20%"></span><span class="player__bar" style="height:26%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:46%"></span><span class="player__bar" style="height:11%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:48%"></span><span class="player__bar" style="height:59%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:92%"></span><span class="player__bar" style="height:36%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:34%"></span><span class="player__bar" style="height:31%"></span><span class="player__bar" style="height:11%"></span><span class="player__bar" style="height:28%"></span><span class="player__bar" style="height:25%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:51%"></span><span class="player__bar" style="height:59%"></span><span class="player__bar" style="height:100%"></span><span class="player__bar" style="height:62%"></span><span class="player__bar" style="height:24%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:63%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:43%"></span><span class="player__bar" style="height:41%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:64%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:26%"></span><span class="player__bar" style="height:73%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:31%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:6%"></span><span class="player__bar" style="height:8%"></span><span class="player__bar" style="height:49%"></span><span class="player__bar" style="height:80%"></span><span class="player__bar" style="height:65%"></span><span class="player__bar" style="height:88%"></span><span class="player__bar" style="height:18%"></span><span class="player__bar" style="height:56%"></span><span class="player__bar" style="height:61%"></span><span class="player__bar" style="height:72%"></span><span class="player__bar" style="height:53%"></span><span class="player__bar" style="height:54%"></span><span class="player__bar" style="height:50%"></span><span class="player__bar" style="height:66%"></span><span class="player__bar" style="height:19%"></span></div>
+        <span class="player__head" data-head aria-hidden="true"></span>
+      </div>
+      <div class="player__times">
+        <span data-cur>0:00</span><span>0:21</span>
+      </div>
+
+      <div class="player__transcript" data-transcript>
+        <button class="tline tline--c"
+          data-start="0" data-end="7.959">
+          <span class="tline__who">Casey</span>
+          <span class="tline__txt">You’ve reached Lakeview Dental after hours. This is Casey, the practice assistant. I can book appointments or take a message. What do you need?</span>
+        </button><button class="tline tline--p"
+          data-start="8.299" data-end="13.318">
+          <span class="tline__who">Caller</span>
+          <span class="tline__txt">Honestly, I’d rather just speak to a person. My son fell and his front tooth is bleeding.</span>
+        </button><button class="tline tline--c"
+          data-start="13.658" data-end="21.534">
+          <span class="tline__who">Casey</span>
+          <span class="tline__txt">That needs a person right now. I’m connecting you to the on-call dentist this second. Please stay on the line, you’ll hear ringing in just a moment.</span>
+        </button>
+      </div>
+
+      <p class="player__outcome"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg> <span>Transferred to the on-call dentist in 6 seconds · no triage attempted</span></p>
     </div>
+    <p class="player__err" data-err hidden>That audio could not load. The full transcript is above,
+      and you can always <a href="demo.html">book a live demo</a> instead.</p>
+  </div>
+</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec sec--tight">
+  <div class="wrap">
+    
+<div class="shead shead--c">
+  <p class="eyebrow"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 8h9M9 4v4c0 4-1.8 7.5-5 9"/><path d="M9 11c0 3.5 2.4 6.5 6 8"/><path d="M22 22l-5-11-5 11M14.5 18h5"/></svg> 20+ languages</p>
+  <h2 class="h2">Casey answers in the patient’s language.</h2>
+  <p class="lead">Detected automatically on the call. No separate line, no interpreter queue, no asking a patient to call back with a family member.</p>
+</div>
+    <div class="langs">
+  <span class="lang"><b>EN</b> English</span><span class="lang"><b>ES</b> Spanish</span><span class="lang"><b>ZH</b> Mandarin</span><span class="lang"><b>VI</b> Vietnamese</span><span class="lang"><b>TL</b> Tagalog</span><span class="lang"><b>AR</b> Arabic</span><span class="lang"><b>RU</b> Russian</span><span class="lang"><b>PT</b> Portuguese</span><span class="lang"><b>FR</b> French</span><span class="lang"><b>KO</b> Korean</span><span class="lang"><b>HT</b> Haitian Creole</span><span class="lang"><b>HI</b> Hindi</span><span class="lang"><b>BN</b> Bengali</span><span class="lang"><b>UR</b> Urdu</span><span class="lang"><b>PL</b> Polish</span><span class="lang"><b>IT</b> Italian</span><span class="lang"><b>DE</b> German</span><span class="lang"><b>JA</b> Japanese</span><span class="lang"><b>SO</b> Somali</span><span class="lang"><b>NE</b> Nepali</span><span class="lang"><b>UK</b> Ukrainian</span><span class="lang"><b>FA</b> Farsi</span>
+</div>
   </div>
 </section>
 
@@ -1069,6 +1237,13 @@
 </footer>
 
 <button class="totop" id="totop" aria-label="Back to top" hidden><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
+
+<div class="mcta" id="mcta">
+  <a class="btn btn--ghost btn--sm mcta__tel" href="tel:+15717034510"
+     aria-label="Call 1-571-703-4510"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2.1z"/></svg></a>
+  <a class="btn btn--primary btn--sm" href="demo.html">Book a Demo</a>
+  <a class="btn btn--outline btn--sm" href="roi-calculator.html"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M4 21v-7M4 10V3M12 21v-9M12 8V3M20 21v-5M20 12V3M1 14h6M9 8h6M17 16h6"/></svg> ROI</a>
+</div>
 <script src="assets/js/main.js" defer></script>
 </body>
 </html>
