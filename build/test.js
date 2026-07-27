@@ -222,6 +222,87 @@ async function goto(page) {
     `paused=${play3.paused} t=${play3.t}`);
   ok('third call uses demo-3.mp3', /demo-3\.mp3$/.test(play3.src || ''), play3.src);
 
+  console.log('\n  CAPABILITY EXPLORER');
+  await goto('index.html');
+  const capInit = await evalIn(`
+    const c = document.querySelector('[data-cap]');
+    return { tabs: c.querySelectorAll('[data-cap-tab]').length,
+             panes: c.querySelectorAll('[data-cap-pane]').length,
+             visible: [...c.querySelectorAll('[data-cap-pane]')].filter(p => !p.hidden).length,
+             bubbles: c.querySelector('[data-cap-pane]:not([hidden])')
+                       .querySelectorAll('.cbub').length,
+             playable: c.querySelectorAll('[data-cap-play]').length };
+  `);
+  ok('explorer has 10 capability tabs', capInit.tabs === 10, 'tabs=' + capInit.tabs);
+  ok('explorer has 10 panes', capInit.panes === 10, 'panes=' + capInit.panes);
+  ok('exactly one pane visible', capInit.visible === 1, 'visible=' + capInit.visible);
+  ok('visible pane shows a 2-turn exchange', capInit.bubbles === 2, 'bubbles=' + capInit.bubbles);
+  ok('3 capabilities offer real audio', capInit.playable === 3, 'playable=' + capInit.playable);
+
+  const capSwitch = await evalIn(`
+    const c = document.querySelector('[data-cap]');
+    const tabs = c.querySelectorAll('[data-cap-tab]');
+    tabs[4].click();
+    await new Promise(r => setTimeout(r, 250));
+    const pane = c.querySelector('[data-cap-pane]:not([hidden])');
+    return { slug: pane.dataset.capPane, sel: tabs[4].getAttribute('aria-selected'),
+             firstSel: tabs[0].getAttribute('aria-selected'),
+             title: pane.querySelector('.cap__h').textContent.trim() };
+  `);
+  ok('clicking a tab switches the pane', capSwitch.slug === 'reminders-recalls', capSwitch.slug);
+  ok('new tab is aria-selected', capSwitch.sel === 'true');
+  ok('previous tab is deselected', capSwitch.firstSel === 'false');
+  ok('pane title matches the tab', capSwitch.title === 'Patient Reminders & Recalls', capSwitch.title);
+
+  const capKeys = await evalIn(`
+    const tabs = document.querySelectorAll('[data-cap-tab]');
+    tabs[4].focus();
+    tabs[4].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    await new Promise(r => setTimeout(r, 200));
+    return document.querySelector('[data-cap-pane]:not([hidden])').dataset.capPane;
+  `);
+  ok('arrow keys move between tabs', capKeys === 'sms-followups', 'landed on ' + capKeys);
+
+  // "Hear this call" must hand off to the real player and actually start audio.
+  const handoff = await evalIn(`
+    const c = document.querySelector('[data-cap]');
+    c.querySelectorAll('[data-cap-tab]')[8].click();      // Call Routing -> demo 3
+    await new Promise(r => setTimeout(r, 200));
+    c.querySelector('[data-cap-pane]:not([hidden]) [data-cap-play]').click();
+    await new Promise(r => setTimeout(r, 3000));
+    const p = document.querySelector('[data-player]');
+    const a = p.querySelector('audio');
+    return { pane: p.querySelector('[data-pane]:not([hidden])').dataset.pane,
+             src: (a.currentSrc || '').split('/').pop(),
+             paused: a.paused, t: a.currentTime };
+  `);
+  ok('handoff selects the matching player tab', handoff.pane === '3', 'pane=' + handoff.pane);
+  ok('handoff loads demo-3.mp3', /demo-3\.mp3$/.test(handoff.src || ''), handoff.src);
+  ok('handoff starts playback', handoff.paused === false && handoff.t > 0.5,
+    `paused=${handoff.paused} t=${handoff.t}`);
+
+  console.log('\n  BRAND');
+  const brand = await evalIn(`
+    const svg = document.querySelector('.logo__svg');
+    const cs = getComputedStyle(document.documentElement);
+    return { hasMark: !!svg,
+             viewBox: svg.getAttribute('viewBox'),
+             paths: svg.querySelectorAll('path').length,
+             ids: new Set([...document.querySelectorAll('.logo__svg linearGradient')]
+                    .map(g => g.id)).size,
+             marks: document.querySelectorAll('.logo__svg').length,
+             brand: cs.getPropertyValue('--brand-600').trim(),
+             accent: cs.getPropertyValue('--accent-500').trim(),
+             violet: cs.getPropertyValue('--violet-600').trim() };
+  `);
+  ok('brand mark renders as SVG', brand.hasMark === true);
+  ok('mark uses the wide 72x30 lemniscate', brand.viewBox === '0 0 72 30', brand.viewBox);
+  ok('gradient ids are unique per instance', brand.ids === brand.marks,
+    `${brand.ids} ids for ${brand.marks} marks`);
+  ok('palette is blue', brand.brand.toUpperCase() === '#3A49CE', brand.brand);
+  ok('palette has orange', brand.accent.toUpperCase() === '#FF8125', brand.accent);
+  ok('palette has purple', brand.violet.toUpperCase() === '#7C3AED', brand.violet);
+
   console.log('\n  NAVIGATION');
   await goto('index.html');
   const mega = await evalIn(`

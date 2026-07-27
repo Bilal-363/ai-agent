@@ -67,14 +67,17 @@ for (const p of pages) {
 
 /* --------------------------------------------------------------- favicon */
 
+// The full lemniscate turns to mush at 16px, so the favicon is a filled badge
+// carrying the same waveform and the same blue -> purple -> orange gradient.
 write(
   'favicon.svg',
   `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40">
   <rect width="40" height="40" rx="11" fill="url(#g)"/>
-  <path d="M11 20.5v-1M15 24v-8M19 27v-14M23 24.5v-9M27 21.5v-3"
-        stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
+  <path d="M9 21.5v-3M14 25v-10M20 28.5v-17M26 25v-10M31 21.5v-3"
+        stroke="#fff" stroke-width="2.8" stroke-linecap="round"/>
   <defs><linearGradient id="g" x1="0" y1="0" x2="40" y2="40">
-    <stop stop-color="#0F766E"/><stop offset="1" stop-color="#2DD4BF"/>
+    <stop stop-color="#3A49CE"/><stop offset=".55" stop-color="#7C3AED"/>
+    <stop offset="1" stop-color="#FF8125"/>
   </linearGradient></defs>
 </svg>`
 );
@@ -90,8 +93,8 @@ write(
       description: site.tagline,
       start_url: '/',
       display: 'standalone',
-      background_color: '#FDFBF7',
-      theme_color: '#0F766E',
+      background_color: '#FFFFFF',
+      theme_color: '#3A49CE',
       icons: [
         { src: '/favicon.svg', sizes: 'any', type: 'image/svg+xml', purpose: 'any' },
         { src: '/assets/img/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },

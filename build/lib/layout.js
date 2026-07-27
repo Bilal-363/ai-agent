@@ -14,19 +14,44 @@ const YEAR = 2026;
 
 /* --------------------------------------------------------------------- brand */
 
-const logo = (cls = '') => `
+/* ------------------------------------------------------------- brand mark */
+
+// A lemniscate — the continuous "always answering" loop — carrying a voice
+// waveform inside the ribbon. Drawn as SVG rather than shipping the raster
+// original so it stays sharp, themes with the palette, and needs no background.
+// Wide loops (2.4:1) so the figure-eight still reads as one at ~50px, where a
+// squarer lemniscate collapses into a pair of rings.
+const INFINITY_PATH =
+  'M36 15C30 4 8 4 8 15s22 11 28 0 22-11 28 0-22 11-28 0Z';
+
+/* Deliberately no waveform inside the header mark. Bars thin enough to fit a
+ * 5px stroke vanish, and knocking notches out of it severs the loop — both were
+ * tried. The waveform lives in the favicon badge, where a filled shape has room
+ * for it. Here the unbroken gradient ribbon is the mark. */
+const logoMark = (id) => `<svg class="logo__svg" viewBox="0 0 72 30" fill="none"
+  role="img" aria-hidden="true" focusable="false">
+  <defs>
+    <linearGradient id="vg-${id}" x1="8" y1="4" x2="64" y2="26" gradientUnits="userSpaceOnUse">
+      <stop stop-color="var(--brand-600)"/>
+      <stop offset=".5" stop-color="var(--violet-600)"/>
+      <stop offset="1" stop-color="var(--accent-500)"/>
+    </linearGradient>
+  </defs>
+  <path d="${INFINITY_PATH}" stroke="url(#vg-${id})" stroke-width="7"
+        stroke-linejoin="round" stroke-linecap="round"/>
+</svg>`;
+
+let logoSeq = 0;
+const logo = (cls = '') => {
+  // Gradient and mask ids must be unique per instance — the header and footer
+  // marks both appear in the same document.
+  const id = ++logoSeq;
+  return `
 <a class="logo${cls ? ' ' + cls : ''}" href="${u('/index.html')}" aria-label="${site.name} — home">
-  <span class="logo__mark" aria-hidden="true">
-    <svg viewBox="0 0 40 40" fill="none" aria-hidden="true">
-      <rect width="40" height="40" rx="11" fill="url(#lg)"/>
-      <path d="M11 20.5v-1M15 24v-8M19 27v-14M23 24.5v-9M27 21.5v-3" stroke="#fff" stroke-width="2.6" stroke-linecap="round"/>
-      <defs><linearGradient id="lg" x1="0" y1="0" x2="40" y2="40">
-        <stop stop-color="#0F766E"/><stop offset="1" stop-color="#2DD4BF"/>
-      </linearGradient></defs>
-    </svg>
-  </span>
-  <span class="logo__text">Vocryn<span class="logo__ai">AI</span></span>
+  <span class="logo__mark">${logoMark(id)}</span>
+  <span class="logo__text">Vocryn<span class="logo__ai">.Ai</span></span>
 </a>`;
+};
 
 /* ----------------------------------------------------------------- mega menu */
 
@@ -283,8 +308,8 @@ function page(o) {
 <title>${esc(fullTitle)}</title>
 <meta name="description" content="${esc(desc)}">
 <link rel="canonical" href="${canonical}">
-<meta name="theme-color" content="#0B5D57" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#07100F" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#3A49CE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#070B1C" media="(prefers-color-scheme: dark)">
 <meta name="robots" content="index,follow,max-image-preview:large">
 
 <meta property="og:type" content="website">

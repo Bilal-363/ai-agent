@@ -472,6 +472,54 @@
     paint(0);
   }
 
+  /* ------------------------------------------ 8b. Capability explorer */
+
+  const cap = $('[data-cap]');
+  if (cap) {
+    const tabs = $$('[data-cap-tab]', cap);
+
+    const show = (slug) => {
+      tabs.forEach((t) => {
+        const on = t.dataset.capTab === slug;
+        t.setAttribute('aria-selected', String(on));
+        t.tabIndex = on ? 0 : -1;
+      });
+      $$('[data-cap-pane]', cap).forEach((p) => { p.hidden = p.dataset.capPane !== slug; });
+    };
+
+    tabs.forEach((tab, i) => {
+      tab.addEventListener('click', () => show(tab.dataset.capTab));
+      tab.addEventListener('keydown', (e) => {
+        // Vertical list on desktop, horizontal strip on mobile — accept both axes.
+        const d = /ArrowDown|ArrowRight/.test(e.key) ? 1
+          : /ArrowUp|ArrowLeft/.test(e.key) ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        const n = tabs[(i + d + tabs.length) % tabs.length];
+        n.focus();
+        n.click();
+      });
+    });
+
+    // "Hear this call" hands off to the real player: select its matching tab,
+    // scroll it into view, then start playback.
+    $$('[data-cap-play]', cap).forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const want = btn.dataset.capPlay;
+        const target = $(`.player__tab[data-call="${want}"]`);
+        if (!target) return;
+        target.click();
+        const box = $('[data-player]');
+        box.scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'center' });
+        const start = () => {
+          const play = $('[data-pane]:not([hidden]) [data-play]', box);
+          if (play) play.click();
+        };
+        reduced ? start() : setTimeout(start, 520);
+      });
+    });
+  }
+
   /* ------------------------------------------------------- 9. Filters */
 
   $$('[data-filter-group]').forEach((group) => {

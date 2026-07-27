@@ -71,6 +71,16 @@ const SHOTS = [
     `document.querySelector('.intg__tel').scrollIntoView({ block: 'end' })`],
   ['integrations-390', 'integrations.html', 390, 844, 'light',
     `document.querySelector('.intg__tel').scrollIntoView({ block: 'end' })`],
+  ['cap-1440', 'index.html', 1440, 980, 'light',
+    `document.querySelector('[data-cap]').scrollIntoView({ block: 'center' })`],
+  ['cap-1440-alt', 'index.html', 1440, 980, 'light',
+    `document.querySelectorAll('[data-cap-tab]')[4].click();
+     document.querySelector('[data-cap]').scrollIntoView({ block: 'center' })`],
+  ['cap-1440-dark', 'index.html', 1440, 980, 'dark',
+    `document.querySelector('[data-cap]').scrollIntoView({ block: 'center' })`],
+  ['cap-390', 'index.html', 390, 900, 'light',
+    `document.querySelector('[data-cap]').scrollIntoView({ block: 'start' }); scrollBy(0, -80)`],
+  ['logo-zoom', 'index.html', 640, 220, 'light', ''],
 ];
 
 const SETTLE = (extra) => `(async () => {

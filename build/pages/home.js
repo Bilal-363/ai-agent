@@ -54,7 +54,19 @@ const body = `
 
 ${C.marquee()}
 
-<section class="sec">
+<section class="sec" id="capabilities">
+  <div class="wrap">
+    ${C.shead({
+      eyebrow: 'What Casey handles',
+      eyebrowIcon: 'sparkles',
+      h: 'Improve patient access with AI',
+      lead: 'Every reason a patient picks up the phone, handled end to end. Pick one and see the actual exchange — three of them you can listen to.',
+    })}
+    ${C.capabilityExplorer()}
+  </div>
+</section>
+
+<section class="sec sec--alt">
   <div class="wrap">
     ${C.shead({
       eyebrow: 'The problem',
@@ -85,8 +97,8 @@ ${C.marquee()}
   </div>
 </section>
 
-<section class="sec sec--alt" id="demo">
-  <div class="wrap split">
+<section class="sec" id="demo">
+  <div class="wrap split split--top">
     <div class="casey__art reveal">
       <img class="casey__img" src="assets/img/casey.webp"
            srcset="assets/img/casey-sm.webp 380w, assets/img/casey.webp 760w"
@@ -123,20 +135,8 @@ ${C.marquee()}
   </div>
 </section>
 
-<section class="sec">
-  <div class="wrap">
-    ${C.shead({
-      eyebrow: 'Services',
-      eyebrowIcon: 'sparkles',
-      h: 'Everything a great front desk does — on every call.',
-      lead: 'Ten jobs Casey handles end to end. Hover any card, or open the Services menu above to see them all at once.',
-    })}
-    ${C.serviceCards()}
-    <div class="btnrow" style="justify-content:center;margin-top:2.5rem">
-      <a class="btn btn--ghost" href="${u('/services.html')}">Explore all services in detail ${icon('arrow-right')}</a>
-    </div>
-  </div>
-</section>
+<!-- The services grid used to sit here. The capability explorer above covers the
+     same ten services interactively, so repeating them as cards was pure padding. -->
 
 <section class="sec sec--alt">
   <div class="wrap">

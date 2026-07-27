@@ -191,6 +191,85 @@ const services = [
   },
 ];
 
+/* ------------------------------------------------- sample exchanges per service
+ * Feeds the interactive capability explorer on the home page. `call` points at a
+ * demo recording in build/lib/demo-calls.json where one exists, so the panel can
+ * offer to play the real thing instead of only showing text.
+ * `channels` marks whether the capability works on voice, SMS, or both.
+ */
+const samples = {
+  'appointment-booking': {
+    call: 1, channels: ['voice', 'sms'],
+    turns: [
+      ['patient', 'Hi, I need to come in for a cleaning. Do you have anything next week?'],
+      ['casey', 'I do — Tuesday at 10:20 with Dr. Alvarez, or Thursday at 3:00. Which suits you better?'],
+    ],
+  },
+  'insurance-verification': {
+    channels: ['voice', 'sms'],
+    turns: [
+      ['patient', 'Do you take Delta Dental? I switched plans in January.'],
+      ['casey', 'We do. Let me take your new member ID and group number, and I’ll verify your benefits before the visit.'],
+    ],
+  },
+  'prescription-refills': {
+    call: 2, channels: ['voice'],
+    turns: [
+      ['patient', 'I need a refill on my blood pressure medication.'],
+      ['casey', 'I can see the lisinopril on your chart, last filled in April. Shall I send the request to Dr. Mehta at your usual pharmacy?'],
+    ],
+  },
+  rescheduling: {
+    channels: ['voice', 'sms'],
+    turns: [
+      ['patient', 'Something’s come up — can I move Thursday’s appointment?'],
+      ['casey', 'Of course. I have Monday at 9:40 or Wednesday at 2:15. And I’ll offer your Thursday slot to the waitlist.'],
+    ],
+  },
+  'reminders-recalls': {
+    channels: ['voice', 'sms'], outbound: true,
+    turns: [
+      ['casey', 'Hello, this is Casey calling from Lakeview Dental. You’re due for your six-month cleaning — shall I book that now?'],
+      ['patient', 'Yes please, sometime after work if you have it.'],
+    ],
+  },
+  'sms-followups': {
+    channels: ['sms'],
+    turns: [
+      ['patient', 'Can you text me the address? I’m driving.'],
+      ['casey', 'Sent. You’ll have the address, a map link, and your appointment time on your phone now.'],
+    ],
+  },
+  'new-patient-intake': {
+    channels: ['voice', 'sms'],
+    turns: [
+      ['patient', 'I’m a new patient. Do I need to fill anything in before I come?'],
+      ['casey', 'I can take your details now and create your chart, then text you the two forms that need a signature. Check-in will take about a minute.'],
+    ],
+  },
+  'clinical-documentation': {
+    channels: ['voice'],
+    turns: [
+      ['patient', 'I’ve had a sore throat for four days and it’s getting worse.'],
+      ['casey', 'I’m not able to advise on that, but I’ll pass it to your provider now with everything you’ve told me, and someone will call you back today.'],
+    ],
+  },
+  'call-routing': {
+    call: 3, channels: ['voice'],
+    turns: [
+      ['patient', 'I’d rather just speak to a person.'],
+      ['casey', 'Of course — I’m connecting you now. Please stay on the line.'],
+    ],
+  },
+  'after-hours': {
+    channels: ['voice', 'sms'],
+    turns: [
+      ['patient', 'Are you open? It’s nearly nine at night.'],
+      ['casey', 'The practice is closed, but I can still book you in. I have tomorrow at 8:10 or Friday at 11:30 — or I can take a message for the team.'],
+    ],
+  },
+};
+
 /* ----------------------------------------------------------------- use cases */
 
 const useCases = [
@@ -709,7 +788,7 @@ const legalNav = [
 ];
 
 module.exports = {
-  site, heroStats, keyStats, trustBadges, services, useCases, integrations, telephony,
+  site, heroStats, keyStats, trustBadges, services, useCases, integrations, telephony, samples,
   steps, pricing, pricingIncludes, securityItems, faqs, testimonials, posts,
   nav, footerNav, legalNav,
 };

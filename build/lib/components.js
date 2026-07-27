@@ -383,6 +383,87 @@ function demoPlayer() {
 </div>`;
 }
 
+/* -------------------------------------------- capability explorer (tabbed) */
+
+const CHANNEL_LABEL = { voice: 'Voice supported', sms: 'Texting supported' };
+
+/**
+ * Vertical tab list of every capability, with a sample exchange, the channels it
+ * works on, and — where a real recording exists — a button that jumps to the demo
+ * player and plays it. No fake audio controls: the button only appears when there
+ * is genuinely something to hear.
+ */
+function capabilityExplorer() {
+  const rows = D.services.map((s) => ({ s, x: D.samples[s.slug] }));
+
+  return `<div class="cap" data-cap>
+  <div class="cap__tabs" role="tablist" aria-orientation="vertical"
+       aria-label="What Casey handles">
+    ${rows
+      .map(
+        ({ s }, i) => `<button class="cap__tab" role="tab" id="cap-t-${s.slug}"
+      aria-controls="cap-p-${s.slug}" aria-selected="${i === 0}" tabindex="${i === 0 ? 0 : -1}"
+      data-cap-tab="${s.slug}">
+      <span class="cap__tabIco">${icon(s.icon)}</span>
+      <span>${esc(s.title)}</span>
+    </button>`
+      )
+      .join('')}
+  </div>
+
+  <div class="cap__stage">
+    ${rows
+      .map(
+        ({ s, x }, i) => `<div class="cap__pane" role="tabpanel" id="cap-p-${s.slug}"
+      aria-labelledby="cap-t-${s.slug}" data-cap-pane="${s.slug}"${i === 0 ? '' : ' hidden'}>
+
+      <div class="cap__chat">
+        <div class="cap__chips">
+          ${x.channels
+            .map((ch) => `<span class="cap__chip">${icon(ch === 'voice' ? 'mic' : 'message-square')}
+            ${CHANNEL_LABEL[ch]}</span>`)
+            .join('')}
+        </div>
+        <div class="cap__marks">
+          ${D.integrations.slice(0, 4).map((n) => `<span>${esc(n.name)}</span>`).join('')}
+        </div>
+
+        <div class="cap__bubbles">
+          ${x.turns
+            .map(
+              ([who, text]) => `<div class="cbub cbub--${who}">
+            <span class="cbub__who">${who === 'casey' ? 'Casey' : 'Patient'}</span>
+            <p>${esc(text)}</p>
+          </div>`
+            )
+            .join('')}
+        </div>
+
+        ${x.call
+          ? `<button class="cap__play" data-cap-play="${x.call}">
+          <span class="cap__playIco">${icon('play')}</span>
+          <span><strong>Hear this call</strong><br>Real recording · plays below</span>
+        </button>`
+          : `<p class="cap__nocall">${icon(x.outbound ? 'bell' : 'message-square')}
+          ${x.outbound ? 'Casey opens this one — outbound call and text.'
+            : 'Handled on voice and in the same SMS thread.'}</p>`}
+      </div>
+
+      <div class="cap__info">
+        <span class="cap__ico">${icon(s.icon)}</span>
+        <h3 class="cap__h">${esc(s.title)}</h3>
+        <p class="cap__p">${esc(s.lead)}</p>
+        <div class="cap__stat"><b>${esc(s.stat.value)}</b><span>${esc(s.stat.label)}</span></div>
+        <a class="btn btn--primary btn--sm" href="${u('/services.html')}#${s.slug}">
+          Read more ${icon('arrow-right')}</a>
+      </div>
+    </div>`
+      )
+      .join('')}
+  </div>
+</div>`;
+}
+
 /* --------------------------------------------------------- languages strip */
 
 const LANGUAGES = [
@@ -420,4 +501,5 @@ module.exports = {
   crumbs, phero, shead, ticks, marquee, statBand, serviceCards, useCaseCards,
   stepsSection, testimonials, integrationsWall, securityGrid, pricingCards,
   faqList, roiCalculator, ctaSplit, demoPlayer, languagesStrip, calls, LANGUAGES,
+  capabilityExplorer,
 };

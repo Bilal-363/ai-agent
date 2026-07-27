@@ -373,7 +373,7 @@ ${C.phero({
               .map((v) => {
                 const cell =
                   v === 'yes'
-                    ? `<span style="color:var(--brand-600)">${icon('check')}</span>`
+                    ? `<span style="color:var(--brand-ink)">${icon('check')}</span>`
                     : v === 'no'
                     ? '<span style="color:var(--ink-4)">—</span>'
                     : `<span style="font-weight:700;color:var(--ink)">${esc(v)}</span>`;
@@ -550,7 +550,7 @@ ${C.phero({
     })}
     <div class="grid g2">
       <div class="deep__panel reveal">
-        <h3 class="h4" style="color:var(--brand-600)">What we can evidence today</h3>
+        <h3 class="h4" style="color:var(--brand-ink)">What we can evidence today</h3>
         <div class="mt2">${C.ticks([
           'A signed Business Associate Agreement before any patient call',
           'TLS 1.3 in transit and AES-256 at rest, with managed key rotation',
@@ -562,7 +562,7 @@ ${C.phero({
         ])}</div>
       </div>
       <div class="deep__panel reveal reveal-d2">
-        <h3 class="h4" style="color:var(--accent-600)">What we will not pretend</h3>
+        <h3 class="h4" style="color:var(--accent-ink)">What we will not pretend</h3>
         <div class="mt2" style="display:grid;gap:1.15rem;font-size:var(--t-sm);color:var(--ink-3)">
           <p><strong style="color:var(--ink)">We are not "HIPAA certified."</strong> Nobody is. HHS runs
             no certification programme, so any vendor claiming the badge is either careless or hoping
