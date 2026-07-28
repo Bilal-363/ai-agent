@@ -88,6 +88,12 @@ const SHOTS = [
     `const it = document.querySelector('[data-mega=\"useCases\"]');
      it.dispatchEvent(new MouseEvent('mouseenter'));
      await new Promise(r => setTimeout(r, 400))`],
+  ['ehr-1440', 'index.html', 1440, 900, 'light',
+    `document.querySelector('.ehr').scrollIntoView({ block: 'center' })`],
+  ['ehr-390', 'index.html', 390, 900, 'light',
+    `document.querySelector('.ehr').scrollIntoView({ block: 'center' })`],
+  ['hero-1440', 'index.html', 1440, 620, 'light', ''],
+  ['hero-1180', 'index.html', 1180, 560, 'light', ''],
   ['logo-zoom', 'index.html', 640, 200, 'light', ''],
   ['logo-zoom-dark', 'index.html', 640, 200, 'dark', ''],
   // The same mark at four sizes, so it can be judged where it actually gets used:

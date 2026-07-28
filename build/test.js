@@ -331,6 +331,79 @@ async function goto(page) {
   ok('palette has orange', brand.accent.toUpperCase() === '#FF8125', brand.accent);
   ok('palette has purple', brand.violet.toUpperCase() === '#7C3AED', brand.violet);
 
+  console.log('\n  HERO & EHR DIAGRAM');
+  await send('Emulation.setDeviceMetricsOverride',
+    { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+  await goto('index.html');
+
+  // Assert the outcome (one line, not clipped) across the whole desktop range
+  // rather than which CSS property produced it. An earlier version checked
+  // white-space === 'nowrap' and failed even when the headline was correctly on
+  // one line: `white-space` is a shorthand in current browsers, and text-wrap set
+  // on headings elsewhere changes how it serialises.
+  const HERO_WIDTHS = [1180, 1280, 1440, 1680, 1920];
+  const heroLines = [];
+  for (const w of HERO_WIDTHS) {
+    await send('Emulation.setDeviceMetricsOverride',
+      { width: w, height: 900, deviceScaleFactor: 1, mobile: false });
+    await sleep(220);
+    heroLines.push(await evalIn(`
+      const h = document.querySelector('.hero__h');
+      const cs = getComputedStyle(h);
+      const lh = parseFloat(cs.lineHeight) || parseFloat(cs.fontSize) * 1.04;
+      return { w: innerWidth,
+               lines: Math.round(h.getBoundingClientRect().height / lh),
+               clipped: h.scrollWidth > h.clientWidth + 1 };
+    `));
+  }
+  const multi = heroLines.filter((r) => r.lines !== 1);
+  const clipped = heroLines.filter((r) => r.clipped);
+  ok('hero headline is one line at every desktop width',
+    multi.length === 0, multi.map((r) => `${r.w}px=${r.lines} lines`).join(', '));
+  ok('hero headline is never clipped',
+    clipped.length === 0, clipped.map((r) => r.w + 'px').join(', '));
+
+  await send('Emulation.setDeviceMetricsOverride',
+    { width: 1440, height: 900, deviceScaleFactor: 1, mobile: false });
+  await sleep(200);
+  const hero = await evalIn(`
+    return { word: document.querySelector('.logo__text').textContent.trim(),
+             text: document.querySelector('.hero__h').textContent.trim() };
+  `);
+  ok('wordmark reads "Vocryn Ai" with a space', hero.word === 'Vocryn Ai', `"${hero.word}"`);
+  ok('headline is the short single-line version',
+    hero.text === "Your clinic's AI receptionist.", `"${hero.text}"`);
+
+  const ehr = await evalIn(`
+    const d = document.querySelector('.ehr');
+    const items = [...d.querySelectorAll('.ehr__item')];
+    const wires = [...d.querySelectorAll('.ehr__wires path')];
+    const svg = d.querySelector('.ehr__wires').getBoundingClientRect();
+    const hub = d.querySelector('.ehr__hub').getBoundingClientRect();
+    // Each wire should start at its chip's vertical centre; the SVG y box is 0-100
+    // stretched over the same height, so compare in fractions.
+    const drift = items.map((el, i) => {
+      const r = el.getBoundingClientRect();
+      const chipFrac = (r.top + r.height / 2 - svg.top) / svg.height;
+      const wireFrac = parseFloat(wires[i].getAttribute('d').split(' ')[1]) / 100;
+      return Math.abs(chipFrac - wireFrac);
+    });
+    return { chips: items.length, wires: wires.length,
+             maxDrift: Math.max(...drift),
+             hubMark: !!d.querySelector('.ehr__hubMark'),
+             // Negative margin should pull the wires under the hub.
+             reaches: svg.right >= hub.left,
+             svgW: getComputedStyle(d.querySelector('.ehr__wires')).width,
+             svgRight: Math.round(svg.right), hubLeft: Math.round(hub.left) };
+  `);
+  ok('EHR diagram lists 4 systems', ehr.chips === 4, 'chips=' + ehr.chips);
+  ok('one wire per system', ehr.wires === ehr.chips, `${ehr.wires} wires / ${ehr.chips} chips`);
+  ok('wires start on the chip centres', ehr.maxDrift < 0.03,
+    'max drift ' + (ehr.maxDrift * 100).toFixed(1) + '% of height');
+  ok('wires reach the hub', ehr.reaches === true,
+    `svg.right=${ehr.svgRight} hub.left=${ehr.hubLeft} computedWidth=${ehr.svgW}`);
+  ok('hub carries the brand mark', ehr.hubMark === true);
+
   console.log('\n  NAVIGATION');
   await goto('index.html');
   const mega = await evalIn(`

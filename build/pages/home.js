@@ -7,13 +7,20 @@ const D = require('../lib/data');
 const { site } = D;
 
 const body = `
+<!-- The headline spans the full wrap above the two columns. Inside a ~620px
+     column it broke across four lines and split "Every patient / heard." mid
+     phrase; full width it sits on one. -->
 <section class="hero">
-  <div class="wrap hero__grid">
-    <div>
+  <div class="wrap">
+    <div class="hero__top">
       <p class="hero__live"><span class="hero__dot"></span> Casey is answering calls right now</p>
       <p class="eyebrow">${icon('shield-check')} HIPAA-ready · BAA included</p>
-      <h1 class="hero__h">Your clinic's AI receptionist. <span class="grad">Every patient heard.</span></h1>
-      <p class="lead hero__p">Casey answers in under two seconds, books straight into your EHR, verifies
+      <h1 class="hero__h">Your clinic's AI receptionist.</h1>
+    </div>
+  <div class="hero__grid">
+    <div>
+      <p class="lead hero__p"><strong class="grad">Every patient heard. Every appointment booked.</strong>
+        Casey answers in under two seconds, books straight into your EHR, verifies
         insurance, and hands anything urgent to a real person. Nights, weekends, and the Monday-morning
         rush included.</p>
       <div class="btnrow hero__btns">
@@ -49,6 +56,7 @@ const body = `
         <span>Booked to <b>athenahealth</b></span>
       </div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -128,6 +136,27 @@ ${C.marquee()}
     <div class="demo__col">
       ${C.demoPlayer()}
     </div>
+  </div>
+</section>
+
+<section class="sec sec--alt">
+  <div class="wrap split">
+    <div class="reveal">
+      <p class="eyebrow">${icon('database')} Native integration</p>
+      <h2 class="h2" style="margin:1.1rem 0 1.35rem">AI agent fully integrated with your EHR</h2>
+      ${C.ticks([
+        'Stay in the same tool your team uses every day — no new software to learn',
+        'Reads and writes patient data to and from your EHR automatically',
+        'No manual data transfer, no overnight batch, no re-keying by your staff',
+        'Real-time notifications tell your staff about new patients and visits',
+        'Every change is reflected both ways, so the schedule your team sees is the real one',
+      ])}
+      <div class="btnrow mt2">
+        <a class="btn btn--primary" href="${u('/integrations.html')}">Learn more ${icon('arrow-right')}</a>
+        <a class="btn btn--ghost" href="${u('/demo.html')}">See it in a demo</a>
+      </div>
+    </div>
+    <div class="reveal reveal-d2">${C.ehrDiagram()}</div>
   </div>
 </section>
 

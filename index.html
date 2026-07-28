@@ -62,7 +62,7 @@
 <a class="logo" href="index.html" aria-label="Vocryn AI — home">
   <span class="logo__mark"><img class="logo__svg" src="assets/img/logo-mark.webp"
   width="440" height="213" alt="" aria-hidden="true" decoding="async"></span>
-  <span class="logo__text">Vocryn<span class="logo__ai">.Ai</span></span>
+  <span class="logo__text">Vocryn <span class="logo__ai">Ai</span></span>
 </a>
     <nav class="nav" aria-label="Main">
       <ul class="nav__list">
@@ -260,13 +260,20 @@
 <div class="scrim" id="scrim" hidden></div>
 <main id="main">
 
+<!-- The headline spans the full wrap above the two columns. Inside a ~620px
+     column it broke across four lines and split "Every patient / heard." mid
+     phrase; full width it sits on one. -->
 <section class="hero">
-  <div class="wrap hero__grid">
-    <div>
+  <div class="wrap">
+    <div class="hero__top">
       <p class="hero__live"><span class="hero__dot"></span> Casey is answering calls right now</p>
       <p class="eyebrow"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> HIPAA-ready · BAA included</p>
-      <h1 class="hero__h">Your clinic's AI receptionist. <span class="grad">Every patient heard.</span></h1>
-      <p class="lead hero__p">Casey answers in under two seconds, books straight into your EHR, verifies
+      <h1 class="hero__h">Your clinic's AI receptionist.</h1>
+    </div>
+  <div class="hero__grid">
+    <div>
+      <p class="lead hero__p"><strong class="grad">Every patient heard. Every appointment booked.</strong>
+        Casey answers in under two seconds, books straight into your EHR, verifies
         insurance, and hands anything urgent to a real person. Nights, weekends, and the Monday-morning
         rush included.</p>
       <div class="btnrow hero__btns">
@@ -304,6 +311,7 @@
         <span>Booked to <b>athenahealth</b></span>
       </div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -1108,6 +1116,49 @@
   </div>
 </section>
 
+<section class="sec sec--alt">
+  <div class="wrap split">
+    <div class="reveal">
+      <p class="eyebrow"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"/></svg> Native integration</p>
+      <h2 class="h2" style="margin:1.1rem 0 1.35rem">AI agent fully integrated with your EHR</h2>
+      <ul class="ticks"><li class="tick"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg><span>Stay in the same tool your team uses every day — no new software to learn</span></li><li class="tick"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg><span>Reads and writes patient data to and from your EHR automatically</span></li><li class="tick"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg><span>No manual data transfer, no overnight batch, no re-keying by your staff</span></li><li class="tick"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg><span>Real-time notifications tell your staff about new patients and visits</span></li><li class="tick"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg><span>Every change is reflected both ways, so the schedule your team sees is the real one</span></li></ul>
+      <div class="btnrow mt2">
+        <a class="btn btn--primary" href="integrations.html">Learn more <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+        <a class="btn btn--ghost" href="demo.html">See it in a demo</a>
+      </div>
+    </div>
+    <div class="reveal reveal-d2"><div class="ehr">
+  <ul class="ehr__list">
+    <li class="ehr__item">
+      <span class="ehr__mark" style="--tint:#B4232F" aria-hidden="true">Ep</span>
+      <span class="ehr__name">Epic</span>
+    </li><li class="ehr__item">
+      <span class="ehr__mark" style="--tint:#6E2C8F" aria-hidden="true">ah</span>
+      <span class="ehr__name">athenahealth</span>
+    </li><li class="ehr__item">
+      <span class="ehr__mark" style="--tint:#B45A1A" aria-hidden="true">eC</span>
+      <span class="ehr__name">eClinicalWorks</span>
+    </li><li class="ehr__item">
+      <span class="ehr__mark" style="--tint:#0A77AD" aria-hidden="true">NG</span>
+      <span class="ehr__name">NextGen Healthcare</span>
+    </li>
+  </ul>
+
+  <svg class="ehr__wires" viewBox="0 0 100 100" fill="none" aria-hidden="true"
+       preserveAspectRatio="none">
+    <g stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+       stroke-dasharray="2 9"><path d="M0 12.50 H46 V50 H100" vector-effect="non-scaling-stroke"/><path d="M0 37.50 H68 V50 H100" vector-effect="non-scaling-stroke"/><path d="M0 62.50 H68 V50 H100" vector-effect="non-scaling-stroke"/><path d="M0 87.50 H46 V50 H100" vector-effect="non-scaling-stroke"/></g>
+  </svg>
+
+  <div class="ehr__hub">
+    <span class="ehr__hubRing" aria-hidden="true"></span>
+    <img class="ehr__hubMark" src="assets/img/logo-mark.webp" width="440" height="213"
+         alt="Vocryn AI" loading="lazy" decoding="async">
+  </div>
+</div></div>
+  </div>
+</section>
+
 <section class="sec sec--tight">
   <div class="wrap">
     
@@ -1632,7 +1683,7 @@
 <a class="logo logo--ft" href="index.html" aria-label="Vocryn AI — home">
   <span class="logo__mark"><img class="logo__svg" src="assets/img/logo-mark.webp"
   width="440" height="213" alt="" aria-hidden="true" decoding="async"></span>
-  <span class="logo__text">Vocryn<span class="logo__ai">.Ai</span></span>
+  <span class="logo__text">Vocryn <span class="logo__ai">Ai</span></span>
 </a>
         <p class="ft__blurb">Casey is the HIPAA-ready AI receptionist for dental and primary care
           clinics. Every patient heard. Every appointment booked.</p>

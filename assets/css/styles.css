@@ -126,7 +126,12 @@ p{text-wrap:pretty}
 .h3{font-size:var(--t-h3);font-weight:700}
 .h4{font-size:var(--t-h4);font-weight:700;letter-spacing:-.012em}
 .lead{font-size:var(--t-lead);line-height:1.55;color:var(--ink-3)}
-.hero__h{font-size:var(--t-hero);letter-spacing:-.032em;line-height:1.05}
+.hero__h{font-size:clamp(2.1rem,1rem + 4.4vw,4.05rem);letter-spacing:-.035em;line-height:1.04}
+.hero__top{margin-bottom:clamp(1.6rem,1rem + 2.2vw,2.75rem)}
+.hero__top 
+/* Only forbid wrapping once there is provably room for the line. Below this the
+   headline wraps normally rather than overflowing. */
+@media (min-width:1180px){ .hero__h{white-space:nowrap} }
 
 .eyebrow{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--font-d);
   font-size:var(--t-xs);font-weight:700;letter-spacing:.1em;text-transform:uppercase;
@@ -204,7 +209,8 @@ p{text-wrap:pretty}
 .logo__mark{width:3.6rem;flex:none;display:block;line-height:0}
 .logo__svg{width:100%;height:auto;display:block}
 /* Solid, not a gradient: at wordmark size a gradient just muddies the letters. */
-.logo__ai{color:var(--accent-ink);margin-left:.04em}
+.logo__ai{color:var(--accent-ink)}
+.logo__text{white-space:nowrap}
 
 .nav{margin-left:auto}
 .nav__list{display:flex;align-items:center;gap:.15rem}
@@ -448,8 +454,8 @@ p{text-wrap:pretty}
     radial-gradient(30% 36% at 58% 54%,rgba(255,129,37,.12),transparent 72%)}
 .hero__grid{display:grid;gap:clamp(2.25rem,1rem + 4.5vw,4rem);align-items:center;
   grid-template-columns:minmax(0,1.06fr) minmax(0,1fr)}
-.hero__h{margin:1.15rem 0 0}
-.hero__p{margin-top:1.2rem;max-width:34rem}
+
+.hero__p{margin-top:0;max-width:36rem}
 .hero__btns{margin-top:1.85rem}
 .hero__note{margin-top:1rem;font-size:var(--t-xs);color:var(--ink-4);display:flex;
   align-items:center;gap:.4rem;flex-wrap:wrap}
@@ -1048,6 +1054,45 @@ input[type='range']::-moz-range-thumb{width:1.4rem;height:1.4rem;border-radius:5
   .cap__pane{grid-template-columns:1fr}
   .cap__info{order:-1}
   .cbub{max-width:100%}
+}
+
+/* ---- EHR integration diagram ---- */
+.ehr{display:grid;grid-template-columns:minmax(0,1fr) minmax(3.5rem,9rem) auto;
+  align-items:stretch;column-gap:0}
+/* Equal rows are what let the SVG wires land on the chip centres. */
+.ehr__list{display:grid;grid-auto-rows:1fr;gap:clamp(.6rem,.4rem + .8vw,1.1rem);
+  justify-items:end;padding-right:clamp(.4rem,.7vw,1rem)}
+.ehr__item{display:flex;align-items:center;gap:.7rem;width:100%;max-width:17rem;height:100%;
+  justify-content:flex-start;padding:.7rem .9rem;border-radius:var(--r-md);
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1);
+  transition:transform .26s var(--ease),box-shadow .26s var(--ease),border-color .26s}
+.ehr__item:hover{transform:translateX(4px);box-shadow:var(--sh-2);border-color:var(--brand-100)}
+.ehr__mark{width:2rem;height:2rem;flex:none;display:grid;place-items:center;border-radius:8px;
+  font-family:var(--font-d);font-weight:800;font-size:.72rem;letter-spacing:-.02em;
+  color:#fff;background:var(--tint,var(--brand-600))}
+.ehr__name{font-family:var(--font-d);font-weight:700;font-size:var(--t-ui);color:var(--ink);
+  letter-spacing:-.015em;min-width:0}
+
+.ehr__wires{width:100%;height:100%;align-self:stretch;
+  color:color-mix(in srgb,var(--brand-500) 52%,transparent);
+  position:relative;z-index:0}
+
+.ehr__hub{position:relative;z-index:1;flex:none;align-self:center;width:clamp(6.5rem,5rem + 6vw,9.5rem);
+  aspect-ratio:1;display:grid;place-items:center;border-radius:50%;
+  background:linear-gradient(150deg,var(--brand-600),var(--violet-600) 70%,var(--accent-600));
+  box-shadow:0 18px 44px -16px rgba(58,73,206,.6)}
+.ehr__hubRing{position:absolute;inset:-.6rem;border-radius:50%;
+  border:1.5px dashed var(--brand-100);animation:spinSlow 26s linear infinite}
+@keyframes spinSlow{to{transform:rotate(360deg)}}
+.ehr__hubMark{width:62%;height:auto;filter:brightness(0) invert(1);opacity:.96}
+
+@media (max-width:900px){
+  .ehr{grid-template-columns:1fr;justify-items:center;gap:1.5rem}
+  .ehr__wires{display:none}
+  .ehr__list{justify-items:stretch;width:100%;max-width:26rem;
+    grid-template-columns:repeat(auto-fit,minmax(min(100%,11rem),1fr))}
+  .ehr__item{max-width:none}
+  .ehr__hub{order:-1}
 }
 
 /* ---- use-case panel: one hue per case, so no two rows look alike ---- */

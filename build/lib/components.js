@@ -479,6 +479,56 @@ function capabilityExplorer() {
 </div>`;
 }
 
+/* --------------------------------------------- EHR integration diagram ---- */
+
+/**
+ * Systems on the left, wired across to the Vocryn mark on the right.
+ *
+ * The connectors are one SVG with a fixed viewBox rather than CSS borders, so the
+ * bends stay clean at any width. Hidden below 900px, where the diagram stacks and
+ * horizontal wires would point nowhere.
+ */
+function ehrDiagram(names = D.integrations.slice(0, 4)) {
+  const n = names.length;
+  // The list uses equal-height rows, so row i's centre sits at a known fraction of
+  // the column height. The SVG uses a 0-100 box stretched to the same height
+  // (preserveAspectRatio="none"), which makes those fractions line up exactly —
+  // an earlier version hard-coded pixel positions and the wires ended in mid-air.
+  // non-scaling-stroke keeps the line weight and dash pattern undistorted.
+  const wires = names
+    .map((_, i) => {
+      const y = ((i + 0.5) / n) * 100;
+      const bend = i === 0 || i === n - 1 ? 46 : 68; // stagger so lines read apart
+      return `<path d="M0 ${y.toFixed(2)} H${bend} V50 H100" vector-effect="non-scaling-stroke"/>`;
+    })
+    .join('');
+
+  return `<div class="ehr">
+  <ul class="ehr__list">
+    ${names
+      .map(
+        (n) => `<li class="ehr__item">
+      <span class="ehr__mark" style="--tint:${n.tint}" aria-hidden="true">${esc(n.mark)}</span>
+      <span class="ehr__name">${esc(n.name)}</span>
+    </li>`
+      )
+      .join('')}
+  </ul>
+
+  <svg class="ehr__wires" viewBox="0 0 100 100" fill="none" aria-hidden="true"
+       preserveAspectRatio="none">
+    <g stroke="currentColor" stroke-width="2.5" stroke-linecap="round"
+       stroke-dasharray="2 9">${wires}</g>
+  </svg>
+
+  <div class="ehr__hub">
+    <span class="ehr__hubRing" aria-hidden="true"></span>
+    <img class="ehr__hubMark" src="assets/img/logo-mark.webp" width="440" height="213"
+         alt="Vocryn AI" loading="lazy" decoding="async">
+  </div>
+</div>`;
+}
+
 /* --------------------------------------------------------- languages strip */
 
 const LANGUAGES = [
@@ -516,5 +566,6 @@ module.exports = {
   crumbs, phero, shead, ticks, marquee, statBand, serviceCards, useCaseCards,
   stepsSection, testimonials, integrationsWall, securityGrid, pricingCards,
   faqList, roiCalculator, ctaSplit, demoPlayer, languagesStrip, calls, LANGUAGES,
+  ehrDiagram, logoChip,
   capabilityExplorer,
 };

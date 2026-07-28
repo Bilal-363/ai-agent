@@ -39,7 +39,7 @@ const logo = (cls = '') => {
   return `
 <a class="logo${cls ? ' ' + cls : ''}" href="${u('/index.html')}" aria-label="${site.name} — home">
   <span class="logo__mark">${logoMark()}</span>
-  <span class="logo__text">Vocryn<span class="logo__ai">.Ai</span></span>
+  <span class="logo__text">Vocryn <span class="logo__ai">Ai</span></span>
 </a>`;
 };
 
