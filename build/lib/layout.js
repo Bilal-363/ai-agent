@@ -159,6 +159,7 @@ function header(active) {
         ${icon('sun', 'ico-sun')}${icon('moon', 'ico-moon')}
       </button>
       <a class="hdr__tel" href="tel:${site.phoneHref}">${icon('phone')} <span>${site.phone}</span></a>
+      <a class="btn btn--ghost btn--sm hdr__contact" href="${u('/contact.html')}">Contact us</a>
       <a class="btn btn--primary btn--sm" href="${u('/demo.html')}">Book a Demo</a>
       <button class="burger" id="burger" aria-label="Open menu" aria-expanded="false" aria-controls="drawer">
         ${icon('menu', 'ico-menu')}${icon('x', 'ico-close')}
@@ -181,6 +182,7 @@ function header(active) {
     <a class="drawer__link" href="${u('/contact.html')}">Contact</a>
     <div class="drawer__cta">
       <a class="btn btn--primary btn--block" href="${u('/demo.html')}">Book a Demo</a>
+      <a class="btn btn--ghost btn--block" href="${u('/contact.html')}">Contact us</a>
       <a class="btn btn--ghost btn--block" href="tel:${site.phoneHref}">${icon('phone')} ${site.phone}</a>
       <button class="btn btn--outline btn--block js-theme" aria-label="Switch theme">
         ${icon('sun', 'ico-sun')}${icon('moon', 'ico-moon')} <span class="js-theme-label">Dark mode</span>

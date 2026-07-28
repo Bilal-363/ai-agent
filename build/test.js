@@ -515,7 +515,8 @@ async function goto(page) {
   ok('ROI percentage computed', /^\+\d+%$/.test(roi.roi), roi.roi);
 
   console.log('\n  FORMS');
-  await goto('demo.html');
+  // The qualification form moved to /contact; /demo embeds the booking calendar.
+  await goto('contact.html');
   const form = await evalIn(`
     const f = document.querySelector('form[data-validate]');
     f.querySelector('button[type=submit]').click();
@@ -546,6 +547,26 @@ async function goto(page) {
   `);
   ok('valid submit shows the success state', filled.sent === true);
   ok('success panel becomes visible', filled.okVisible !== 'none', filled.okVisible);
+
+  await goto('demo.html');
+  const cal = await evalIn(`
+    const fr = document.querySelector('.cal__frame');
+    return { hasFrame: !!fr,
+             src: fr ? fr.getAttribute('src') : null,
+             lazy: fr ? fr.getAttribute('loading') : null,
+             titled: !!(fr && fr.getAttribute('title')),
+             h: fr ? Math.round(fr.getBoundingClientRect().height) : 0,
+             forms: document.querySelectorAll('form[data-validate]').length,
+             fallback: !!document.querySelector('.cal__fallback a[href^="tel:"]') };
+  `);
+  ok('demo page embeds the booking calendar', cal.hasFrame === true);
+  ok('calendar points at the live booking widget',
+    /leadconnectorhq\.com\/widget\/booking\//.test(cal.src || ''), cal.src);
+  ok('calendar iframe is lazy and titled',
+    cal.lazy === 'lazy' && cal.titled === true, `loading=${cal.lazy} titled=${cal.titled}`);
+  ok('calendar has real height', cal.h > 400, 'height=' + cal.h);
+  ok('demo page no longer carries the form', cal.forms === 0, 'forms=' + cal.forms);
+  ok('calendar offers a phone fallback', cal.fallback === true);
 
   console.log('\n  FILTERS & ACCORDIONS');
   await goto('faq.html');

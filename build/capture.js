@@ -104,6 +104,10 @@ const SHOTS = [
     `document.querySelector('[data-filter-group=\"uc\"]').scrollIntoView({ block: 'start' }); scrollBy(0,-90)`],
   ['uccards-1440-dark', 'index.html', 1440, 900, 'dark',
     `document.querySelector('[data-filter-group=\"uc\"]').scrollIntoView({ block: 'start' }); scrollBy(0,-90)`],
+  ['demo-cal', 'demo.html', 1440, 900, 'light',
+    `document.querySelector('.cal').scrollIntoView({ block: 'start' }); scrollBy(0,-90)`],
+  ['contact-form', 'contact.html', 1440, 900, 'light',
+    `document.querySelector('form[data-validate]').scrollIntoView({ block: 'start' }); scrollBy(0,-90)`],
   ['logo-zoom', 'index.html', 640, 200, 'light', ''],
   ['logo-zoom-dark', 'index.html', 640, 200, 'dark', ''],
   // The same mark at four sizes, so it can be judged where it actually gets used:

@@ -10,6 +10,125 @@ const IMG = (name, alt) => `<img class="deep__img" src="assets/img/${name}.webp"
   srcset="assets/img/${name}-sm.webp 700w, assets/img/${name}.webp 1200w"
   sizes="(max-width: 1024px) 90vw, 44vw" width="1200" height="800" loading="lazy" alt="${esc(alt)}">`;
 
+/* --------------------------------------------------- shared form + calendar */
+
+/**
+ * This qualification form used to live on /demo. The demo page now embeds the real
+ * booking calendar, so the form moved to /contact, where a form belongs.
+ */
+const qualForm = `<form class="form deep__panel reveal reveal-d2" data-validate novalidate>
+      <div class="form__body">
+        <h2 class="h3">Book your demo</h2>
+        <p class="price__b" style="margin-bottom:1.5rem">We will come back with two or three times that
+          suit, usually within a couple of hours.</p>
+        <div class="fld--2">
+          <div class="fld">
+            <label for="dName">Your name <span>*</span></label>
+            <input id="dName" name="name" type="text" required autocomplete="name" placeholder="Jordan Patel">
+            <span class="fld__err">Please tell us your name.</span>
+          </div>
+          <div class="fld">
+            <label for="dEmail">Work email <span>*</span></label>
+            <input id="dEmail" name="email" type="email" required autocomplete="email" placeholder="you@practice.com">
+            <span class="fld__err">Please enter a valid email address.</span>
+          </div>
+        </div>
+        <div class="fld--2">
+          <div class="fld">
+            <label for="dPhone">Phone <span>*</span></label>
+            <input id="dPhone" name="phone" type="tel" required autocomplete="tel" placeholder="(555) 123-4567">
+            <span class="fld__err">We need a number to call you on.</span>
+          </div>
+          <div class="fld">
+            <label for="dPractice">Practice name <span>*</span></label>
+            <input id="dPractice" name="practice" type="text" required placeholder="Lakeview Dental">
+            <span class="fld__err">Please tell us your practice name.</span>
+          </div>
+        </div>
+        <div class="fld--2">
+          <div class="fld">
+            <label for="dType">Practice type <span>*</span></label>
+            <select id="dType" name="type" required>
+              <option value="">Select…</option>
+              <option>Dental practice</option>
+              <option>Primary care</option>
+              <option>Multi-location group</option>
+              <option>DSO</option>
+              <option>Specialty clinic</option>
+              <option>FQHC / community health</option>
+              <option>Other</option>
+            </select>
+            <span class="fld__err">Please choose a practice type.</span>
+          </div>
+          <div class="fld">
+            <label for="dLocations">Locations <span>*</span></label>
+            <select id="dLocations" name="locations" required>
+              <option value="">Select…</option>
+              <option>1</option><option>2–4</option><option>5–14</option><option>15+</option>
+            </select>
+            <span class="fld__err">Please choose a range.</span>
+          </div>
+        </div>
+        <div class="fld--2">
+          <div class="fld">
+            <label for="dSystem">EHR / practice management <span>*</span></label>
+            <select id="dSystem" name="system" required>
+              <option value="">Select…</option>
+              ${D.integrations.map((i) => `<option>${esc(i.name)}</option>`).join('')}
+              <option>Something else</option>
+              <option>Not sure</option>
+            </select>
+            <span class="fld__err">Please tell us what you use.</span>
+          </div>
+          <div class="fld">
+            <label for="dVolume">Monthly call volume</label>
+            <select id="dVolume" name="volume">
+              <option value="">Select or skip…</option>
+              <option>Under 500</option><option>500–1,000</option>
+              <option>1,000–2,500</option><option>2,500+</option><option>No idea</option>
+            </select>
+          </div>
+        </div>
+        <div class="fld">
+          <label for="dGoal">What would make this a win for you?</label>
+          <textarea id="dGoal" name="goal"
+            placeholder="Stop losing new-patient calls at lunch, and finally work the hygiene recall list…"></textarea>
+          <p class="fld__hint">Optional, but it makes the demo far more useful.</p>
+        </div>
+        <label class="consent">
+          <input type="checkbox" name="consent" required>
+          <span>I agree to Vocryn contacting me to arrange a demo, and I have read the
+            <a href="${u('/privacy.html')}">Privacy Policy</a>. Please do not include patient health
+            information in this form.</span>
+        </label>
+        <button class="btn btn--accent btn--block btn--lg" type="submit">Request my demo ${icon('arrow-right')}</button>
+      </div>
+      <div class="form__ok">
+        <span class="form__okIco">${icon('check')}</span>
+        <h2 class="h3">Request received.</h2>
+        <p class="lead mt1">We will email you two or three times that work, usually within a couple of
+          hours. If you would rather sort it now, call
+          <a href="tel:${site.phoneHref}">${site.phone}</a>.</p>
+      </div>
+    </form>`;
+
+/**
+ * The same LeadConnector booking widget the production site uses. Third-party
+ * iframe, so it lazy-loads and carries a visible fallback for anyone whose
+ * browser or extension blocks it.
+ */
+const calendarEmbed = () => `<div class="cal deep__panel reveal reveal-d2">
+  <p class="eyebrow">${icon('calendar-check')} Pick a time</p>
+  <h2 class="h3" style="margin:1rem 0 .45rem">Schedule your Vocryn AI demo</h2>
+  <p class="price__b" style="margin-bottom:1.25rem">Choose a slot that suits you and we will walk
+    you through how Casey answers every call, books appointments, and frees up your front desk.</p>
+  <iframe class="cal__frame" title="Book a Vocryn AI demo" loading="lazy" scrolling="no"
+    src="https://api.leadconnectorhq.com/widget/booking/fqDuf8cignIkm61CsJ92"></iframe>
+  <p class="cal__fallback">${icon('phone')} Calendar not loading? Call
+    <a href="tel:${site.phoneHref}">${site.phone}</a> or
+    <a href="${u('/contact.html')}">send us a message</a> and we will book it for you.</p>
+</div>`;
+
 /* ---------------------------------------------------------------- about */
 
 const about = {
@@ -144,71 +263,7 @@ ${C.phero({
       </div>
     </div>
 
-    <form class="form deep__panel reveal reveal-d2" data-validate novalidate>
-      <div class="form__body">
-        <h2 class="h3">Send us a message</h2>
-        <p class="price__b" style="margin-bottom:1.5rem">Tell us what software you use and roughly how
-          many calls you get — it makes the first reply far more useful.</p>
-        <div class="fld--2">
-          <div class="fld">
-            <label for="cName">Your name <span>*</span></label>
-            <input id="cName" name="name" type="text" required autocomplete="name" placeholder="Jordan Patel">
-            <span class="fld__err">Please tell us your name.</span>
-          </div>
-          <div class="fld">
-            <label for="cRole">Your role</label>
-            <input id="cRole" name="role" type="text" autocomplete="organization-title" placeholder="Practice manager">
-          </div>
-        </div>
-        <div class="fld--2">
-          <div class="fld">
-            <label for="cEmail">Work email <span>*</span></label>
-            <input id="cEmail" name="email" type="email" required autocomplete="email" placeholder="you@practice.com">
-            <span class="fld__err">Please enter a valid email address.</span>
-          </div>
-          <div class="fld">
-            <label for="cPhone">Phone</label>
-            <input id="cPhone" name="phone" type="tel" autocomplete="tel" placeholder="(555) 123-4567">
-          </div>
-        </div>
-        <div class="fld--2">
-          <div class="fld">
-            <label for="cPractice">Practice name <span>*</span></label>
-            <input id="cPractice" name="practice" type="text" required placeholder="Lakeview Dental">
-            <span class="fld__err">Please tell us your practice name.</span>
-          </div>
-          <div class="fld">
-            <label for="cSystem">EHR or practice management system</label>
-            <select id="cSystem" name="system">
-              <option value="">Select or skip…</option>
-              ${D.integrations.map((i) => `<option>${esc(i.name)}</option>`).join('')}
-              <option>Something else</option>
-              <option>Not sure</option>
-            </select>
-          </div>
-        </div>
-        <div class="fld">
-          <label for="cMsg">How can we help? <span>*</span></label>
-          <textarea id="cMsg" name="message" required
-            placeholder="We miss roughly 30 calls a week and the hygiene recall list has not been worked since spring…"></textarea>
-          <span class="fld__err">Please tell us a little about what you need.</span>
-        </div>
-        <label class="consent">
-          <input type="checkbox" name="consent" required>
-          <span>I agree to Vocryn contacting me about my enquiry, and I have read the
-            <a href="${u('/privacy.html')}">Privacy Policy</a>. Please do not include patient health
-            information in this form.</span>
-        </label>
-        <button class="btn btn--primary btn--block btn--lg" type="submit">Send message ${icon('arrow-right')}</button>
-        <p class="fld__hint" style="text-align:center">Or just call ${site.phone} — usually faster.</p>
-      </div>
-      <div class="form__ok">
-        <span class="form__okIco">${icon('check')}</span>
-        <h2 class="h3">Message sent.</h2>
-        <p class="lead mt1">We will be back to you the same business day. If it is urgent, call
-          <a href="tel:${site.phoneHref}">${site.phone}</a>.</p>
-      </div>
-    </form>
+    ${qualForm}
   </div>
 </section>`,
 };
@@ -264,101 +319,7 @@ ${C.phero({
       </div>
     </div>
 
-    <form class="form deep__panel reveal reveal-d2" data-validate novalidate>
-      <div class="form__body">
-        <h2 class="h3">Book your demo</h2>
-        <p class="price__b" style="margin-bottom:1.5rem">We will come back with two or three times that
-          suit, usually within a couple of hours.</p>
-        <div class="fld--2">
-          <div class="fld">
-            <label for="dName">Your name <span>*</span></label>
-            <input id="dName" name="name" type="text" required autocomplete="name" placeholder="Jordan Patel">
-            <span class="fld__err">Please tell us your name.</span>
-          </div>
-          <div class="fld">
-            <label for="dEmail">Work email <span>*</span></label>
-            <input id="dEmail" name="email" type="email" required autocomplete="email" placeholder="you@practice.com">
-            <span class="fld__err">Please enter a valid email address.</span>
-          </div>
-        </div>
-        <div class="fld--2">
-          <div class="fld">
-            <label for="dPhone">Phone <span>*</span></label>
-            <input id="dPhone" name="phone" type="tel" required autocomplete="tel" placeholder="(555) 123-4567">
-            <span class="fld__err">We need a number to call you on.</span>
-          </div>
-          <div class="fld">
-            <label for="dPractice">Practice name <span>*</span></label>
-            <input id="dPractice" name="practice" type="text" required placeholder="Lakeview Dental">
-            <span class="fld__err">Please tell us your practice name.</span>
-          </div>
-        </div>
-        <div class="fld--2">
-          <div class="fld">
-            <label for="dType">Practice type <span>*</span></label>
-            <select id="dType" name="type" required>
-              <option value="">Select…</option>
-              <option>Dental practice</option>
-              <option>Primary care</option>
-              <option>Multi-location group</option>
-              <option>DSO</option>
-              <option>Specialty clinic</option>
-              <option>FQHC / community health</option>
-              <option>Other</option>
-            </select>
-            <span class="fld__err">Please choose a practice type.</span>
-          </div>
-          <div class="fld">
-            <label for="dLocations">Locations <span>*</span></label>
-            <select id="dLocations" name="locations" required>
-              <option value="">Select…</option>
-              <option>1</option><option>2–4</option><option>5–14</option><option>15+</option>
-            </select>
-            <span class="fld__err">Please choose a range.</span>
-          </div>
-        </div>
-        <div class="fld--2">
-          <div class="fld">
-            <label for="dSystem">EHR / practice management <span>*</span></label>
-            <select id="dSystem" name="system" required>
-              <option value="">Select…</option>
-              ${D.integrations.map((i) => `<option>${esc(i.name)}</option>`).join('')}
-              <option>Something else</option>
-              <option>Not sure</option>
-            </select>
-            <span class="fld__err">Please tell us what you use.</span>
-          </div>
-          <div class="fld">
-            <label for="dVolume">Monthly call volume</label>
-            <select id="dVolume" name="volume">
-              <option value="">Select or skip…</option>
-              <option>Under 500</option><option>500–1,000</option>
-              <option>1,000–2,500</option><option>2,500+</option><option>No idea</option>
-            </select>
-          </div>
-        </div>
-        <div class="fld">
-          <label for="dGoal">What would make this a win for you?</label>
-          <textarea id="dGoal" name="goal"
-            placeholder="Stop losing new-patient calls at lunch, and finally work the hygiene recall list…"></textarea>
-          <p class="fld__hint">Optional, but it makes the demo far more useful.</p>
-        </div>
-        <label class="consent">
-          <input type="checkbox" name="consent" required>
-          <span>I agree to Vocryn contacting me to arrange a demo, and I have read the
-            <a href="${u('/privacy.html')}">Privacy Policy</a>. Please do not include patient health
-            information in this form.</span>
-        </label>
-        <button class="btn btn--accent btn--block btn--lg" type="submit">Request my demo ${icon('arrow-right')}</button>
-      </div>
-      <div class="form__ok">
-        <span class="form__okIco">${icon('check')}</span>
-        <h2 class="h3">Request received.</h2>
-        <p class="lead mt1">We will email you two or three times that work, usually within a couple of
-          hours. If you would rather sort it now, call
-          <a href="tel:${site.phoneHref}">${site.phone}</a>.</p>
-      </div>
-    </form>
+    ${calendarEmbed()}
   </div>
 </section>
 

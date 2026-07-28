@@ -923,9 +923,9 @@ input[type='range']::-moz-range-thumb{width:1.4rem;height:1.4rem;border-radius:5
 
 /* misc */
 .dl{display:grid;gap:1.5rem;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr))}
-.dl__t{font-family:var(--font-d);font-weight:700;color:var(--ink);font-size:var(--t-h4);
-  margin-bottom:.4rem}
-.dl__d{font-size:var(--t-sm);color:var(--ink-3)}
+.dl__t{display:block;font-family:var(--font-d);font-weight:700;color:var(--ink);
+  font-size:var(--t-h4);margin-bottom:.4rem}
+.dl__d{display:block;font-size:var(--t-sm);color:var(--ink-3)}
 .legal{max-width:46rem}
 .legal h2{font-size:var(--t-h3);margin:clamp(1.75rem,1.2rem + 1.8vw,2.5rem) 0 .75rem}
 .legal h3{font-size:var(--t-h4);margin:1.5rem 0 .5rem}
@@ -1418,3 +1418,16 @@ a.chip:hover{transform:translateY(-2px);border-color:var(--brand-500);color:var(
   body{background:#fff;color:#000}
   .card,.qa{break-inside:avoid}
 }
+
+/* ---- booking calendar embed ---- */
+.cal{padding:clamp(1.25rem,1rem + 1.2vw,1.9rem)}
+.cal__frame{width:100%;min-height:clamp(38rem,34rem + 12vw,46rem);border:0;
+  border-radius:var(--r-md);background:var(--surface-2);display:block}
+.cal__fallback{display:flex;gap:.5rem;align-items:flex-start;margin-top:1rem;
+  padding-top:1rem;border-top:1px dashed var(--line-2);
+  font-size:var(--t-xs);color:var(--ink-3);line-height:1.55}
+.cal__fallback .i{width:1.05rem;height:1.05rem;flex:none;margin-top:.1rem;color:var(--brand-ink)}
+
+/* The header holds two CTAs now; the secondary one stands down before the
+   primary does, and both live in the drawer below 1024px anyway. */
+@media (max-width:1240px){ .hdr__contact{display:none} }
