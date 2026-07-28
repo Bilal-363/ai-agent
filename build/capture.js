@@ -81,13 +81,13 @@ const SHOTS = [
   ['cap-390', 'index.html', 390, 900, 'light',
     `document.querySelector('[data-cap]').scrollIntoView({ block: 'start' }); scrollBy(0, -80)`],
   ['logo-zoom', 'index.html', 640, 200, 'light', ''],
+  ['logo-zoom-dark', 'index.html', 640, 200, 'dark', ''],
   // The same mark at four sizes, so it can be judged where it actually gets used:
   // oversized, footer, header, and favicon-adjacent.
   ['logo-big', 'index.html', 900, 360, 'light', `
     const mark = document.querySelector('.logo__mark').innerHTML;
-    const sprite = document.querySelector('.logo__sprite').outerHTML;
     const box = (w) => '<span style="width:' + w + 'px;display:block">' + mark + '</span>';
-    document.body.innerHTML = sprite +
+    document.body.innerHTML =
       '<div style="display:flex;gap:2.5rem;align-items:center;padding:2.5rem">' +
       box(300) + box(120) + box(56) + box(28) + '</div>';
     document.body.style.background = '#fff';

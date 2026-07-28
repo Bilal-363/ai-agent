@@ -116,7 +116,7 @@ across all 21 pages.
 node build/build.js     # regenerate every page  (needs Node 18+)
 node build/check.js     # dead links, headings, alt text, JSON-LD, anchors
 node build/shots.js     # screenshot every page × 6 widths × 2 themes, flag overflow
-node build/test.js      # 93 functional browser assertions (drives real clicks)
+node build/test.js      # 98 functional browser assertions (drives real clicks)
 node build/capture.js   # component screenshots, incl. the player mid-playback
 node build/a11y.js      # WCAG AA contrast audit, every page, both themes
 node build/audio.js     # rebuild the demo call audio
@@ -137,7 +137,8 @@ TEST_BASE=https://ai-agent-eta-three.vercel.app node build/test.js
 | FAQs (feeds 5 pages + FAQ schema) | `build/lib/data.js` → `faqs` |
 | Stats, testimonials, blog posts | `build/lib/data.js` |
 | Colours, type scale, spacing | `assets/css/styles.css` → section 1, Tokens |
-| Brand mark and wordmark | `build/lib/layout.js` → `logoMark`; favicon in `build/build.js` |
+| Brand mark | `assets/img/logo-mark.webp` (a render, not vector — re-render to recolour); wordmark and markup in `build/lib/layout.js` → `logoMark` |
+| Favicon / touch icon | `build/build.js` (favicon.svg badge); `assets/img/apple-touch-icon.png` |
 | Capability explorer samples | `build/lib/data.js` → `samples` |
 | Header, footer, nav, mega-menu markup | `build/lib/layout.js` |
 | Reusable page sections | `build/lib/components.js` |
@@ -171,7 +172,7 @@ one `<h1>` per page · skip link · visible focus rings · `aria-expanded` / `ar
 `aria-controls` wiring · alt text on every image · `prefers-reduced-motion` honoured throughout.
 
 ### Verified
-- `node build/test.js` — **93/93 functional assertions pass**, locally and against the live
+- `node build/test.js` — **98/98 functional assertions pass**, locally and against the live
   Vercel deployment. Includes proof the audio actually decodes and advances, the transcript
   highlights in sync, seeking works, the capability explorer hands off to the player and starts
   playback, both mega-menus show all ten items, and no page logs a console error.
@@ -193,3 +194,22 @@ audit unless and until one exists.
 Images are AI-generated (Higgsfield, `nano_banana_pro`) and contain no real patients or staff.
 Replace them with photography of your own practices when you have it — the markup already ships
 responsive `srcset` variants, so just match the existing filenames in `assets/img/`.
+
+### The brand mark
+
+`assets/img/logo-mark.webp` is a **rendered 3D image, not a vector.** Three SVG versions were
+built and all read as flat beside the supplied artwork — a glossy twisted ribbon with a waveform
+printed on its surface is shading and specular work, which a renderer does and a flat vector does
+not.
+
+What that costs you: **the mark no longer recolours with the theme.** If you change the palette,
+the mark has to be re-rendered. It ships at 440px for a 56px display slot, so it stays sharp on
+any screen, at 23 KB.
+
+Sources are in `build/logo-src/` — the full-resolution cutout and `bbox.json`, the measured alpha
+bounding box used to crop it tight. To swap in different artwork: drop a transparent PNG in, crop
+it to the mark, export a WebP around 440px wide, and keep the filename.
+
+The favicon is still the SVG badge (waveform bars in the brand gradient) because the full ribbon
+turns to mush at 16px. The Apple touch icon is the ribbon on a white background — transparent
+touch icons get composited onto black by iOS.
