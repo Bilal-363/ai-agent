@@ -88,6 +88,16 @@ function serviceCards(limit) {
   </div>`;
 }
 
+/* --------------------------------------------------------- use-case hue ramp */
+
+/**
+ * One hue per use case, stepped blue -> magenta -> orange across the list.
+ * Shared by the cards below and the deep panels on the use-cases page, so a given
+ * use case is the same colour wherever it appears.
+ */
+const ucHue = (i, total = D.useCases.length) =>
+  Math.round(232 + (i / Math.max(1, total - 1)) * 153);
+
 /* ------------------------------------------------------ use case cards */
 
 function useCaseCards() {
@@ -104,7 +114,8 @@ function useCaseCards() {
 <div class="grid g3">
   ${D.useCases
     .map(
-      (c, i) => `<a class="card card--hov reveal reveal-d${(i % 3) + 1}" href="${u('/use-cases.html')}#${c.slug}"
+      (c, i) => `<a class="card card--hov card--tint reveal reveal-d${(i % 3) + 1}"
+    href="${u('/use-cases.html')}#${c.slug}" style="--h:${ucHue(i)}"
     data-filter-target="uc" data-tags="${c.group.replace(/\s+/g, '-').toLowerCase()}">
     <span class="card__ico">${icon(c.icon)}</span>
     <h3 class="card__h">${esc(c.title)}</h3>
@@ -572,6 +583,6 @@ module.exports = {
   crumbs, phero, shead, ticks, marquee, statBand, serviceCards, useCaseCards,
   stepsSection, testimonials, integrationsWall, securityGrid, pricingCards,
   faqList, roiCalculator, ctaSplit, demoPlayer, languagesStrip, calls, LANGUAGES,
-  ehrDiagram, logoChip,
+  ehrDiagram, logoChip, ucHue,
   capabilityExplorer,
 };

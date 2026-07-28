@@ -428,6 +428,24 @@ p{text-wrap:pretty}
 .card__stat{margin-top:1rem;padding-top:.9rem;border-top:1px dashed var(--line-2);
   display:flex;align-items:baseline;gap:.45rem;font-size:var(--t-xs);color:var(--ink-3)}
 .card__stat b{font-family:var(--font-d);font-size:var(--t-num);color:var(--brand-ink);letter-spacing:-.02em}
+
+/* Hue-tinted card, matching the use-case panels. --h is set inline per card so a
+   use case carries the same colour on its card and in its detail panel. */
+.card--tint{background:linear-gradient(150deg,hsl(var(--h) 74% 97.5%),
+  hsl(calc(var(--h) + 20) 70% 94.5%));border-color:hsl(var(--h) 46% 89%)}
+.card--tint .card__ico{background:hsl(var(--h) 60% 42%);color:#fff}
+.card--tint.card--hov:hover .card__ico{background:hsl(var(--h) 62% 34%);color:#fff}
+.card--tint .card__more{color:hsl(var(--h) 54% 33%)}
+.card--tint::before{background:linear-gradient(90deg,hsl(var(--h) 60% 48%),
+  hsl(calc(var(--h) + 24) 62% 58%))}
+.card--tint.card--hov:hover{border-color:hsl(var(--h) 50% 78%)}
+[data-theme='dark'] .card--tint{
+  background:linear-gradient(150deg,hsl(var(--h) 40% 14%),hsl(calc(var(--h) + 20) 36% 10.5%));
+  border-color:hsl(var(--h) 32% 25%)}
+[data-theme='dark'] .card--tint .card__ico{background:hsl(var(--h) 62% 52%)}
+[data-theme='dark'] .card--tint.card--hov:hover .card__ico{background:hsl(var(--h) 66% 60%)}
+[data-theme='dark'] .card--tint .card__more{color:hsl(var(--h) 72% 74%)}
+[data-theme='dark'] .card--tint.card--hov:hover{border-color:hsl(var(--h) 40% 38%)}
 @media (hover:none){.card__more{opacity:1;transform:none}}
 
 /* ------------------------------------------------------------ 9. Sections */

@@ -19,8 +19,8 @@ const IMG = (name, alt, cls = 'deep__img') => `<img class="${cls}" src="assets/i
  * stepped across the brand range (blue -> magenta -> orange). No new assets, and
  * every row is visibly distinct.
  */
-const ucard = (c, i, total = D.useCases.length) => {
-  const hue = Math.round(232 + (i / Math.max(1, total - 1)) * 153);
+const ucard = (c, i) => {
+  const hue = C.ucHue(i); // shared with the cards, so card and panel match
   return `<div class="ucard" style="--h:${hue}">
     <span class="ucard__glyph" aria-hidden="true">${icon(c.icon)}</span>
     <span class="ucard__ico">${icon(c.icon)}</span>

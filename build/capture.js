@@ -100,6 +100,10 @@ const SHOTS = [
     `document.querySelector('.ehr').scrollIntoView({ block: 'center' })`],
   ['hero-1440', 'index.html', 1440, 620, 'light', ''],
   ['hero-1180', 'index.html', 1180, 560, 'light', ''],
+  ['uccards-1440', 'index.html', 1440, 900, 'light',
+    `document.querySelector('[data-filter-group=\"uc\"]').scrollIntoView({ block: 'start' }); scrollBy(0,-90)`],
+  ['uccards-1440-dark', 'index.html', 1440, 900, 'dark',
+    `document.querySelector('[data-filter-group=\"uc\"]').scrollIntoView({ block: 'start' }); scrollBy(0,-90)`],
   ['logo-zoom', 'index.html', 640, 200, 'light', ''],
   ['logo-zoom-dark', 'index.html', 640, 200, 'dark', ''],
   // The same mark at four sizes, so it can be judged where it actually gets used:

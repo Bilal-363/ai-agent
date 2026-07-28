@@ -160,17 +160,8 @@ ${C.marquee()}
   </div>
 </section>
 
-<section class="sec sec--tight">
-  <div class="wrap">
-    ${C.shead({
-      eyebrow: '20+ languages',
-      eyebrowIcon: 'languages',
-      h: 'Casey answers in the patient’s language.',
-      lead: 'Detected automatically on the call. No separate line, no interpreter queue, no asking a patient to call back with a family member.',
-    })}
-    ${C.languagesStrip()}
-  </div>
-</section>
+<!-- The 20+ languages strip lived here. Removed on request; the claim still
+     appears in the services list, the FAQ and the FQHC use case. -->
 
 <!-- The services grid used to sit here. The capability explorer above covers the
      same ten services interactively, so repeating them as cards was pure padding. -->
