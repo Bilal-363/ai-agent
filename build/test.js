@@ -414,8 +414,12 @@ async function goto(page) {
   const mega = await evalIn(`
     const it = document.querySelector('[data-mega="services"]');
     it.dispatchEvent(new MouseEvent('mouseenter'));
-    await new Promise(r => setTimeout(r, 350));
     const panel = it.querySelector('.mega');
+    // 110ms open delay plus a 220ms visibility transition; a fixed 350ms wait sat
+    // right on that boundary and flaked over the network. Poll instead.
+    for (let i = 0; i < 40 && getComputedStyle(panel).visibility !== 'visible'; i++) {
+      await new Promise(r => setTimeout(r, 100));
+    }
     return { open: it.classList.contains('is-open'),
              expanded: it.querySelector('.nav__link--trigger').getAttribute('aria-expanded'),
              items: panel.querySelectorAll('.mega__item').length,
@@ -429,7 +433,10 @@ async function goto(page) {
   const megaUC = await evalIn(`
     const it = document.querySelector('[data-mega="useCases"]');
     it.dispatchEvent(new MouseEvent('mouseenter'));
-    await new Promise(r => setTimeout(r, 350));
+    // Same open delay as the services panel — wait on the state, not the clock.
+    for (let i = 0; i < 40 && !it.classList.contains('is-open'); i++) {
+      await new Promise(r => setTimeout(r, 100));
+    }
     return { items: it.querySelectorAll('.mega__item').length,
              groups: it.querySelectorAll('.mega__group').length,
              servicesClosed: !document.querySelector('[data-mega="services"]').classList.contains('is-open') };
