@@ -495,11 +495,17 @@ function ehrDiagram(names = D.integrations.slice(0, 4)) {
   // (preserveAspectRatio="none"), which makes those fractions line up exactly —
   // an earlier version hard-coded pixel positions and the wires ended in mid-air.
   // non-scaling-stroke keeps the line weight and dash pattern undistorted.
+  // Alternate lines run inward and outward at once, because that is literally what
+  // the section claims — data read from the EHR and written back to it. Staggered
+  // delays stop the four reading as one synchronised bar.
   const wires = names
     .map((_, i) => {
       const y = ((i + 0.5) / n) * 100;
       const bend = i === 0 || i === n - 1 ? 46 : 68; // stagger so lines read apart
-      return `<path d="M0 ${y.toFixed(2)} H${bend} V50 H100" vector-effect="non-scaling-stroke"/>`;
+      const dir = i % 2 ? ' is-out' : '';
+      const delay = (i * 0.38).toFixed(2);
+      return `<path class="ehr__wire${dir}" style="animation-delay:${delay}s"
+        d="M0 ${y.toFixed(2)} H${bend} V50 H100" vector-effect="non-scaling-stroke"/>`;
     })
     .join('');
 

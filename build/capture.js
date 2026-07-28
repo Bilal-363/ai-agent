@@ -90,6 +90,12 @@ const SHOTS = [
      await new Promise(r => setTimeout(r, 400))`],
   ['ehr-1440', 'index.html', 1440, 900, 'light',
     `document.querySelector('.ehr').scrollIntoView({ block: 'center' })`],
+  ['ehr-1440-dark', 'index.html', 1440, 900, 'dark',
+    `document.querySelector('.ehr').scrollIntoView({ block: 'center' })`],
+  ['ehr-hub', 'index.html', 700, 460, 'light',
+    `const h = document.querySelector('.ehr__hub');
+     document.body.innerHTML = '<div style=\"padding:3rem;display:flex;justify-content:center\">' + h.outerHTML + '</div>';
+     document.body.style.background = '#F4F6FC';`],
   ['ehr-390', 'index.html', 390, 900, 'light',
     `document.querySelector('.ehr').scrollIntoView({ block: 'center' })`],
   ['hero-1440', 'index.html', 1440, 620, 'light', ''],
