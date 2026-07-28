@@ -221,11 +221,16 @@ async function goto(page) {
   ok('escalation call has 3 turns', switched.lines === 3, 'lines=' + switched.lines);
   ok('tab aria-selected updated', switched.tabSel === 'true');
 
+  // Poll, don't sleep. This was the last audio assertion still waiting a fixed
+  // 1.8s, and it flaked on the live deployment at t=0.70 against a 0.8 threshold.
+  // Every audio check in this file now waits on actual progress.
   const play3 = await evalIn(`
     const p = document.querySelector('[data-player]');
     const a = p.querySelector('audio');
     p.querySelector('[data-pane]:not([hidden]) [data-play]').click();
-    await new Promise(r => setTimeout(r, 1800));
+    for (let i = 0; i < 60 && !(a.currentTime > 0.85); i++) {
+      await new Promise(r => setTimeout(r, 250));
+    }
     return { paused: a.paused, t: a.currentTime, src: (a.currentSrc||'').split('/').pop() };
   `);
   ok('third call plays too', play3.paused === false && play3.t > 0.8,
