@@ -287,7 +287,7 @@ const useCases = [
       'Epic, athenahealth, eClinicalWorks, NextGen, Practice Fusion',
     ],
     outcome: 'Front-desk staff report getting back 2+ hours a day for in-person patient care.',
-    img: 'primary-care',
+
   },
   {
     slug: 'urgent-care',
@@ -303,7 +303,7 @@ const useCases = [
       'Emergency language transfers to a clinician at once — never triaged by software',
     ],
     outcome: 'Fewer callers abandoning at the peak, and fewer arriving to a wait they were not told about.',
-    img: 'urgent-care',
+
   },
   {
     slug: 'athenahealth-primary-care',
@@ -320,7 +320,7 @@ const useCases = [
       'New patient charts created over the phone before the first visit',
     ],
     outcome: 'Bookings land in athenaOne while the patient is still on the line, so the schedule your team sees is always the real one.',
-    img: 'primary-care',
+
   },
   {
     slug: 'multi-location',
@@ -336,7 +336,7 @@ const useCases = [
       'Roll out to one location, then clone the configuration',
     ],
     outcome: 'Groups get one consistent patient experience without hiring per-site reception staff.',
-    img: 'multi-location',
+
   },
   {
     slug: 'dso',
@@ -352,7 +352,7 @@ const useCases = [
       'Predictable per-location cost with no turnover risk',
     ],
     outcome: 'Onboard an acquired practice’s phone line in under a week.',
-    img: 'multi-location',
+
   },
   {
     slug: 'specialty-clinics',
@@ -368,7 +368,7 @@ const useCases = [
       'Prior-authorisation status calls and reminders',
     ],
     outcome: 'Fewer visits cancelled on the day for missing records or missed prep.',
-    img: 'primary-care',
+
   },
   {
     slug: 'community-health',
@@ -384,7 +384,7 @@ const useCases = [
       'Transportation and interpreter needs flagged in advance',
     ],
     outcome: 'Language is no longer the reason a patient gives up on calling.',
-    img: 'multi-location',
+
   },
   {
     slug: 'front-desk-relief',
@@ -400,7 +400,7 @@ const useCases = [
       'Staff keep full oversight through the dashboard',
     ],
     outcome: 'Two-plus hours of admin time back, per staff member, per day.',
-    img: 'reception',
+
   },
   {
     slug: 'missed-call-recovery',
@@ -416,7 +416,7 @@ const useCases = [
       'Recovers after-hours and weekend demand',
     ],
     outcome: '87% fewer missed calls in the first month.',
-    img: 'reception',
+
   },
   {
     slug: 'no-show-reduction',
@@ -432,7 +432,7 @@ const useCases = [
       'No-show risk surfaced to the practice manager weekly',
     ],
     outcome: 'No-show rates held under 5% for reminded patients.',
-    img: 'waiting-area',
+
   },
   {
     slug: 'patient-reactivation',
@@ -448,7 +448,7 @@ const useCases = [
       'Full opt-out handling and contact-preference compliance',
     ],
     outcome: 'A reactivation campaign typically pays for the year in a single month.',
-    img: 'primary-care',
+
   },
 ];
 

@@ -80,6 +80,14 @@ const SHOTS = [
     `document.querySelector('[data-cap]').scrollIntoView({ block: 'center' })`],
   ['cap-390', 'index.html', 390, 900, 'light',
     `document.querySelector('[data-cap]').scrollIntoView({ block: 'start' }); scrollBy(0, -80)`],
+  ['uc-1440', 'use-cases.html', 1440, 940, 'light',
+    `document.getElementById('urgent-care').scrollIntoView({ block: 'center' })`],
+  ['uc-1440-dark', 'use-cases.html', 1440, 940, 'dark',
+    `document.getElementById('athenahealth-primary-care').scrollIntoView({ block: 'center' })`],
+  ['mega-uc-1180', 'index.html', 1180, 700, 'light',
+    `const it = document.querySelector('[data-mega=\"useCases\"]');
+     it.dispatchEvent(new MouseEvent('mouseenter'));
+     await new Promise(r => setTimeout(r, 400))`],
   ['logo-zoom', 'index.html', 640, 200, 'light', ''],
   ['logo-zoom-dark', 'index.html', 640, 200, 'dark', ''],
   // The same mark at four sizes, so it can be judged where it actually gets used:

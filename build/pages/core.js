@@ -10,6 +10,26 @@ const IMG = (name, alt, cls = 'deep__img') => `<img class="${cls}" src="assets/i
   srcset="assets/img/${name}-sm.webp 700w, assets/img/${name}.webp 1200w"
   sizes="(max-width: 1024px) 90vw, 44vw" width="1200" height="800" loading="lazy" alt="${esc(alt)}">`;
 
+/**
+ * Use-case panel, in place of a photograph.
+ *
+ * There are 11 use cases and only a handful of usable photos, so the page was
+ * showing the same three or four images over and over — which reads as careless.
+ * Rather than repeat them, each use case gets its own panel, made unique by a hue
+ * stepped across the brand range (blue -> magenta -> orange). No new assets, and
+ * every row is visibly distinct.
+ */
+const ucard = (c, i, total = D.useCases.length) => {
+  const hue = Math.round(232 + (i / Math.max(1, total - 1)) * 153);
+  return `<div class="ucard" style="--h:${hue}">
+    <span class="ucard__glyph" aria-hidden="true">${icon(c.icon)}</span>
+    <span class="ucard__ico">${icon(c.icon)}</span>
+    <p class="ucard__eyebrow">Typical outcome</p>
+    <p class="ucard__out">${esc(c.outcome)}</p>
+    <p class="ucard__group">${icon('target')} ${esc(c.group)}</p>
+  </div>`;
+};
+
 /* ------------------------------------------------------------- services */
 
 const services = {
@@ -102,9 +122,9 @@ ${C.phero({
         <h2 class="deep__h" style="margin-top:1.1rem">${esc(c.title)}</h2>
         <p class="deep__lead">${esc(c.lead)}</p>
         ${C.ticks(c.bullets)}
-        <div class="deep__out">${icon('trending-up')}<span><strong>Typical outcome:</strong> ${esc(c.outcome)}</span></div>
       </div>
-      <div>${IMG(c.img, `${c.title} — ${c.short}`)}</div>
+      <!-- The outcome lives in the panel now; it was printed twice per row. -->
+      <div>${ucard(c, i)}</div>
     </div>`
       )
       .join('')}
