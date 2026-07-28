@@ -898,19 +898,22 @@
   </div>
 </section>
 
+<!-- The player is roughly twice the height of the portrait, so the copy lives in
+     the left column beneath it. With the heading on the right the left column
+     bottomed out early and left a large void. -->
 <section class="sec" id="demo">
   <div class="wrap split split--top">
-    <div class="casey__art reveal">
-      <img class="casey__img" src="assets/img/casey.webp"
-           srcset="assets/img/casey-sm.webp 380w, assets/img/casey.webp 760w"
-           sizes="(max-width: 1024px) 80vw, 26vw"
-           width="760" height="760" loading="lazy"
-           alt="Casey, the Vocryn AI receptionist, shown as a friendly professional wearing a headset">
-      <span class="casey__tag"><span class="hero__dot"></span> Casey · on a call</span>
-    </div>
+    <div class="reveal">
+      <div class="casey__art">
+        <img class="casey__img" src="assets/img/casey.webp"
+             srcset="assets/img/casey-sm.webp 380w, assets/img/casey.webp 760w"
+             sizes="(max-width: 1024px) 80vw, 26vw"
+             width="760" height="760" loading="lazy"
+             alt="Casey, the Vocryn AI receptionist, shown as a friendly professional wearing a headset">
+        <span class="casey__tag"><span class="hero__dot"></span> Casey · on a call</span>
+      </div>
 
-    <div>
-      <p class="eyebrow"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg> Hear Casey speak</p>
+      <p class="eyebrow" style="margin-top:2.5rem"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M19 10v1a7 7 0 0 1-14 0v-1M12 18v4M8 22h8"/></svg> Hear Casey speak</p>
       <h2 class="h2" style="margin:1.1rem 0 .95rem">Warm, clinic-trained, and never flustered.</h2>
       <p class="lead">Casey isn't a phone tree with a nicer voice. Press play on any of these three
         calls — booking, a refill, and a caller who just wants a human — and listen to how it
@@ -918,7 +921,12 @@
       <p style="margin-top:1rem;font-size:var(--t-sm);color:var(--ink-3)">Casey identifies itself as
         an assistant on every call. Patients who ask for a person get one immediately, as the third
         call shows.</p>
+      <div class="pillrow mt2">
+        <span class="chip"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> HIPAA-ready</span><span class="chip"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M9 13h6M9 17h6"/></svg> BAA available</span><span class="chip"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg> TLS 1.3 + AES-256</span>
+      </div>
+    </div>
 
+    <div class="demo__col">
       <div class="player" id="player" data-player>
   <div class="player__tabs" role="tablist" aria-label="Choose a demo call">
     <button class="player__tab" role="tab" id="tab-1"

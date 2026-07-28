@@ -137,11 +137,16 @@ async function goto(page) {
     await evalIn(`return document.querySelectorAll('[data-pane]:not([hidden]) [data-fill] .player__bar').length`) === 96);
 
   // Press play and confirm the audio really advances.
+  // Poll for playback progress rather than sampling after a fixed wait: over HTTP
+  // the first chunk can take several seconds to buffer, and a fixed 2.2s sleep
+  // failed intermittently against the live deployment while passing locally.
   const played = await evalIn(`
     const p = document.querySelector('[data-player]');
     const a = p.querySelector('audio');
     p.querySelector('[data-pane]:not([hidden]) [data-play]').click();
-    await new Promise(r => setTimeout(r, 2200));
+    for (let i = 0; i < 60 && !(a.currentTime > 1.05); i++) {
+      await new Promise(r => setTimeout(r, 250));
+    }
     return { paused: a.paused, t: a.currentTime, dur: a.duration,
              src: (a.currentSrc||'').split('/').pop(), ready: a.readyState,
              playing: p.classList.contains('is-playing') };
@@ -274,9 +279,12 @@ async function goto(page) {
     c.querySelectorAll('[data-cap-tab]')[8].click();      // Call Routing -> demo 3
     await new Promise(r => setTimeout(r, 200));
     c.querySelector('[data-cap-pane]:not([hidden]) [data-cap-play]').click();
-    await new Promise(r => setTimeout(r, 3000));
     const p = document.querySelector('[data-player]');
     const a = p.querySelector('audio');
+    // Same reason as above — wait for real progress, not a fixed sleep.
+    for (let i = 0; i < 60 && !(a.currentTime > 0.6); i++) {
+      await new Promise(r => setTimeout(r, 250));
+    }
     return { pane: p.querySelector('[data-pane]:not([hidden])').dataset.pane,
              src: (a.currentSrc || '').split('/').pop(),
              paused: a.paused, t: a.currentTime };

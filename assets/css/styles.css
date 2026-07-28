@@ -524,6 +524,9 @@ p{text-wrap:pretty}
 
 .player{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);
   box-shadow:var(--sh-2);margin-top:1.75rem;overflow:hidden}
+/* In its own grid column the player needs no top offset. */
+.demo__col .player{margin-top:0}
+.casey__art{margin-inline:0}
 
 .player__tabs{display:flex;gap:.25rem;padding:.6rem;background:var(--surface-2);
   border-bottom:1px solid var(--line);overflow-x:auto;scrollbar-width:none;

@@ -97,19 +97,22 @@ ${C.marquee()}
   </div>
 </section>
 
+<!-- The player is roughly twice the height of the portrait, so the copy lives in
+     the left column beneath it. With the heading on the right the left column
+     bottomed out early and left a large void. -->
 <section class="sec" id="demo">
   <div class="wrap split split--top">
-    <div class="casey__art reveal">
-      <img class="casey__img" src="assets/img/casey.webp"
-           srcset="assets/img/casey-sm.webp 380w, assets/img/casey.webp 760w"
-           sizes="(max-width: 1024px) 80vw, 26vw"
-           width="760" height="760" loading="lazy"
-           alt="Casey, the Vocryn AI receptionist, shown as a friendly professional wearing a headset">
-      <span class="casey__tag"><span class="hero__dot"></span> Casey · on a call</span>
-    </div>
+    <div class="reveal">
+      <div class="casey__art">
+        <img class="casey__img" src="assets/img/casey.webp"
+             srcset="assets/img/casey-sm.webp 380w, assets/img/casey.webp 760w"
+             sizes="(max-width: 1024px) 80vw, 26vw"
+             width="760" height="760" loading="lazy"
+             alt="Casey, the Vocryn AI receptionist, shown as a friendly professional wearing a headset">
+        <span class="casey__tag"><span class="hero__dot"></span> Casey · on a call</span>
+      </div>
 
-    <div>
-      <p class="eyebrow">${icon('mic')} Hear Casey speak</p>
+      <p class="eyebrow" style="margin-top:2.5rem">${icon('mic')} Hear Casey speak</p>
       <h2 class="h2" style="margin:1.1rem 0 .95rem">Warm, clinic-trained, and never flustered.</h2>
       <p class="lead">Casey isn't a phone tree with a nicer voice. Press play on any of these three
         calls — booking, a refill, and a caller who just wants a human — and listen to how it
@@ -117,7 +120,12 @@ ${C.marquee()}
       <p style="margin-top:1rem;font-size:var(--t-sm);color:var(--ink-3)">Casey identifies itself as
         an assistant on every call. Patients who ask for a person get one immediately, as the third
         call shows.</p>
+      <div class="pillrow mt2">
+        ${D.trustBadges.slice(0, 3).map((b) => `<span class="chip">${icon(b.icon)} ${esc(b.label)}</span>`).join('')}
+      </div>
+    </div>
 
+    <div class="demo__col">
       ${C.demoPlayer()}
     </div>
   </div>
