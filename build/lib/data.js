@@ -200,6 +200,12 @@ const services = [
 const samples = {
   'appointment-booking': {
     call: 1, channels: ['voice', 'sms'],
+    meta: "Handled in 41s · no transfer",
+    actions: [
+      ['search', "Read live availability from Epic"],
+      ['calendar-check', "Wrote the appointment to the chart"],
+      ['message-square', "Texted a confirmation and directions"],
+    ],
     turns: [
       ['patient', 'Hi, I need to come in for a cleaning. Do you have anything next week?'],
       ['casey', 'I do — Tuesday at 10:20 with Dr. Alvarez, or Thursday at 3:00. Which suits you better?'],
@@ -207,6 +213,12 @@ const samples = {
   },
   'insurance-verification': {
     channels: ['voice', 'sms'],
+    meta: "Handled in 1m 12s · no transfer",
+    actions: [
+      ['file-text', "Captured carrier, member ID and group"],
+      ['shield-check', "Checked eligibility against the plan"],
+      ['activity', "Flagged the plan change for the front desk"],
+    ],
     turns: [
       ['patient', 'Do you take Delta Dental? I switched plans in January.'],
       ['casey', 'We do. Let me take your new member ID and group number, and I’ll verify your benefits before the visit.'],
@@ -214,6 +226,12 @@ const samples = {
   },
   'prescription-refills': {
     call: 2, channels: ['voice'],
+    meta: "Handled in 58s · no transfer",
+    actions: [
+      ['database', "Pulled the medication list from the chart"],
+      ['phone-forwarded', "Routed the request to the provider queue"],
+      ['message-square', "Texted the patient once approved"],
+    ],
     turns: [
       ['patient', 'I need a refill on my blood pressure medication.'],
       ['casey', 'I can see the lisinopril on your chart, last filled in April. Shall I send the request to Dr. Mehta at your usual pharmacy?'],
@@ -221,6 +239,12 @@ const samples = {
   },
   rescheduling: {
     channels: ['voice', 'sms'],
+    meta: "Handled in 47s · slot refilled in 22m",
+    actions: [
+      ['refresh', "Released the old slot back to the calendar"],
+      ['calendar-check', "Booked the new time and wrote it back"],
+      ['bell', "Offered the freed slot to the waitlist"],
+    ],
     turns: [
       ['patient', 'Something’s come up — can I move Thursday’s appointment?'],
       ['casey', 'Of course. I have Monday at 9:40 or Wednesday at 2:15. And I’ll offer your Thursday slot to the waitlist.'],
@@ -228,6 +252,12 @@ const samples = {
   },
   'reminders-recalls': {
     channels: ['voice', 'sms'], outbound: true,
+    meta: "Outbound · three-touch cadence",
+    actions: [
+      ['database', "Pulled the overdue recall list from the PMS"],
+      ['phone', "Called, then texted when there was no answer"],
+      ['calendar-check', "Booked and wrote it back"],
+    ],
     turns: [
       ['casey', 'Hello, this is Casey calling from Lakeview Dental. You’re due for your six-month cleaning — shall I book that now?'],
       ['patient', 'Yes please, sometime after work if you have it.'],
@@ -235,6 +265,12 @@ const samples = {
   },
   'sms-followups': {
     channels: ['sms'],
+    meta: "Delivered in 4s",
+    actions: [
+      ['message-square', "Sent the address and a map link"],
+      ['calendar-check', "Attached an add-to-calendar file"],
+      ['file-text', "Logged the message on the chart timeline"],
+    ],
     turns: [
       ['patient', 'Can you text me the address? I’m driving.'],
       ['casey', 'Sent. You’ll have the address, a map link, and your appointment time on your phone now.'],
@@ -242,6 +278,12 @@ const samples = {
   },
   'new-patient-intake': {
     channels: ['voice', 'sms'],
+    meta: "Handled in 3m 20s · chart created",
+    actions: [
+      ['user-plus', "Created the chart with demographics and insurance"],
+      ['file-text', "Sent the two forms needing a signature"],
+      ['calendar-check', "Booked the first visit"],
+    ],
     turns: [
       ['patient', 'I’m a new patient. Do I need to fill anything in before I come?'],
       ['casey', 'I can take your details now and create your chart, then text you the two forms that need a signature. Check-in will take about a minute.'],
@@ -249,6 +291,12 @@ const samples = {
   },
   'clinical-documentation': {
     channels: ['voice'],
+    meta: "Routed in 34s · provider notified",
+    actions: [
+      ['file-text', "Wrote a structured telephone encounter"],
+      ['phone-forwarded', "Routed it to the provider queue"],
+      ['eye-off', "Gave no clinical advice, by design"],
+    ],
     turns: [
       ['patient', 'I’ve had a sore throat for four days and it’s getting worse.'],
       ['casey', 'I’m not able to advise on that, but I’ll pass it to your provider now with everything you’ve told me, and someone will call you back today.'],
@@ -256,6 +304,12 @@ const samples = {
   },
   'call-routing': {
     call: 3, channels: ['voice'],
+    meta: "Transferred in 6s · no triage attempted",
+    actions: [
+      ['zap', "Recognised the request for a person"],
+      ['phone-forwarded', "Warm transferred with a summary"],
+      ['check', "Stayed on the line until it connected"],
+    ],
     turns: [
       ['patient', 'I’d rather just speak to a person.'],
       ['casey', 'Of course — I’m connecting you now. Please stay on the line.'],
@@ -263,6 +317,12 @@ const samples = {
   },
   'after-hours': {
     channels: ['voice', 'sms'],
+    meta: "Answered at 20:52 · booked",
+    actions: [
+      ['moon', "Answered outside opening hours"],
+      ['calendar-check', "Booked into the next day’s availability"],
+      ['message-square', "Texted the confirmation"],
+    ],
     turns: [
       ['patient', 'Are you open? It’s nearly nine at night.'],
       ['casey', 'The practice is closed, but I can still book you in. I have tomorrow at 8:10 or Friday at 11:30 — or I can take a message for the team.'],
@@ -284,7 +344,7 @@ const useCases = [
       'Refill requests captured and routed with the medication list attached',
       'Annual wellness and chronic-care follow-up scheduling',
       'Structured telephone encounters written to the chart',
-      'Epic, athenahealth, eClinicalWorks, NextGen, Practice Fusion',
+      'Epic, athenahealth, eClinicalWorks, Practice Fusion',
     ],
     outcome: 'Front-desk staff report getting back 2+ hours a day for in-person patient care.',
 
@@ -458,7 +518,6 @@ const integrations = [
   { name: 'Epic', mark: 'Ep', tint: '#B4232F', category: 'Medical EHR', note: 'Scheduling, chart write-back, telephone encounters' },
   { name: 'athenahealth', mark: 'ah', tint: '#6E2C8F', category: 'Medical EHR', note: 'Two-way scheduling and patient record sync' },
   { name: 'eClinicalWorks', mark: 'eC', tint: '#B45A1A', category: 'Medical EHR', note: 'Appointments, refills, and documentation' },
-  { name: 'NextGen Healthcare', mark: 'NG', tint: '#0A77AD', category: 'Medical EHR', note: 'Scheduling and structured encounter notes' },
   { name: 'Practice Fusion', mark: 'PF', tint: '#21799B', category: 'Medical EHR', note: 'Appointment booking and chart updates' },
   { name: 'Dentrix', mark: 'Dx', tint: '#1257A6', category: 'Dental PMS', note: 'Operatory-aware booking and hygiene recall' },
   { name: 'Dentrix Ascend', mark: 'DA', tint: '#0E77AB', category: 'Dental PMS', note: 'Cloud scheduling and recall automation' },
@@ -597,7 +656,7 @@ const faqs = [
   { q: 'What languages are supported?', a: 'Over 20, including Spanish, Mandarin, Vietnamese, Tagalog, Arabic, Russian, Portuguese, French, and Korean. Casey detects the caller’s language and switches automatically — no separate line, no interpreter wait.', cat: 'Patients' },
   { q: 'Does Casey give medical advice?', a: 'No. Casey does not diagnose, advise, or prescribe, and it will not interpret results. Anything clinical is routed to your team.', cat: 'Patients' },
 
-  { q: 'Which EHR and practice management systems do you support?', a: 'On the medical side: Epic, athenahealth, eClinicalWorks, NextGen Healthcare, and Practice Fusion. On the dental side: Dentrix, Dentrix Ascend, NexHealth, Curve Dental, and Open Dental. If yours is not listed, ask — we add integrations regularly.', cat: 'Setup' },
+  { q: 'Which EHR and practice management systems do you support?', a: 'On the medical side: Epic, athenahealth, eClinicalWorks, and Practice Fusion. On the dental side: Dentrix, Dentrix Ascend, NexHealth, Curve Dental, and Open Dental. If yours is not listed, ask — we add integrations regularly.', cat: 'Setup' },
   { q: 'Do we have to change our phone number?', a: 'No. We forward your existing number, so patients call exactly what they have always called and your printed material stays valid.', cat: 'Setup' },
   { q: 'How long does setup take?', a: 'Ten business days from discovery call to going live for a single location. Multi-location groups run in parallel after the first site is configured.', cat: 'Setup' },
   { q: 'How much work is this for my staff?', a: 'About two hours total: one thirty-minute discovery call, one review session to sign off the conversation flows, and one short dashboard walkthrough. We do the configuration.', cat: 'Setup' },

@@ -268,7 +268,7 @@ ${C.ctaSplit()}`,
 const integrations = {
   slug: 'integrations',
   title: 'Integrations — Epic, Dentrix, athenahealth and more',
-  desc: 'Two-way access to Epic, athenahealth, eClinicalWorks, NextGen, Practice Fusion, Dentrix, Dentrix Ascend, NexHealth, Curve Dental and Open Dental.',
+  desc: 'Two-way access to Epic, athenahealth, eClinicalWorks, Practice Fusion, Dentrix, Dentrix Ascend, NexHealth, Curve Dental and Open Dental.',
   active: '/integrations.html',
   body: `
 ${C.phero({

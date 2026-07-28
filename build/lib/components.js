@@ -145,7 +145,8 @@ function stepsSection() {
   return `<div class="steps">
     ${D.steps
       .map(
-        (s, i) => `<div class="step reveal reveal-d${i + 1}">
+        (s, i) => `<div class="step step--tint reveal reveal-d${i + 1}"
+      style="--h:${ucHue(i, D.steps.length)}">
       <span class="step__ico">${icon(s.icon)}</span>
       <span class="step__n">${s.n}</span>
       <p class="step__time">${esc(s.time)}</p>
@@ -477,6 +478,24 @@ function capabilityExplorer() {
           </div>`
             )
             .join('')}
+        </div>
+
+        <!-- The exchange only shows what was said. This shows what Casey actually
+             did in the system afterwards, which is the part that matters and the
+             part a transcript alone never proves. -->
+        <div class="cap__trail">
+          <p class="cap__trailTop">
+            <span>${icon('workflow')} What Casey did</span>
+            <span class="cap__meta">${esc(x.meta)}</span>
+          </p>
+          <ol class="cap__steps">
+            ${x.actions
+              .map(
+                ([ic, text]) => `<li><span class="cap__stepIco">${icon(ic)}</span>
+              <span>${esc(text)}</span></li>`
+              )
+              .join('')}
+          </ol>
         </div>
 
         ${x.call

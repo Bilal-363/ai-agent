@@ -1448,3 +1448,41 @@ a.chip:hover{transform:translateY(-2px);border-color:var(--brand-500);color:var(
   border-color:hsl(var(--h) 32% 25%)}
 [data-theme='dark'] .intg__c--tint .intg__cat{color:hsl(var(--h) 72% 74%)}
 [data-theme='dark'] .secc--tint .secc__ico{background:hsl(var(--h) 62% 52%)}
+/* ---- capability explorer: action trail ---- */
+/* The bubbles show the words; this shows the system actions behind them. */
+.cap__trail{margin-top:.35rem;padding:.9rem 1rem;border-radius:var(--r-md);
+  background:var(--surface);border:1px solid var(--line);box-shadow:var(--sh-1)}
+.cap__trailTop{display:flex;align-items:center;justify-content:space-between;gap:.75rem;
+  flex-wrap:wrap;margin-bottom:.7rem;font-family:var(--font-d);font-weight:700;
+  font-size:var(--t-xs);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-4)}
+.cap__trailTop>span:first-child{display:inline-flex;align-items:center;gap:.4rem}
+.cap__trailTop .i{width:1em;height:1em;color:var(--brand-ink)}
+.cap__meta{font-family:var(--font-b);font-weight:600;letter-spacing:0;text-transform:none;
+  color:var(--accent-ink);background:var(--accent-50);border:1px solid var(--accent-100);
+  padding:.2rem .55rem;border-radius:var(--r-pill);white-space:nowrap}
+.cap__steps{display:grid;gap:.5rem;counter-reset:s}
+.cap__steps li{display:flex;gap:.6rem;align-items:flex-start;font-size:var(--t-sm);
+  color:var(--ink-2);line-height:1.5;position:relative}
+/* Connect the steps so they read as a sequence, not a bullet list. */
+.cap__steps li:not(:last-child)::after{content:'';position:absolute;left:.82rem;top:1.75rem;
+  bottom:-.5rem;width:1.5px;background:var(--line-2)}
+.cap__stepIco{width:1.65rem;height:1.65rem;flex:none;display:grid;place-items:center;
+  border-radius:7px;background:var(--brand-50);color:var(--brand-ink);
+  border:1px solid var(--brand-100);position:relative;z-index:1}
+.cap__stepIco .i{width:.9rem;height:.9rem}
+
+/* ---- how-it-works steps: hue-stepped like the rest of the site ---- */
+.step--tint{background:linear-gradient(150deg,hsl(var(--h) 74% 97.5%),
+  hsl(calc(var(--h) + 20) 70% 94.5%));border-color:hsl(var(--h) 46% 89%)}
+.step--tint:hover{border-color:hsl(var(--h) 50% 78%)}
+.step--tint::before{background:linear-gradient(90deg,hsl(var(--h) 60% 48%),
+  hsl(calc(var(--h) + 24) 62% 58%))}
+.step--tint .step__n{background:hsl(var(--h) 58% 24%);color:hsl(var(--h) 80% 82%)}
+.step--tint .step__time{color:hsl(var(--h) 56% 32%)}
+.step--tint .step__ico{color:hsl(var(--h) 46% 82%)}
+[data-theme='dark'] .step--tint{
+  background:linear-gradient(150deg,hsl(var(--h) 40% 14%),hsl(calc(var(--h) + 20) 36% 10.5%));
+  border-color:hsl(var(--h) 32% 25%)}
+[data-theme='dark'] .step--tint .step__n{background:hsl(var(--h) 55% 30%);color:#fff}
+[data-theme='dark'] .step--tint .step__time{color:hsl(var(--h) 78% 74%)}
+[data-theme='dark'] .step--tint .step__ico{color:hsl(var(--h) 40% 30%)}
