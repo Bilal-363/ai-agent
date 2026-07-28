@@ -1431,3 +1431,20 @@ a.chip:hover{transform:translateY(-2px);border-color:var(--brand-500);color:var(
 /* The header holds two CTAs now; the secondary one stands down before the
    primary does, and both live in the drawer below 1024px anyway. */
 @media (max-width:1240px){ .hdr__contact{display:none} }
+/* ---- hue-washed integration + security cards ---- */
+/* Same formula as .card--tint. Integrations take the hue of their own monogram;
+   security cards step the shared use-case ramp. */
+.intg__c--tint,.secc--tint{
+  background:linear-gradient(150deg,hsl(var(--h) 74% 97.5%),hsl(calc(var(--h) + 20) 70% 94.5%));
+  border-color:hsl(var(--h) 46% 89%)}
+.intg__c--tint:hover,.secc--tint:hover{border-color:hsl(var(--h) 50% 78%)}
+.intg__c--tint::before,.secc--tint::before{
+  background:linear-gradient(90deg,hsl(var(--h) 60% 48%),hsl(calc(var(--h) + 24) 62% 58%))}
+.intg__c--tint .intg__cat{color:hsl(var(--h) 54% 32%)}
+.secc--tint .secc__ico{background:hsl(var(--h) 60% 40%)}
+.secc--tint:hover .secc__ico{background:hsl(var(--h) 62% 32%)}
+[data-theme='dark'] .intg__c--tint,[data-theme='dark'] .secc--tint{
+  background:linear-gradient(150deg,hsl(var(--h) 40% 14%),hsl(calc(var(--h) + 20) 36% 10.5%));
+  border-color:hsl(var(--h) 32% 25%)}
+[data-theme='dark'] .intg__c--tint .intg__cat{color:hsl(var(--h) 72% 74%)}
+[data-theme='dark'] .secc--tint .secc__ico{background:hsl(var(--h) 62% 52%)}

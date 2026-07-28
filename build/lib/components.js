@@ -90,6 +90,18 @@ function serviceCards(limit) {
 
 /* --------------------------------------------------------- use-case hue ramp */
 
+/** Hue (0-360) of a #rrggbb, so a card can be washed in its own brand colour. */
+const hexHue = (hex) => {
+  const [r, g, b] = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+  const max = Math.max(r, g, b), min = Math.min(r, g, b), d = max - min;
+  if (!d) return 232;
+  const h = max === r ? ((g - b) / d + (g < b ? 6 : 0))
+          : max === g ? (b - r) / d + 2
+          : (r - g) / d + 4;
+  return Math.round(h * 60);
+};
+
+
 /**
  * One hue per use case, stepped blue -> magenta -> orange across the list.
  * Shared by the cards below and the deep panels on the use-cases page, so a given
@@ -189,7 +201,8 @@ ${search
 <div class="intg">
   ${D.integrations
     .map(
-      (i) => `<div class="intg__c reveal" data-intg="${esc(i.name + ' ' + i.category + ' ' + i.note)}">
+      (i) => `<div class="intg__c intg__c--tint reveal" style="--h:${hexHue(i.tint)}"
+    data-intg="${esc(i.name + ' ' + i.category + ' ' + i.note)}">
     <span class="intg__mark" style="--tint:${i.tint}" aria-hidden="true">${esc(i.mark)}</span>
     <p class="intg__n">${esc(i.name)}</p>
     <p class="intg__cat">${esc(i.category)}</p>
@@ -214,7 +227,8 @@ function securityGrid(limit) {
   return `<div class="secg">
     ${list
       .map(
-        (s, i) => `<div class="secc reveal reveal-d${(i % 4) + 1}">
+        (s, i) => `<div class="secc secc--tint reveal reveal-d${(i % 4) + 1}"
+      style="--h:${ucHue(i, list.length)}">
       <span class="secc__ico">${icon(s.icon)}</span>
       <h3 class="secc__t">${esc(s.title)}</h3>
       <p class="secc__p">${esc(s.body)}</p>
@@ -583,6 +597,6 @@ module.exports = {
   crumbs, phero, shead, ticks, marquee, statBand, serviceCards, useCaseCards,
   stepsSection, testimonials, integrationsWall, securityGrid, pricingCards,
   faqList, roiCalculator, ctaSplit, demoPlayer, languagesStrip, calls, LANGUAGES,
-  ehrDiagram, logoChip, ucHue,
+  ehrDiagram, logoChip, ucHue, hexHue,
   capabilityExplorer,
 };

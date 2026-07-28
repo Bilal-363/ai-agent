@@ -11,12 +11,12 @@ Build a **production-ready, deploy-today marketing website** for **Vocryn AI** �
 AI voice receptionist ("Casey") for dental and primary-care clinics.
 
 Benchmarks:
-- **talkie.ai** — the design north star. Simple, calm, generous whitespace, one idea per screen,
+- **Reference A (a calm healthcare voice-AI site)** — the design north star. Simple, calm, generous whitespace, one idea per screen,
   no visual noise. *Copy the restraint, not the layout.*
-- **confido.health** — the content/depth benchmark. Named agents, deep use-case library,
+- **Reference B (a deeper healthcare-ops site)** — the content/depth benchmark. Named agents, deep use-case library,
   integrations wall, ROI calculator, FAQ, testimonials, funding/social proof.
 
-Deliver **Talkie's calm surface over Confido's depth of substance.**
+Deliver **Reference A's calm surface over Reference B's depth of substance.**
 
 Non-negotiables the client stated verbatim:
 1. Responsive website **and responsive text** (fluid type, no fixed px headlines).
