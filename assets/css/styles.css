@@ -1486,3 +1486,75 @@ a.chip:hover{transform:translateY(-2px);border-color:var(--brand-500);color:var(
 [data-theme='dark'] .step--tint .step__n{background:hsl(var(--h) 55% 30%);color:#fff}
 [data-theme='dark'] .step--tint .step__time{color:hsl(var(--h) 78% 74%)}
 [data-theme='dark'] .step--tint .step__ico{color:hsl(var(--h) 40% 30%)}
+
+/* ---- logo wall: two marquee rows of real vendor logos ---- */
+.lw{--lw-h:clamp(2.1rem,1.7rem + 1.1vw,2.9rem)}
+.lw__stats{display:flex;flex-wrap:wrap;gap:.6rem;justify-content:center;
+  margin-bottom:clamp(1.75rem,1.2rem + 2vw,2.75rem)}
+.lw__stat{display:inline-flex;align-items:baseline;gap:.4rem;font-size:var(--t-xs);
+  color:var(--ink-3);background:var(--surface);border:1px solid var(--line);
+  padding:.45rem .9rem;border-radius:var(--r-pill);box-shadow:var(--sh-1)}
+.lw__stat b{font-family:var(--font-d);font-weight:800;color:var(--ink);letter-spacing:-.02em}
+.lw__stat--on{border-color:var(--brand-100);background:var(--brand-50)}
+.lw__stat--on b{color:var(--brand-ink)}
+
+.lw__cat{display:inline-flex;align-items:center;gap:.4rem;margin:0 auto .9rem;
+  font-family:var(--font-d);font-weight:700;font-size:var(--t-xs);letter-spacing:.09em;
+  text-transform:uppercase;color:var(--brand-ink);background:var(--brand-50);
+  border:1px solid var(--brand-100);padding:.35rem .8rem;border-radius:var(--r-pill)}
+.lw__cat .i{width:1em;height:1em}
+.lw:not(:has(*)) .lw__cat{display:none}
+.lw__row{position:relative;overflow:hidden;margin-bottom:clamp(1.5rem,1rem + 1.6vw,2.25rem)}
+.lw__row::before,.lw__row::after{content:'';position:absolute;top:0;bottom:0;
+  width:clamp(2rem,7vw,7rem);z-index:2;pointer-events:none}
+.lw__row::before{left:0;background:linear-gradient(90deg,var(--bg-alt),transparent)}
+.lw__row::after{right:0;background:linear-gradient(270deg,var(--bg-alt),transparent)}
+.lw__track{display:flex;gap:clamp(.6rem,.4rem + .8vw,1.1rem);width:max-content;
+  animation:lwScroll 46s linear infinite}
+.lw__row--rev .lw__track{animation-direction:reverse}
+.lw__row:hover .lw__track{animation-play-state:paused}
+@keyframes lwScroll{to{transform:translateX(-50%)}}
+.lw__item{flex:none;display:grid;place-items:center;width:clamp(8rem,7rem + 4vw,11rem);
+  padding:.85rem 1rem;border-radius:var(--r-md);background:#fff;
+  border:1px solid var(--line);box-shadow:var(--sh-1);
+  transition:transform .26s var(--ease),box-shadow .26s var(--ease)}
+.lw__item:hover{transform:translateY(-3px);box-shadow:var(--sh-2)}
+.lw__item img{height:var(--lw-h);width:auto;max-width:100%;object-fit:contain;
+  mix-blend-mode:multiply}
+.lw__note{display:flex;gap:.55rem;align-items:flex-start;max-width:44rem;
+  margin:.5rem auto 0;padding:.85rem 1.1rem;border-radius:var(--r-md);
+  background:var(--surface);border:1px solid var(--line);font-size:var(--t-xs);
+  color:var(--ink-3);line-height:1.55}
+.lw__note .i{width:1.05rem;height:1.05rem;flex:none;margin-top:.1rem;color:var(--brand-ink)}
+/* The logos are JPEG-on-white, so the tile stays white in dark mode too — the
+   alternative is inverting vendor marks, which misrepresents them. */
+[data-theme='dark'] .lw__row::before{background:linear-gradient(90deg,var(--bg-alt),transparent)}
+[data-theme='dark'] .lw__row::after{background:linear-gradient(270deg,var(--bg-alt),transparent)}
+
+/* real logos on the integrations page cards */
+.intg__logo{height:1.9rem;width:auto;max-width:9rem;object-fit:contain;object-position:left;
+  margin-bottom:.9rem;mix-blend-mode:multiply}
+[data-theme='dark'] .intg__logo{background:#fff;border-radius:6px;padding:.2rem .35rem;
+  mix-blend-mode:normal}
+
+/* Centred hero: heading and lead share one centred block above the columns. */
+.hero__top--center{text-align:center;max-width:52rem;margin-inline:auto}
+.hero__top--center .hero__p{margin-inline:auto;max-width:44rem;margin-top:1.35rem}
+.hero__top--center .hero__live{justify-content:center}
+
+/* Our mark above the embed. The widget's own avatar is inside a cross-origin
+   iframe and cannot be restyled from here — it is set in the booking provider. */
+.cal__brand{display:flex;align-items:center;gap:.6rem;margin-bottom:1.1rem;
+  padding-bottom:1.1rem;border-bottom:1px solid var(--line)}
+.cal__brand img{width:3.2rem;height:auto}
+.cal__brand span{font-family:var(--font-d);font-weight:800;font-size:var(--t-logo);
+  color:var(--ink);letter-spacing:-.03em}
+.cal__brand b{color:var(--accent-ink);font-weight:800}
+
+/* Centred hero: CTAs and note follow the centred text, then the photo and the
+   counters sit beneath it rather than beside it. */
+.hero__top--center .hero__btns{justify-content:center;margin-top:1.85rem}
+.hero__top--center .hero__note{justify-content:center}
+.hero__art--wide{max-width:min(64rem,100%);margin:clamp(2.25rem,1.5rem + 3vw,3.5rem) auto 0}
+.hero__stats--center{max-width:46rem;margin:clamp(2rem,1.4rem + 2vw,2.75rem) auto 0;
+  text-align:center;padding-top:1.75rem}

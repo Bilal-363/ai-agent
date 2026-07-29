@@ -10,43 +10,33 @@ const body = `
 <!-- The headline spans the full wrap above the two columns. Inside a ~620px
      column it broke across four lines and split "Every patient / heard." mid
      phrase; full width it sits on one. -->
+<!-- Fully centred hero: heading, lead and CTAs in one centred column, then the
+     photograph and the live counters beneath. Splitting the heading across a
+     two-column grid broke it over four lines and left the CTAs adrift. -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero__top">
+    <div class="hero__top hero__top--center">
       <p class="hero__live"><span class="hero__dot"></span> Casey is answering calls right now</p>
       <p class="eyebrow">${icon('shield-check')} HIPAA-ready · BAA included</p>
       <h1 class="hero__h">Your clinic's AI receptionist.</h1>
-    </div>
-  <div class="hero__grid">
-    <div>
       <p class="lead hero__p"><strong class="grad">Every patient heard. Every appointment booked.</strong>
-        Casey answers in under two seconds, books straight into your EHR, verifies
-        insurance, and hands anything urgent to a real person. Nights, weekends, and the Monday-morning
-        rush included.</p>
+        Casey answers in under two seconds, books straight into your EHR, verifies insurance, and
+        hands anything urgent to a real person. Nights, weekends, and the Monday-morning rush
+        included.</p>
       <div class="btnrow hero__btns">
         <a class="btn btn--primary btn--lg" href="${u('/demo.html')}">Book a Demo ${icon('arrow-right')}</a>
         <a class="btn btn--ghost btn--lg" href="#demo">${icon('play')} Hear a real call</a>
       </div>
-      <p class="hero__note">${icon('check')} Live in 10 business days ${icon('check')} Keep your phone number
-        ${icon('check')} Month to month</p>
-
-      <div class="hero__stats">
-        ${D.heroStats
-          .map(
-            (s) => `<div class="hero__stat">
-          <b data-count="${s.value}" data-dec="${s.format === 'dec' ? 1 : 0}" data-suf="${s.suffix}">0${s.suffix}</b>
-          <span>${esc(s.label)}</span>
-        </div>`
-          )
-          .join('')}
-      </div>
+      <p class="hero__note">${icon('check')} Live in 10 business days ${icon('check')} Keep your phone
+        number ${icon('check')} Month to month</p>
     </div>
 
-    <div class="hero__art reveal reveal-d2">
+    <div class="hero__art hero__art--wide reveal reveal-d2">
       <img class="hero__img" src="assets/img/reception.webp"
            srcset="assets/img/reception-sm.webp 700w, assets/img/reception.webp 1200w"
-           sizes="(max-width: 1024px) 90vw, 46vw"
-           width="1200" height="800" alt="A clinic receptionist wearing a headset, answering a call at the front desk">
+           sizes="(max-width: 1100px) 94vw, 66vw"
+           width="1200" height="800"
+           alt="A clinic receptionist wearing a headset, answering a call at the front desk">
       <div class="hero__badge hero__badge--tl">
         <span class="hero__badgeIco">${icon('phone')}</span>
         <span>Answered in <b>1.4s</b></span>
@@ -56,7 +46,17 @@ const body = `
         <span>Booked to <b>athenahealth</b></span>
       </div>
     </div>
-  </div>
+
+    <div class="hero__stats hero__stats--center">
+      ${D.heroStats
+        .map(
+          (s) => `<div class="hero__stat">
+        <b data-count="${s.value}" data-dec="${s.format === 'dec' ? 1 : 0}" data-suf="${s.suffix}">0${s.suffix}</b>
+        <span>${esc(s.label)}</span>
+      </div>`
+        )
+        .join('')}
+    </div>
   </div>
 </section>
 
@@ -217,12 +217,12 @@ ${C.statBand({
     ${C.shead({
       eyebrow: 'Integrations',
       eyebrowIcon: 'database',
-      h: 'It writes into your system, not a spreadsheet.',
-      lead: 'A booking is only real when it lands in your schedule. Casey has two-way access to the software your team already lives in.',
+      h: 'Works with the platform <span class="grad">your clinic already runs.</span>',
+      lead: 'Casey reads availability, writes bookings, and syncs call data straight into your existing EHR — no third-party middleware, no manual entry.',
     })}
-    ${C.integrationsWall()}
+    ${C.logoWall()}
     <div class="btnrow" style="justify-content:center;margin-top:2.5rem">
-      <a class="btn btn--ghost" href="${u('/integrations.html')}">See all integrations ${icon('arrow-right')}</a>
+      <a class="btn btn--ghost" href="${u('/integrations.html')}">See every integration ${icon('arrow-right')}</a>
     </div>
   </div>
 </section>

@@ -110,6 +110,8 @@ const SHOTS = [
     `document.querySelector('form[data-validate]').scrollIntoView({ block: 'start' }); scrollBy(0,-90)`],
   ['steps-1440', 'how-it-works.html', 1440, 780, 'light',
     `document.querySelector('.steps').scrollIntoView({ block: 'center' })`],
+  ['lw-1440', 'index.html', 1440, 900, 'light',
+    `document.querySelector('.lw').scrollIntoView({ block: 'center' })`],
   ['logo-zoom', 'index.html', 640, 200, 'light', ''],
   ['logo-zoom-dark', 'index.html', 640, 200, 'dark', ''],
   // The same mark at four sizes, so it can be judged where it actually gets used:

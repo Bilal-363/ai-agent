@@ -204,7 +204,8 @@ ${search
     .map(
       (i) => `<div class="intg__c intg__c--tint reveal" style="--h:${hexHue(i.tint)}"
     data-intg="${esc(i.name + ' ' + i.category + ' ' + i.note)}">
-    <span class="intg__mark" style="--tint:${i.tint}" aria-hidden="true">${esc(i.mark)}</span>
+    <img class="intg__logo" src="assets/img/logos/${i.logo}.webp" alt="${esc(i.name)} logo"
+      width="300" height="100" loading="lazy" decoding="async">
     <p class="intg__n">${esc(i.name)}</p>
     <p class="intg__cat">${esc(i.category)}</p>
     <p class="intg__note">${esc(i.note)}</p>
@@ -523,6 +524,55 @@ function capabilityExplorer() {
 </div>`;
 }
 
+/* ------------------------------------------------------------- logo wall ---- */
+
+/**
+ * Two marquee rows of real vendor logos, split medical / dental, running in
+ * opposite directions.
+ *
+ * These are the same logo files the production site serves, so they are assets the
+ * client already uses rather than lookalikes we invented. The row is duplicated in
+ * the DOM because a CSS marquee needs two identical halves to loop seamlessly;
+ * `aria-hidden` on the copy keeps a screen reader from reading every name twice.
+ */
+function logoWall() {
+  const row = (items, cls) => {
+    // Four or five tiles is not enough to span a wide viewport, so each half of the
+    // loop repeats the set until it comfortably overflows. The two halves must stay
+    // identical for the -50% translate to loop without a jump.
+    const reps = Math.max(2, Math.ceil(14 / items.length));
+    const tile = (i, first) => `<li class="lw__item"${first ? '' : ' aria-hidden="true"'}>
+      <img src="assets/img/logos/${i.logo}.webp" alt="${first ? esc(i.name) : ''}"
+        width="300" height="100" loading="lazy" decoding="async"></li>`;
+    // Name each product once for a screen reader; every repeat is decorative.
+    const half = Array.from({ length: reps }, (_, r) => items.map((i) => tile(i, r === 0)).join('')).join('');
+    const dup = half.replace(/alt="[^"]*"/g, 'alt=""')
+      .replace(/<li class="lw__item">/g, '<li class="lw__item" aria-hidden="true">');
+    return `<div class="lw__row ${cls}"><ul class="lw__track">${half}${dup}</ul></div>`;
+  };
+
+  const medical = D.integrations.filter((i) => i.category === 'Medical EHR');
+  const dental = D.integrations.filter((i) => i.category === 'Dental PMS');
+
+  return `<div class="lw">
+  <div class="lw__stats">
+    <span class="lw__stat"><b>${D.integrations.length}+</b> EHR platforms</span>
+    <span class="lw__stat lw__stat--on"><b>Real-time</b> bi-directional sync</span>
+    <span class="lw__stat"><b>Zero</b> manual data entry</span>
+  </div>
+
+  <p class="lw__cat">${icon('plus')} Medical EHR systems</p>
+  ${row(medical, 'lw__row--fwd')}
+
+  <p class="lw__cat">${icon('tooth')} Dental practice management</p>
+  ${row(dental, 'lw__row--rev')}
+
+  <p class="lw__note">${icon('sparkles')} <span>Don't see yours? Casey integrates with any EHR
+    that exposes an API — most are live inside a week, and we will tell you straight if yours
+    is not one of them.</span></p>
+</div>`;
+}
+
 /* --------------------------------------------- EHR integration diagram ---- */
 
 /**
@@ -616,6 +666,6 @@ module.exports = {
   crumbs, phero, shead, ticks, marquee, statBand, serviceCards, useCaseCards,
   stepsSection, testimonials, integrationsWall, securityGrid, pricingCards,
   faqList, roiCalculator, ctaSplit, demoPlayer, languagesStrip, calls, LANGUAGES,
-  ehrDiagram, logoChip, ucHue, hexHue,
+  ehrDiagram, logoChip, ucHue, hexHue, logoWall,
   capabilityExplorer,
 };

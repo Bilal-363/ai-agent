@@ -515,15 +515,15 @@ const useCases = [
 /* --------------------------------------------------------------- integrations */
 
 const integrations = [
-  { name: 'Epic', mark: 'Ep', tint: '#B4232F', category: 'Medical EHR', note: 'Scheduling, chart write-back, telephone encounters' },
-  { name: 'athenahealth', mark: 'ah', tint: '#6E2C8F', category: 'Medical EHR', note: 'Two-way scheduling and patient record sync' },
-  { name: 'eClinicalWorks', mark: 'eC', tint: '#B45A1A', category: 'Medical EHR', note: 'Appointments, refills, and documentation' },
-  { name: 'Practice Fusion', mark: 'PF', tint: '#21799B', category: 'Medical EHR', note: 'Appointment booking and chart updates' },
-  { name: 'Dentrix', mark: 'Dx', tint: '#1257A6', category: 'Dental PMS', note: 'Operatory-aware booking and hygiene recall' },
-  { name: 'Dentrix Ascend', mark: 'DA', tint: '#0E77AB', category: 'Dental PMS', note: 'Cloud scheduling and recall automation' },
-  { name: 'NexHealth', mark: 'Nx', tint: '#4B3FD4', category: 'Dental PMS', note: 'Real-time availability and instant booking' },
-  { name: 'Curve Dental', mark: 'Cv', tint: '#0D826F', category: 'Dental PMS', note: 'Scheduling, recall, and patient records' },
-  { name: 'Open Dental', mark: 'OD', tint: '#17639E', category: 'Dental PMS', note: 'Full read/write scheduling integration' },
+  { name: 'Epic', logo: 'epic', mark: 'Ep', tint: '#B4232F', category: 'Medical EHR', note: 'Scheduling, chart write-back, telephone encounters' },
+  { name: 'athenahealth', logo: 'athenahealth', mark: 'ah', tint: '#6E2C8F', category: 'Medical EHR', note: 'Two-way scheduling and patient record sync' },
+  { name: 'eClinicalWorks', logo: 'eclinicalworks', mark: 'eC', tint: '#B45A1A', category: 'Medical EHR', note: 'Appointments, refills, and documentation' },
+  { name: 'Practice Fusion', logo: 'practice-fusion', mark: 'PF', tint: '#21799B', category: 'Medical EHR', note: 'Appointment booking and chart updates' },
+  { name: 'Dentrix', logo: 'dentrix', mark: 'Dx', tint: '#1257A6', category: 'Dental PMS', note: 'Operatory-aware booking and hygiene recall' },
+  { name: 'Dentrix Ascend', logo: 'dentrix-ascend', mark: 'DA', tint: '#0E77AB', category: 'Dental PMS', note: 'Cloud scheduling and recall automation' },
+  { name: 'NexHealth', logo: 'nexhealth', mark: 'Nx', tint: '#4B3FD4', category: 'Dental PMS', note: 'Real-time availability and instant booking' },
+  { name: 'Curve Dental', logo: 'curve-dental', mark: 'Cv', tint: '#0D826F', category: 'Dental PMS', note: 'Scheduling, recall, and patient records' },
+  { name: 'Open Dental', logo: 'open-dental', mark: 'OD', tint: '#17639E', category: 'Dental PMS', note: 'Full read/write scheduling integration' },
 ];
 
 const telephony = ['RingCentral', 'Twilio', 'Zoom Phone', '8x8', 'Vonage', 'Dialpad', 'Nextiva', '3CX'];

@@ -118,6 +118,10 @@ const qualForm = `<form class="form deep__panel reveal reveal-d2" data-validate 
  * browser or extension blocks it.
  */
 const calendarEmbed = () => `<div class="cal deep__panel reveal reveal-d2">
+  <div class="cal__brand">
+    <img src="assets/img/logo-mark.webp" width="440" height="213" alt="" aria-hidden="true">
+    <span>Vocryn <b>Ai</b></span>
+  </div>
   <p class="eyebrow">${icon('calendar-check')} Pick a time</p>
   <h2 class="h3" style="margin:1rem 0 .45rem">Schedule your Vocryn AI demo</h2>
   <p class="price__b" style="margin-bottom:1.25rem">Choose a slot that suits you and we will walk

@@ -265,45 +265,33 @@
 <!-- The headline spans the full wrap above the two columns. Inside a ~620px
      column it broke across four lines and split "Every patient / heard." mid
      phrase; full width it sits on one. -->
+<!-- Fully centred hero: heading, lead and CTAs in one centred column, then the
+     photograph and the live counters beneath. Splitting the heading across a
+     two-column grid broke it over four lines and left the CTAs adrift. -->
 <section class="hero">
   <div class="wrap">
-    <div class="hero__top">
+    <div class="hero__top hero__top--center">
       <p class="hero__live"><span class="hero__dot"></span> Casey is answering calls right now</p>
       <p class="eyebrow"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg> HIPAA-ready · BAA included</p>
       <h1 class="hero__h">Your clinic's AI receptionist.</h1>
-    </div>
-  <div class="hero__grid">
-    <div>
       <p class="lead hero__p"><strong class="grad">Every patient heard. Every appointment booked.</strong>
-        Casey answers in under two seconds, books straight into your EHR, verifies
-        insurance, and hands anything urgent to a real person. Nights, weekends, and the Monday-morning
-        rush included.</p>
+        Casey answers in under two seconds, books straight into your EHR, verifies insurance, and
+        hands anything urgent to a real person. Nights, weekends, and the Monday-morning rush
+        included.</p>
       <div class="btnrow hero__btns">
         <a class="btn btn--primary btn--lg" href="demo.html">Book a Demo <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
         <a class="btn btn--ghost btn--lg" href="#demo"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M6 3l14 9-14 9z"/></svg> Hear a real call</a>
       </div>
-      <p class="hero__note"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg> Live in 10 business days <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg> Keep your phone number
-        <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg> Month to month</p>
-
-      <div class="hero__stats">
-        <div class="hero__stat">
-          <b data-count="24847" data-dec="0" data-suf="">0</b>
-          <span>Calls answered</span>
-        </div><div class="hero__stat">
-          <b data-count="18203" data-dec="0" data-suf="">0</b>
-          <span>Appointments booked</span>
-        </div><div class="hero__stat">
-          <b data-count="94.2" data-dec="1" data-suf="%">0%</b>
-          <span>Positive sentiment</span>
-        </div>
-      </div>
+      <p class="hero__note"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg> Live in 10 business days <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg> Keep your phone
+        number <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M20 6L9 17l-5-5"/></svg> Month to month</p>
     </div>
 
-    <div class="hero__art reveal reveal-d2">
+    <div class="hero__art hero__art--wide reveal reveal-d2">
       <img class="hero__img" src="assets/img/reception.webp"
            srcset="assets/img/reception-sm.webp 700w, assets/img/reception.webp 1200w"
-           sizes="(max-width: 1024px) 90vw, 46vw"
-           width="1200" height="800" alt="A clinic receptionist wearing a headset, answering a call at the front desk">
+           sizes="(max-width: 1100px) 94vw, 66vw"
+           width="1200" height="800"
+           alt="A clinic receptionist wearing a headset, answering a call at the front desk">
       <div class="hero__badge hero__badge--tl">
         <span class="hero__badgeIco"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2.1z"/></svg></span>
         <span>Answered in <b>1.4s</b></span>
@@ -313,7 +301,19 @@
         <span>Booked to <b>athenahealth</b></span>
       </div>
     </div>
-  </div>
+
+    <div class="hero__stats hero__stats--center">
+      <div class="hero__stat">
+        <b data-count="24847" data-dec="0" data-suf="">0</b>
+        <span>Calls answered</span>
+      </div><div class="hero__stat">
+        <b data-count="18203" data-dec="0" data-suf="">0</b>
+        <span>Appointments booked</span>
+      </div><div class="hero__stat">
+        <b data-count="94.2" data-dec="1" data-suf="%">0%</b>
+        <span>Positive sentiment</span>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -1564,74 +1564,152 @@
     
 <div class="shead shead--c">
   <p class="eyebrow"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M21 12c0 1.7-4 3-9 3s-9-1.3-9-3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5"/></svg> Integrations</p>
-  <h2 class="h2">It writes into your system, not a spreadsheet.</h2>
-  <p class="lead">A booking is only real when it lands in your schedule. Casey has two-way access to the software your team already lives in.</p>
+  <h2 class="h2">Works with the platform <span class="grad">your clinic already runs.</span></h2>
+  <p class="lead">Casey reads availability, writes bookings, and syncs call data straight into your existing EHR — no third-party middleware, no manual entry.</p>
 </div>
-    
-
-<div class="intg">
-  <div class="intg__c intg__c--tint reveal" style="--h:355"
-    data-intg="Epic Medical EHR Scheduling, chart write-back, telephone encounters">
-    <span class="intg__mark" style="--tint:#B4232F" aria-hidden="true">Ep</span>
-    <p class="intg__n">Epic</p>
-    <p class="intg__cat">Medical EHR</p>
-    <p class="intg__note">Scheduling, chart write-back, telephone encounters</p>
-  </div><div class="intg__c intg__c--tint reveal" style="--h:280"
-    data-intg="athenahealth Medical EHR Two-way scheduling and patient record sync">
-    <span class="intg__mark" style="--tint:#6E2C8F" aria-hidden="true">ah</span>
-    <p class="intg__n">athenahealth</p>
-    <p class="intg__cat">Medical EHR</p>
-    <p class="intg__note">Two-way scheduling and patient record sync</p>
-  </div><div class="intg__c intg__c--tint reveal" style="--h:25"
-    data-intg="eClinicalWorks Medical EHR Appointments, refills, and documentation">
-    <span class="intg__mark" style="--tint:#B45A1A" aria-hidden="true">eC</span>
-    <p class="intg__n">eClinicalWorks</p>
-    <p class="intg__cat">Medical EHR</p>
-    <p class="intg__note">Appointments, refills, and documentation</p>
-  </div><div class="intg__c intg__c--tint reveal" style="--h:197"
-    data-intg="Practice Fusion Medical EHR Appointment booking and chart updates">
-    <span class="intg__mark" style="--tint:#21799B" aria-hidden="true">PF</span>
-    <p class="intg__n">Practice Fusion</p>
-    <p class="intg__cat">Medical EHR</p>
-    <p class="intg__note">Appointment booking and chart updates</p>
-  </div><div class="intg__c intg__c--tint reveal" style="--h:212"
-    data-intg="Dentrix Dental PMS Operatory-aware booking and hygiene recall">
-    <span class="intg__mark" style="--tint:#1257A6" aria-hidden="true">Dx</span>
-    <p class="intg__n">Dentrix</p>
-    <p class="intg__cat">Dental PMS</p>
-    <p class="intg__note">Operatory-aware booking and hygiene recall</p>
-  </div><div class="intg__c intg__c--tint reveal" style="--h:200"
-    data-intg="Dentrix Ascend Dental PMS Cloud scheduling and recall automation">
-    <span class="intg__mark" style="--tint:#0E77AB" aria-hidden="true">DA</span>
-    <p class="intg__n">Dentrix Ascend</p>
-    <p class="intg__cat">Dental PMS</p>
-    <p class="intg__note">Cloud scheduling and recall automation</p>
-  </div><div class="intg__c intg__c--tint reveal" style="--h:245"
-    data-intg="NexHealth Dental PMS Real-time availability and instant booking">
-    <span class="intg__mark" style="--tint:#4B3FD4" aria-hidden="true">Nx</span>
-    <p class="intg__n">NexHealth</p>
-    <p class="intg__cat">Dental PMS</p>
-    <p class="intg__note">Real-time availability and instant booking</p>
-  </div><div class="intg__c intg__c--tint reveal" style="--h:170"
-    data-intg="Curve Dental Dental PMS Scheduling, recall, and patient records">
-    <span class="intg__mark" style="--tint:#0D826F" aria-hidden="true">Cv</span>
-    <p class="intg__n">Curve Dental</p>
-    <p class="intg__cat">Dental PMS</p>
-    <p class="intg__note">Scheduling, recall, and patient records</p>
-  </div><div class="intg__c intg__c--tint reveal" style="--h:206"
-    data-intg="Open Dental Dental PMS Full read/write scheduling integration">
-    <span class="intg__mark" style="--tint:#17639E" aria-hidden="true">OD</span>
-    <p class="intg__n">Open Dental</p>
-    <p class="intg__cat">Dental PMS</p>
-    <p class="intg__note">Full read/write scheduling integration</p>
+    <div class="lw">
+  <div class="lw__stats">
+    <span class="lw__stat"><b>9+</b> EHR platforms</span>
+    <span class="lw__stat lw__stat--on"><b>Real-time</b> bi-directional sync</span>
+    <span class="lw__stat"><b>Zero</b> manual data entry</span>
   </div>
-</div>
 
-<p class="intg__tel reveal"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 2.1-.4c.9.3 1.8.5 2.8.6a2 2 0 0 1 1.7 2.1z"/></svg> <span><strong>Your phone system already works.</strong>
-  We forward your existing number, so Casey sits behind whatever you use today —
-  RingCentral, Twilio, Zoom Phone, 8x8, Vonage, Dialpad, Nextiva and 3CX included.</span></p>
+  <p class="lw__cat"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5v14M5 12h14"/></svg> Medical EHR systems</p>
+  <div class="lw__row lw__row--fwd"><ul class="lw__track"><li class="lw__item">
+      <img src="assets/img/logos/epic.webp" alt="Epic"
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item">
+      <img src="assets/img/logos/athenahealth.webp" alt="athenahealth"
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item">
+      <img src="assets/img/logos/eclinicalworks.webp" alt="eClinicalWorks"
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item">
+      <img src="assets/img/logos/practice-fusion.webp" alt="Practice Fusion"
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/epic.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/athenahealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/eclinicalworks.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/practice-fusion.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/epic.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/athenahealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/eclinicalworks.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/practice-fusion.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/epic.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/athenahealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/eclinicalworks.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/practice-fusion.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/epic.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/athenahealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/eclinicalworks.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/practice-fusion.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/epic.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/athenahealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/eclinicalworks.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/practice-fusion.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/epic.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/athenahealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/eclinicalworks.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/practice-fusion.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/epic.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/athenahealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/eclinicalworks.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/practice-fusion.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li></ul></div>
+
+  <p class="lw__cat"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 5.5c-1.7-1.9-4.4-2.6-6.2-1.2C3.7 5.9 3.4 9.4 4.4 12c.7 1.9.9 3.5 1 5.6.1 1.9.4 3.4 1.6 3.4 1.4 0 1.6-2.1 1.9-4 .3-1.7.6-3 1.9-3s1.6 1.3 1.9 3c.3 1.9.5 4 1.9 4 1.2 0 1.5-1.5 1.6-3.4.1-2.1.3-3.7 1-5.6 1-2.6.7-6.1-1.4-7.7-1.8-1.4-4.5-.7-6.2 1.2z"/></svg> Dental practice management</p>
+  <div class="lw__row lw__row--rev"><ul class="lw__track"><li class="lw__item">
+      <img src="assets/img/logos/dentrix.webp" alt="Dentrix"
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item">
+      <img src="assets/img/logos/dentrix-ascend.webp" alt="Dentrix Ascend"
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item">
+      <img src="assets/img/logos/nexhealth.webp" alt="NexHealth"
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item">
+      <img src="assets/img/logos/curve-dental.webp" alt="Curve Dental"
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item">
+      <img src="assets/img/logos/open-dental.webp" alt="Open Dental"
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix-ascend.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/nexhealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/curve-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/open-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix-ascend.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/nexhealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/curve-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/open-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix-ascend.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/nexhealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/curve-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/open-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix-ascend.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/nexhealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/curve-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/open-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/dentrix-ascend.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/nexhealth.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/curve-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li><li class="lw__item" aria-hidden="true">
+      <img src="assets/img/logos/open-dental.webp" alt=""
+        width="300" height="100" loading="lazy" decoding="async"></li></ul></div>
+
+  <p class="lw__note"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M12 3l1.9 4.6L18.5 9.5l-4.6 1.9L12 16l-1.9-4.6L5.5 9.5l4.6-1.9z"/><path d="M19 15l.8 2 2 .8-2 .8-.8 2-.8-2-2-.8 2-.8zM5 16l.6 1.4 1.4.6-1.4.6L5 20l-.6-1.4L3 18l1.4-.6z"/></svg> <span>Don't see yours? Casey integrates with any EHR
+    that exposes an API — most are live inside a week, and we will tell you straight if yours
+    is not one of them.</span></p>
+</div>
     <div class="btnrow" style="justify-content:center;margin-top:2.5rem">
-      <a class="btn btn--ghost" href="integrations.html">See all integrations <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
+      <a class="btn btn--ghost" href="integrations.html">See every integration <svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false"><path d="M5 12h14M13 5l7 7-7 7"/></svg></a>
     </div>
   </div>
 </section>
