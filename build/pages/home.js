@@ -16,8 +16,6 @@ const body = `
 <section class="hero">
   <div class="wrap">
     <div class="hero__top hero__top--center">
-      <p class="hero__live"><span class="hero__dot"></span> Casey is answering calls right now</p>
-      <p class="eyebrow">${icon('shield-check')} HIPAA-ready · BAA included</p>
       <h1 class="hero__h">Your clinic's AI receptionist.</h1>
       <p class="lead hero__p"><strong class="grad">Every patient heard. Every appointment booked.</strong>
         Casey answers in under two seconds, books straight into your EHR, verifies insurance, and
