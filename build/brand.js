@@ -184,7 +184,12 @@ async function shot(file, opts) {
   await send('Page.enable');
   await send('Runtime.enable');
 
-  fs.rmSync(OUT, { recursive: true, force: true });
+  // Clear only the folders this script owns. It used to wipe all of assets/brand,
+  // which silently deleted the compact logo and the READMEs that live alongside.
+  for (const sub of ['lockup', 'social']) {
+    fs.rmSync(path.join(OUT, sub), { recursive: true, force: true });
+  }
+  fs.mkdirSync(OUT, { recursive: true });
   const manifest = [];
   const add = async (file, opts, note) => {
     const bytes = await shot(file, opts);
