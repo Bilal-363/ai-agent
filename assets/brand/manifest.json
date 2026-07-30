@@ -1,0 +1,260 @@
+[
+  {
+    "file": "lockup/lockup-stacked-light.png",
+    "w": 1600,
+    "h": 1200,
+    "note": "stacked lockup, light"
+  },
+  {
+    "file": "lockup/lockup-horizontal-light.png",
+    "w": 2000,
+    "h": 620,
+    "note": "horizontal lockup, light"
+  },
+  {
+    "file": "lockup/mark-only-light.png",
+    "w": 1200,
+    "h": 1200,
+    "note": "mark only, light"
+  },
+  {
+    "file": "lockup/lockup-stacked-dark.png",
+    "w": 1600,
+    "h": 1200,
+    "note": "stacked lockup, dark"
+  },
+  {
+    "file": "lockup/lockup-horizontal-dark.png",
+    "w": 2000,
+    "h": 620,
+    "note": "horizontal lockup, dark"
+  },
+  {
+    "file": "lockup/mark-only-dark.png",
+    "w": 1200,
+    "h": 1200,
+    "note": "mark only, dark"
+  },
+  {
+    "file": "lockup/lockup-stacked-brand.png",
+    "w": 1600,
+    "h": 1200,
+    "note": "stacked lockup, brand"
+  },
+  {
+    "file": "lockup/lockup-horizontal-brand.png",
+    "w": 2000,
+    "h": 620,
+    "note": "horizontal lockup, brand"
+  },
+  {
+    "file": "lockup/mark-only-brand.png",
+    "w": 1200,
+    "h": 1200,
+    "note": "mark only, brand"
+  },
+  {
+    "file": "lockup/lockup-stacked-transparent.png",
+    "w": 1600,
+    "h": 1200,
+    "note": "stacked lockup, transparent"
+  },
+  {
+    "file": "lockup/lockup-horizontal-transparent.png",
+    "w": 2000,
+    "h": 620,
+    "note": "horizontal lockup, transparent"
+  },
+  {
+    "file": "lockup/mark-only-transparent.png",
+    "w": 1200,
+    "h": 1200,
+    "note": "mark only, transparent"
+  },
+  {
+    "file": "social/profile-1024-light.png",
+    "w": 1024,
+    "h": 1024,
+    "note": "master / any platform"
+  },
+  {
+    "file": "social/profile-1024-brand.png",
+    "w": 1024,
+    "h": 1024,
+    "note": "master / any platform"
+  },
+  {
+    "file": "social/profile-800-youtube-light.png",
+    "w": 800,
+    "h": 800,
+    "note": "YouTube channel icon"
+  },
+  {
+    "file": "social/profile-800-youtube-brand.png",
+    "w": 800,
+    "h": 800,
+    "note": "YouTube channel icon"
+  },
+  {
+    "file": "social/profile-500-facebook-light.png",
+    "w": 500,
+    "h": 500,
+    "note": "Facebook page picture"
+  },
+  {
+    "file": "social/profile-500-facebook-brand.png",
+    "w": 500,
+    "h": 500,
+    "note": "Facebook page picture"
+  },
+  {
+    "file": "social/profile-500-whatsapp-light.png",
+    "w": 500,
+    "h": 500,
+    "note": "WhatsApp Business"
+  },
+  {
+    "file": "social/profile-500-whatsapp-brand.png",
+    "w": 500,
+    "h": 500,
+    "note": "WhatsApp Business"
+  },
+  {
+    "file": "social/profile-400-x-light.png",
+    "w": 400,
+    "h": 400,
+    "note": "X (Twitter) profile"
+  },
+  {
+    "file": "social/profile-400-x-brand.png",
+    "w": 400,
+    "h": 400,
+    "note": "X (Twitter) profile"
+  },
+  {
+    "file": "social/profile-320-instagram-light.png",
+    "w": 320,
+    "h": 320,
+    "note": "Instagram profile"
+  },
+  {
+    "file": "social/profile-320-instagram-brand.png",
+    "w": 320,
+    "h": 320,
+    "note": "Instagram profile"
+  },
+  {
+    "file": "social/profile-300-linkedin-light.png",
+    "w": 300,
+    "h": 300,
+    "note": "LinkedIn company logo"
+  },
+  {
+    "file": "social/profile-300-linkedin-brand.png",
+    "w": 300,
+    "h": 300,
+    "note": "LinkedIn company logo"
+  },
+  {
+    "file": "social/profile-200-tiktok-light.png",
+    "w": 200,
+    "h": 200,
+    "note": "TikTok profile"
+  },
+  {
+    "file": "social/profile-200-tiktok-brand.png",
+    "w": 200,
+    "h": 200,
+    "note": "TikTok profile"
+  },
+  {
+    "file": "social/app-512.png",
+    "w": 512,
+    "h": 512,
+    "note": "PWA maskable / Android"
+  },
+  {
+    "file": "social/app-192.png",
+    "w": 192,
+    "h": 192,
+    "note": "PWA"
+  },
+  {
+    "file": "social/app-180-apple.png",
+    "w": 180,
+    "h": 180,
+    "note": "Apple touch icon"
+  },
+  {
+    "file": "social/cover-x-1500x500-brand.png",
+    "w": 1500,
+    "h": 500,
+    "note": "X (Twitter) header"
+  },
+  {
+    "file": "social/cover-x-1500x500-light.png",
+    "w": 1500,
+    "h": 500,
+    "note": "X (Twitter) header"
+  },
+  {
+    "file": "social/cover-facebook-820x312-brand.png",
+    "w": 820,
+    "h": 312,
+    "note": "Facebook page cover"
+  },
+  {
+    "file": "social/cover-facebook-820x312-light.png",
+    "w": 820,
+    "h": 312,
+    "note": "Facebook page cover"
+  },
+  {
+    "file": "social/cover-linkedin-page-1128x191-brand.png",
+    "w": 1128,
+    "h": 191,
+    "note": "LinkedIn page cover"
+  },
+  {
+    "file": "social/cover-linkedin-page-1128x191-light.png",
+    "w": 1128,
+    "h": 191,
+    "note": "LinkedIn page cover"
+  },
+  {
+    "file": "social/cover-linkedin-personal-1584x396-brand.png",
+    "w": 1584,
+    "h": 396,
+    "note": "LinkedIn personal cover"
+  },
+  {
+    "file": "social/cover-linkedin-personal-1584x396-light.png",
+    "w": 1584,
+    "h": 396,
+    "note": "LinkedIn personal cover"
+  },
+  {
+    "file": "social/cover-youtube-2560x1440-brand.png",
+    "w": 2560,
+    "h": 1440,
+    "note": "YouTube channel art (safe area centred)"
+  },
+  {
+    "file": "social/cover-youtube-2560x1440-light.png",
+    "w": 2560,
+    "h": 1440,
+    "note": "YouTube channel art (safe area centred)"
+  },
+  {
+    "file": "social/share-og-1200x630-brand.png",
+    "w": 1200,
+    "h": 630,
+    "note": "Open Graph / link preview"
+  },
+  {
+    "file": "social/share-og-1200x630-light.png",
+    "w": 1200,
+    "h": 630,
+    "note": "Open Graph / link preview"
+  }
+]
