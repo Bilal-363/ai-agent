@@ -83,7 +83,7 @@ function page({ w, h, theme, layout, scale, tagline }) {
     <img src="data:image/png;base64,${MARK_B64}" alt="">
     ${layout === 'mark' ? '' : `<div>
       <div class="word">VOCRYN <b>Ai</b></div>
-      ${tagline ? `<div class="tag">AI Receptionist for Clinics</div>` : ''}
+      ${tagline ? `<div class="tag">AI System for Clinics</div>` : ''}
     </div>`}
   </div>
 </body></html>`;
