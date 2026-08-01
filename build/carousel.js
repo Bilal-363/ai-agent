@@ -167,10 +167,13 @@ function slideHtml(s, i, total) {
       linear-gradient(165deg,#0B1030 0%,#141A4E 55%,#1A1140 100%)}
 
   /* Photo lives in the lower band; the scrim keeps type legible above it. */
-  .photo{position:absolute;inset:38% 0 0;background-size:cover;background-position:center 45%}
+  .photo{position:absolute;inset:0;background-size:cover;background-position:center 42%}
+  /* Top band stays dark enough for the headline; the middle clears so the
+     photograph is visible; the foot darkens again for the footer row. */
   .scrim{position:absolute;inset:0;background:
-    linear-gradient(180deg,#0B1030 0%,#0B1030 34%,rgba(11,16,48,.86) 46%,
-      rgba(11,16,48,.34) 66%,rgba(11,16,48,.58) 100%)}
+    linear-gradient(180deg,rgba(9,13,40,.94) 0%,rgba(9,13,40,.88) 26%,
+      rgba(9,13,40,.62) 44%,rgba(9,13,40,.28) 62%,rgba(9,13,40,.34) 82%,
+      rgba(9,13,40,.72) 100%)}
 
   .wrap{position:absolute;inset:0;padding:84px;display:flex;flex-direction:column}
   .body{display:flex;flex-direction:column;align-items:flex-start;
