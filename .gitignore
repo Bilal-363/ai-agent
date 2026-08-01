@@ -17,3 +17,4 @@ Thumbs.db
 node_modules/
 build/logo-src/mark-hi.b64.txt
 build/carousel-src/
+build/preview/
