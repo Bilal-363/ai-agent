@@ -2,17 +2,18 @@
 'use strict';
 
 /**
- * Assembles the 30-second "12:40" advertisement.
+ * Assembles the "12:40" advertisement — 9:16, ~30s.
  *
  *   node build/ad.js
  *
- * Live footage comes from three Kling clips in build/video-src/. Everything else
- * — title cards, the phone UI, the maths, the end card, and the text laid over
- * the footage — is rendered here through Chrome and composited with ffmpeg.
+ * Live footage: three Kling clips in build/video-src/. Everything else — cards,
+ * and the text laid over the footage — is rendered here through Chrome.
  *
- * Audio is a synthesised ring tone plus Casey's REAL recording from
- * assets/audio/demo-1.mp3. No voiceover: the product speaks for itself, which is
- * the whole point of the spot.
+ * Voiceover is Casey speaking in the first person, generated line by line and
+ * laid out on a continuous track. Segment lengths are fixed by what the picture
+ * needs; the VO is placed against them and is allowed to run across a cut, which
+ * is how a real edit works. An earlier version had a single line of Casey audio
+ * and 25 seconds of near-silence.
  *
  * SAFETY: writes only to assets/brand/video/ and build/video-work/.
  */
@@ -24,6 +25,7 @@ const os = require('os');
 
 const ROOT = path.resolve(__dirname, '..');
 const SRC = path.join(__dirname, 'video-src');
+const VO = path.join(SRC, 'vo');
 const WORK = path.join(__dirname, 'video-work');
 const OUT = path.join(ROOT, 'assets', 'brand', 'video');
 
@@ -35,15 +37,22 @@ const CHROME = [
 
 const W = 1080, H = 1920, FPS = 30;
 const PORT = 9530;
+// Seed Audio speaks unhurriedly. A shade over 1.0 tightens it to the picture
+// without sounding rushed; anything past ~1.15 starts to read as sped up.
+const TEMPO = 1.12;
+const LEAD_IN = 1.2;   // let the phone ring alone before the first line
+const GAP = 0.35;      // breath between lines
+
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 const ff = (args) => execFileSync(FFMPEG, ['-y', '-loglevel', 'error', ...args], { stdio: 'pipe' });
 const fileUrl = (p) => 'file:///' + p.replace(/\\/g, '/').replace(/ /g, '%20');
 const MARK = fileUrl(path.join(__dirname, 'logo-src', 'mark-hi.png'));
+const wavSeconds = (p) => (fs.statSync(p).size - 44) / (44100 * 2);
 
 fs.mkdirSync(WORK, { recursive: true });
 fs.mkdirSync(OUT, { recursive: true });
 
-/* ------------------------------------------------------------------ shared */
+/* ------------------------------------------------------------------ layout */
 
 const CSS = `
   *{margin:0;padding:0;box-sizing:border-box}
@@ -54,8 +63,8 @@ const CSS = `
     background:radial-gradient(120% 70% at 15% 0%,#1E2A7A 0%,transparent 55%),
       linear-gradient(165deg,#0B1030 0%,#141A4E 55%,#1A1140 100%)}
   .overlay{position:absolute;inset:0;padding:120px 96px;display:flex;flex-direction:column;
-    background:linear-gradient(180deg,rgba(9,13,40,.90) 0%,rgba(9,13,40,.62) 34%,
-      rgba(9,13,40,0) 58%,rgba(9,13,40,0) 74%,rgba(9,13,40,.80) 100%)}
+    background:linear-gradient(180deg,rgba(9,13,40,.88) 0%,rgba(9,13,40,.55) 30%,
+      rgba(9,13,40,0) 52%,rgba(9,13,40,0) 68%,rgba(9,13,40,.86) 100%)}
   .brand{display:flex;align-items:center;gap:16px;margin-bottom:auto}
   .brand img{width:96px;height:auto;display:block}
   .brand span{font-weight:800;font-size:36px;letter-spacing:-.02em}
@@ -65,51 +74,33 @@ const CSS = `
   .kicker::before{content:'';width:58px;height:6px;border-radius:3px;background:#FF9A3D}
   h1{font-weight:800;font-size:94px;line-height:1.06;letter-spacing:-.04em;text-wrap:balance}
   h1 em{font-style:normal;color:#FF9A3D}
-  .sub{margin-top:30px;font-weight:600;font-size:40px;line-height:1.38;
-    color:rgba(255,255,255,.82);max-width:20ch}
+  .sub{margin-top:26px;font-weight:600;font-size:38px;line-height:1.36;
+    color:rgba(255,255,255,.82);max-width:21ch}
   .foot{margin-top:auto}
 `;
 const FONT = `<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;700;800&display=swap">`;
-
 const brandRow = `<div class="brand"><img src="${MARK}" alt=""><span>VOCRYN <b>Ai</b></span></div>`;
 
-/* Text laid over live footage — transparent, so the clip shows through. */
 const overlay = (inner) => `<!doctype html><html><head><meta charset="utf-8">${FONT}
 <style>${CSS} body{background:transparent}</style></head><body>
   <div class="overlay">${inner}</div></body></html>`;
-
-/* Full-frame graphic cards. */
 const card = (inner) => `<!doctype html><html><head><meta charset="utf-8">${FONT}
 <style>${CSS}</style></head><body><div class="card">${inner}</div></body></html>`;
 
-/* ------------------------------------------------------------------ frames */
-
 const PAGES = {
-  // over the empty-desk clip
   ov_desk: overlay(`${brandRow}
-    <h1>Nobody's answering&nbsp;this.</h1>
-    <p class="sub">12:40 on a Tuesday.</p>
-    <div class="foot"></div>`),
+    <div class="foot"><h1>Nobody's answering&nbsp;this.</h1>
+      <p class="sub">12:40 on a Tuesday.</p></div>`),
 
-  // over the car clip
   ov_car: overlay(`${brandRow}
-    <h1><em>67%</em> hang up before anyone answers.</h1>
-    <div class="foot"></div>`),
+    <div class="foot"><h1><em>67%</em> hang up before anyone answers.</h1></div>`),
 
-  // over the Casey clip
-  // Headline and caption share one bottom-anchored block. As separate children
-  // they each picked up an auto margin, the free space split between them, and
-  // the headline landed in the middle of her face.
   ov_casey: overlay(`${brandRow}
-    <div class="foot">
-      <h1>Same desk. <em>Same 12:40.</em></h1>
-      <p class="sub" style="margin-top:22px;font-size:32px;color:rgba(255,255,255,.72);
-        max-width:100%">Real Casey recording &middot; demo practice</p>
-    </div>`),
+    <div class="foot"><h1>Meet <em>Casey.</em></h1>
+      <p class="sub">Answers in under two seconds. Books into athenahealth.</p></div>`),
 
-  // the phone: she taps the next clinic
   card_phone: card(`${brandRow}
     <span class="kicker">So she scrolls</span>
     <h1>She just became <em>someone else's</em> patient.</h1>
@@ -118,20 +109,18 @@ const PAGES = {
         background:rgba(255,255,255,.06);border:2px solid rgba(255,255,255,.14)">
         <span style="width:16px;height:16px;border-radius:50%;background:rgba(255,255,255,.3)"></span>
         <span style="font-weight:700;font-size:36px;color:rgba(255,255,255,.55)">Your clinic
-          &middot; no answer</span>
-      </div>
+          &middot; no answer</span></div>
       <div style="display:flex;align-items:center;gap:22px;padding:30px 34px;border-radius:22px;
         background:rgba(255,154,61,.16);border:2px solid #FF9A3D">
         <span style="width:16px;height:16px;border-radius:50%;background:#FF9A3D"></span>
         <span style="font-weight:800;font-size:36px">Clinic down the road &middot; answered</span>
-      </div>
-    </div>
+      </div></div>
     <div class="foot"></div>`),
 
   card_math: card(`${brandRow}
     <span class="kicker">The arithmetic</span>
     <h1>150 missed calls a month.</h1>
-    <div style="margin-top:56px;display:grid;gap:0">
+    <div style="margin-top:56px;display:grid">
       ${[['~30', 'were prospective new patients'],
          ['~15', 'booked somewhere else'],
          ['$9k+', 'in production, gone. Monthly.']].map(([a, b], i) => `
@@ -140,10 +129,9 @@ const PAGES = {
           <span style="font-weight:800;font-size:88px;letter-spacing:-.045em;min-width:280px;
             line-height:1;color:${i === 2 ? '#FF8A2B' : '#fff'}">${a}</span>
           <span style="font-weight:600;font-size:36px;line-height:1.3;
-            color:${i === 2 ? '#fff' : 'rgba(255,255,255,.78)'}">${b}</span>
-        </div>`).join('')}
+            color:${i === 2 ? '#fff' : 'rgba(255,255,255,.78)'}">${b}</span></div>`).join('')}
     </div>
-    <p style="margin-top:40px;font-weight:600;font-size:28px;color:rgba(255,255,255,.45)">
+    <p style="margin-top:38px;font-weight:600;font-size:28px;color:rgba(255,255,255,.45)">
       Illustrative, at a $600 new-patient value.</p>
     <div class="foot"></div>`),
 
@@ -164,21 +152,32 @@ const PAGES = {
     </div>
     <div class="foot"></div>`),
 
-  card_end: card(`<div style="margin:auto;display:flex;flex-direction:column;
-      align-items:center;text-align:center;gap:44px">
+  card_end: card(`<div style="margin:auto;display:flex;flex-direction:column;align-items:center;
+      text-align:center;gap:44px">
       <img src="${MARK}" style="width:340px;height:auto" alt="">
       <div style="font-weight:800;font-size:76px;letter-spacing:-.03em">VOCRYN
         <span style="color:#FF9A3D">Ai</span></div>
       <div style="font-weight:800;font-size:46px;background:#FF8A2B;color:#0B1030;
         padding:30px 60px;border-radius:999px;letter-spacing:-.02em">vocryn.com</div>
       <div style="font-weight:600;font-size:34px;color:rgba(255,255,255,.66)">
-        Hear a real call, unedited</div>
-    </div>`),
+        Hear a real call, unedited</div></div>`),
 };
+
+/* Segment lengths are set by what the picture needs. The VO is laid against
+   them afterwards and may cross a cut. */
+const TIMELINE = [
+  { kind: 'clip', src: 'desk.mp4', dur: 3.4, ov: 'ov_desk' },
+  { kind: 'clip', src: 'car.mp4', dur: 5.0, ov: 'ov_car' },
+  { kind: 'card', src: 'card_phone', dur: 2.6 },
+  { kind: 'card', src: 'card_math', dur: 5.6 },
+  { kind: 'clip', src: 'casey2.mp4', dur: 8.0, ov: 'ov_casey' },
+  { kind: 'card', src: 'card_trust', dur: 3.6 },
+  { kind: 'card', src: 'card_end', dur: 2.4 },
+];
 
 /* ------------------------------------------------------------- render pages */
 
-let ws, msgId = 0, session;
+let ws, msgId = 0, session, chrome;
 const pending = new Map();
 const send = (m, p = {}, s = session) => {
   const id = ++msgId;
@@ -186,15 +185,15 @@ const send = (m, p = {}, s = session) => {
   return new Promise((res, rej) => pending.set(id, { res, rej }));
 };
 
-const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'vocryn-ad-'));
-const chrome = spawn(CHROME, [
-  '--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run',
-  '--force-color-profile=srgb', '--font-render-hinting=none',
-  '--allow-file-access-from-files',
-  `--user-data-dir=${profile}`, `--remote-debugging-port=${PORT}`, 'about:blank',
-], { stdio: 'ignore' });
-
 async function renderPages() {
+  const profile = fs.mkdtempSync(path.join(os.tmpdir(), 'vocryn-ad-'));
+  chrome = spawn(CHROME, [
+    '--headless=new', '--disable-gpu', '--hide-scrollbars', '--no-first-run',
+    '--force-color-profile=srgb', '--font-render-hinting=none',
+    '--allow-file-access-from-files',
+    `--user-data-dir=${profile}`, `--remote-debugging-port=${PORT}`, 'about:blank',
+  ], { stdio: 'ignore' });
+
   let wsUrl;
   for (let i = 0; i < 60 && !wsUrl; i++) {
     try {
@@ -220,13 +219,12 @@ async function renderPages() {
     { width: W, height: H, deviceScaleFactor: 1, mobile: false });
 
   for (const [name, html] of Object.entries(PAGES)) {
-    const transparent = name.startsWith('ov_');
     await send('Emulation.setDefaultBackgroundColorOverride',
-      transparent ? { color: { r: 0, g: 0, b: 0, a: 0 } } : {});
+      name.startsWith('ov_') ? { color: { r: 0, g: 0, b: 0, a: 0 } } : {});
     const tmp = path.join(WORK, '_p.html');
     fs.writeFileSync(tmp, html);
     await send('Page.navigate', { url: fileUrl(tmp) + '?n=' + name });
-    await sleep(260);
+    await sleep(240);
     await send('Runtime.evaluate', {
       expression: `Promise.all([document.fonts.ready,
         ...[...document.images].map(i => i.complete && i.naturalWidth ? 0
@@ -241,79 +239,72 @@ async function renderPages() {
   ws.close(); chrome.kill();
 }
 
-/* -------------------------------------------------------------- the edit */
-
-// [source clip or card, seconds, overlay png or null, speed]
-const TIMELINE = [
-  { kind: 'clip', src: 'desk.mp4', dur: 4.0, ov: 'ov_desk', speed: 1.0 },
-  { kind: 'clip', src: 'car.mp4', dur: 5.0, ov: 'ov_car', speed: 1.0 },
-  { kind: 'card', src: 'card_phone', dur: 4.0 },
-  { kind: 'card', src: 'card_math', dur: 5.0 },
-  { kind: 'clip', src: 'casey.mp4', dur: 7.0, ov: 'ov_casey', speed: 5 / 7 },
-  { kind: 'card', src: 'card_trust', dur: 3.0 },
-  { kind: 'card', src: 'card_end', dur: 2.0 },
-];
+/* ------------------------------------------------------------------- build */
 
 function buildSegments() {
-  const segs = [];
-  TIMELINE.forEach((t, i) => {
+  return TIMELINE.map((t, i) => {
     const out = path.join(WORK, `seg${i}.mp4`);
     if (t.kind === 'clip') {
-      // Kling returned the source aspect ratio, not the one requested, so crop to
-      // 9:16 from the centre before scaling.
-      const chain = [
-        `setpts=${(1 / t.speed).toFixed(4)}*PTS`,
-        `crop='min(iw,ih*9/16)':'min(ih,iw*16/9)'`,
-        `scale=${W}:${H}:flags=lanczos`,
-        `fps=${FPS}`,
-      ].join(',');
-      if (t.ov) {
-        ff(['-i', path.join(SRC, t.src), '-i', path.join(WORK, t.ov + '.png'),
-          '-filter_complex', `[0:v]${chain}[v];[v][1:v]overlay=0:0[o]`,
-          '-map', '[o]', '-t', String(t.dur), '-an',
-          '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', out]);
-      } else {
-        ff(['-i', path.join(SRC, t.src), '-vf', chain, '-t', String(t.dur), '-an',
-          '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', out]);
-      }
+      // Kling returns the START IMAGE's aspect ratio and ignores the requested
+      // one, so crop to 9:16 from centre before scaling.
+      const chain = `crop='min(iw,ih*9/16)':'min(ih,iw*16/9)',` +
+        `scale=${W}:${H}:flags=lanczos,fps=${FPS}`;
+      ff(['-i', path.join(SRC, t.src), '-i', path.join(WORK, t.ov + '.png'),
+        '-filter_complex', `[0:v]${chain}[v];[v][1:v]overlay=0:0[o]`,
+        '-map', '[o]', '-t', String(t.dur), '-an',
+        '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', out]);
     } else {
-      // Cards get a slow push so they don't sit dead next to live footage.
       ff(['-loop', '1', '-i', path.join(WORK, t.src + '.png'), '-t', String(t.dur),
-        '-vf', `scale=${W * 1.06}:-1,zoompan=z='min(zoom+0.0004,1.06)':d=${Math.round(t.dur * FPS)}:` +
-          `x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':s=${W}x${H}:fps=${FPS},fps=${FPS}`,
+        '-vf', `scale=${Math.round(W * 1.06)}:-1,zoompan=z='min(zoom+0.0004,1.06)':` +
+          `d=${Math.round(t.dur * FPS)}:x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':` +
+          `s=${W}x${H}:fps=${FPS},fps=${FPS}`,
         '-c:v', 'libx264', '-preset', 'medium', '-crf', '19', '-pix_fmt', 'yuv420p', out]);
     }
-    segs.push(out);
     process.stdout.write('.');
+    return out;
   });
-  return segs;
 }
 
 function buildAudio(total) {
-  // A North-American ring is 440 Hz + 480 Hz, two seconds on, four off. Synthesised
-  // rather than sourced so there is no licence attached to the ad.
+  // Trim, level and tighten each line, then measure what we actually have.
+  const lines = [];
+  for (let i = 1; i <= 7; i++) {
+    const out = path.join(WORK, `vo${i}.wav`);
+    ff(['-i', path.join(VO, `${i}.wav`), '-af',
+      'silenceremove=start_periods=1:start_silence=0.04:start_threshold=-45dB:detection=peak,' +
+      'areverse,silenceremove=start_periods=1:start_silence=0.08:start_threshold=-45dB:detection=peak,' +
+      `areverse,atempo=${TEMPO},loudnorm=I=-16:TP=-1.5`,
+      '-ar', '44100', '-ac', '1', '-c:a', 'pcm_s16le', out]);
+    lines.push({ file: out, dur: wavSeconds(out) });
+  }
+
+  // Lay them end to end from the lead-in, with a breath between.
+  let t = LEAD_IN;
+  lines.forEach((l) => { l.at = t; t += l.dur + GAP; });
+  const speechEnd = t - GAP;
+
+  // North-American ring cadence, synthesised so nothing licensable is embedded.
   const ring = path.join(WORK, 'ring.wav');
   ff(['-f', 'lavfi', '-i',
-    `aevalsrc='(sin(2*PI*440*t)+sin(2*PI*480*t))*0.22*lt(mod(t\\,6)\\,2)*(1-exp(-40*mod(t\\,6)))':s=44100:d=9`,
-    '-af', 'afade=t=out:st=7.6:d=1.2', ring]);
+    `aevalsrc='(sin(2*PI*440*t)+sin(2*PI*480*t))*0.20*lt(mod(t\\,6)\\,2)*(1-exp(-40*mod(t\\,6)))':s=44100:d=8.4`,
+    '-af', 'afade=t=out:st=7.2:d=1.2', '-ac', '1', ring]);
 
-  // Casey's real greeting, from the recording already on the site.
-  const casey = path.join(WORK, 'casey.wav');
-  ff(['-i', path.join(ROOT, 'assets', 'audio', 'demo-1.mp3'),
-    '-ss', '0', '-t', '5.1', '-af', 'afade=t=in:st=0:d=0.15,volume=1.6', casey]);
+  const inputs = ['-f', 'lavfi', '-i', `anullsrc=r=44100:cl=mono:d=${total}`, '-i', ring];
+  lines.forEach((l) => inputs.push('-i', l.file));
+  const delays = lines.map((l, i) =>
+    `[${i + 2}:a]adelay=${Math.round(l.at * 1000)}[v${i}]`).join(';');
+  const mix = lines.map((_, i) => `[v${i}]`).join('');
 
-  // Lay them on a silent bed at the right offsets: ring from 0, Casey from 18s.
   const out = path.join(WORK, 'mix.wav');
-  ff(['-f', 'lavfi', '-i', `anullsrc=r=44100:cl=stereo:d=${total}`,
-    '-i', ring, '-i', casey,
-    '-filter_complex',
-    '[1:a]adelay=0|0[r];[2:a]adelay=18200|18200[c];[0:a][r][c]amix=inputs=3:normalize=0[a]',
-    '-map', '[a]', '-t', String(total), out]);
-  return out;
+  ff([...inputs, '-filter_complex',
+    `[1:a]adelay=0[r];${delays};[0:a][r]${mix}amix=inputs=${lines.length + 2}:normalize=0[a]`,
+    '-map', '[a]', '-t', String(total), '-ac', '2', out]);
+
+  return { out, lines, speechEnd };
 }
 
 (async () => {
-  console.log('\n  Vocryn Ai — "12:40" :30\n');
+  console.log('\n  Vocryn Ai — "12:40"\n');
   process.stdout.write('  cards + overlays  ');
   await renderPages();
   console.log('');
@@ -323,8 +314,8 @@ function buildAudio(total) {
   console.log('');
 
   const total = TIMELINE.reduce((n, t) => n + t.dur, 0);
-  process.stdout.write('  audio             ');
-  const audio = buildAudio(total);
+  process.stdout.write('  voiceover         ');
+  const { out: audio, lines, speechEnd } = buildAudio(total);
   console.log('.');
 
   process.stdout.write('  assembling        ');
@@ -334,14 +325,16 @@ function buildAudio(total) {
   ff(['-f', 'concat', '-safe', '0', '-i', list, '-c', 'copy', silent]);
 
   const final = path.join(OUT, 'vocryn-casey-30s.mp4');
-  ff(['-i', silent, '-i', audio,
-    '-map', '0:v', '-map', '1:a',
+  ff(['-i', silent, '-i', audio, '-map', '0:v', '-map', '1:a',
     '-c:v', 'libx264', '-preset', 'slow', '-crf', '20', '-pix_fmt', 'yuv420p',
     '-profile:v', 'high', '-level', '4.1',
     '-c:a', 'aac', '-b:a', '192k', '-ar', '48000',
     '-movflags', '+faststart', '-shortest', final]);
-  console.log('.');
+  console.log('.\n');
 
-  const kb = (fs.statSync(final).size / 1024 / 1024).toFixed(1);
-  console.log(`\n  ${total}s  ${W}x${H}  ${kb} MB -> assets/brand/video/vocryn-casey-30s.mp4\n`);
+  lines.forEach((l, i) =>
+    console.log(`  VO ${i + 1}  ${l.at.toFixed(2)}s → ${(l.at + l.dur).toFixed(2)}s`));
+  const mb = (fs.statSync(final).size / 1024 / 1024).toFixed(1);
+  console.log(`\n  picture ${total.toFixed(1)}s · speech ends ${speechEnd.toFixed(1)}s` +
+    `  ${W}x${H}  ${mb} MB\n  -> assets/brand/video/vocryn-casey-30s.mp4\n`);
 })().catch((e) => { console.error(e); try { chrome.kill(); } catch (_) {} process.exit(1); });

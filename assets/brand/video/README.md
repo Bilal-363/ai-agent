@@ -1,6 +1,6 @@
 # "12:40" — 30-second advertisement
 
-`vocryn-casey-30s.mp4` · 1080×1920 (9:16) · 30.0s · 6.6 MB · H.264 + AAC
+`vocryn-casey-30s.mp4` · 1080×1920 (9:16) · 30.6s · 7.9 MB · H.264 + AAC
 
 Ready for Reels, TikTok, YouTube Shorts and paid social. Rebuild with `node build/ad.js`.
 
