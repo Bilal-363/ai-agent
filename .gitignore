@@ -18,3 +18,5 @@ node_modules/
 build/logo-src/mark-hi.b64.txt
 build/carousel-src/
 build/preview/
+build/video-work/
+build/video-src/
