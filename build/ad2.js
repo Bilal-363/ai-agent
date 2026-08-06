@@ -312,31 +312,46 @@ const PAGE_ui = `<!doctype html><html><head><meta charset="utf-8">${FONT}<style>
   window.setP(0);
 </script></body></html>`;
 
+/* End card. The top bar's URL is hidden here — it appeared alongside the CTA pill,
+   so vocryn.com read twice on the same frame and looked like a mistake. The CTA
+   also says what to DO; an address on its own is not a call to action. */
 const PAGE_end = `<!doctype html><html><head><meta charset="utf-8">${FONT}<style>${BASE}
+  .bar .site{display:none}
   .mid{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;
-    justify-content:center;gap:44px;text-align:center;padding:0 72px;
+    justify-content:center;gap:30px;text-align:center;padding:0 64px;
     transform:scale(var(--z,1))}
-  .mid img{width:330px;height:auto;opacity:var(--o1,0)}
-  .wordmark{font-weight:800;font-size:74px;letter-spacing:-.03em;opacity:var(--o1,0)}
+  .mid img{width:290px;height:auto;opacity:var(--o1,0)}
+  .wordmark{font-weight:800;font-size:78px;letter-spacing:-.03em;opacity:var(--o1,0);
+    line-height:1}
   .wordmark span{color:#FF9A3D}
-  .cta{font-weight:800;font-size:46px;background:#FF8A2B;color:#0B1030;padding:30px 60px;
-    border-radius:999px;letter-spacing:-.02em;opacity:var(--o2,0);
-    box-shadow:0 20px 50px -18px rgba(255,138,43,.75)}
-  .tag{font-weight:600;font-size:34px;color:rgba(255,255,255,.68);opacity:var(--o2,0)}
+  .kick{font-weight:700;font-size:38px;line-height:1.3;color:rgba(255,255,255,.82);
+    opacity:var(--o1,0);max-width:20ch;margin-top:-8px}
+  .cta{margin-top:14px;display:flex;flex-direction:column;align-items:center;gap:16px;
+    opacity:var(--o2,0);transform:translateY(var(--cy,26px))}
+  .cta .go{font-weight:800;font-size:52px;background:#FF8A2B;color:#0B1030;
+    padding:34px 74px;border-radius:999px;letter-spacing:-.02em;
+    box-shadow:0 22px 56px -18px rgba(255,138,43,.8)}
+  .cta .url{font-weight:800;font-size:44px;letter-spacing:-.01em;color:#fff}
+  .cta .url b{color:#FF9A3D;font-weight:800}
 </style></head><body>${barHtml}
   <div class="mid" id="m">
     <img src="${MARK}" alt="">
     <div class="wordmark">VOCRYN <span>Ai</span></div>
-    <div class="cta">vocryn.com</div>
-    <div class="tag">Hear a real call, unedited</div>
+    <p class="kick">Hear it book a real appointment &mdash; unedited.</p>
+    <div class="cta" id="c">
+      <span class="go">Book a demo</span>
+      <span class="url">vocryn<b>.com</b></span>
+    </div>
   </div>
 <script>
   const ease = t => 1 - Math.pow(1 - Math.min(1, Math.max(0, t)), 3);
   window.setP = (p) => {
-    const m = document.getElementById('m');
-    m.style.setProperty('--o1', ease(p / 0.30).toFixed(3));
-    m.style.setProperty('--o2', ease((p - 0.25) / 0.30).toFixed(3));
+    const m = document.getElementById('m'), c = document.getElementById('c');
+    m.style.setProperty('--o1', ease(p / 0.28).toFixed(3));
     m.style.setProperty('--z', (1 + p * 0.03).toFixed(4));
+    const o2 = ease((p - 0.22) / 0.30);
+    c.style.setProperty('--o2', o2.toFixed(3));
+    c.style.setProperty('--cy', ((1 - o2) * 26).toFixed(1) + 'px');
   };
   window.setP(0);
 </script></body></html>`;
@@ -461,7 +476,9 @@ function buildAudio(total) {
     '-ar', '44100', '-ac', '1', casey]);
 
   // Cue each line to the beat it belongs to.
-  const at = [0.5, 4.4, 13.4, 18.4, 23.4, 28.6, 33.2, 37.4];
+  // Line 8 is cued at 36.6 rather than 37.4: the replacement copy runs 3.15s, and
+  // any later would push the last word past the end of the picture.
+  const at = [0.5, 4.4, 13.4, 18.4, 23.4, 28.6, 33.2, 36.6];
   lines.forEach((l, i) => { l.at = at[i]; });
 
   // Cues are hand-placed against the picture, but line lengths come from the

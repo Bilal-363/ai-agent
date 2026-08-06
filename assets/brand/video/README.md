@@ -28,7 +28,7 @@ done. Run the first as the hook and the second as the proof.
 | 0:23–28 | insurance verified on the call | Animated UI |
 | 0:28–33 | **1:12** — appointment tile drops into the 2:40 slot | Animated UI |
 | 0:33–37 | Hold. *"And she's still on the phone."* | Live footage |
-| 0:37–40 | End card | Animated |
+| 0:37–40 | End card — **Book a demo · vocryn.com** | Animated |
 
 **The hero is the screen, not a face.** The most persuasive thing here is an
 appointment tile landing in a real slot while the caller is still talking, so the
@@ -53,6 +53,17 @@ in a chart.
 
 ---
 
+## The voiceover never says the brand name
+
+Deliberate. Seed Audio mispronounces "Vocryn", and a wrong pronunciation of your
+own name is worse than not saying it. Both films now close on a spoken line that
+drives to the URL without naming it — *"Hear a real call, unedited. Link below."*
+on the 40s, *"Your front desk gets its day back."* on the 30s — and the address is
+carried on screen, where it cannot be mangled.
+
+If you want it spoken, record the line yourself or send a reference clip and I can
+clone the voice.
+
 ## Two bugs worth remembering
 
 **Voices doubled at the end.** VO line 7 ran 5.17s from 33.2s and collided with
@@ -62,6 +73,11 @@ that fixed the overlap and the redundancy together. `buildAudio()` now **detects
 overlaps and pushes the later line clear, printing a warning** — cue points are
 hand-placed against the picture but line lengths come from the generator and shift
 whenever copy changes.
+
+**vocryn.com appeared twice on the end card** — once in the persistent top bar and
+again in the CTA pill, on the same frame. The bar's URL is now hidden on that
+segment only. The CTA also said nothing but an address; it now reads **Book a
+demo** with the URL beneath, because an address is not an instruction.
 
 **The stamp covered the payoff.** "Written to chart" was centred vertically and
 landed squarely on the appointment tile — hiding the one moment the film exists
