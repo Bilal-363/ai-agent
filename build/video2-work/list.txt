@@ -1,6 +1,0 @@
-file 'D:/Ai agents/vocryn-website/build/video2-work/split.mp4'
-file 'D:/Ai agents/vocryn-website/build/video2-work/writes.mp4'
-file 'D:/Ai agents/vocryn-website/build/video2-work/answer.mp4'
-file 'D:/Ai agents/vocryn-website/build/video2-work/ui.mp4'
-file 'D:/Ai agents/vocryn-website/build/video2-work/still.mp4'
-file 'D:/Ai agents/vocryn-website/build/video2-work/end.mp4'
